@@ -1,0 +1,723 @@
+{
+  "@@locale": "tr",
+
+  "tabExplore": "Keşfet",
+  "tabSaved": "Kayıtlı",
+  "tabTrips": "Seyahatler",
+  "tabChats": "Sohbetler",
+  "tabAccount": "Hesabım",
+
+  "retry": "Tekrar dene",
+  "seeAll": "Tümünü gör",
+
+  "exploreGreeting": "Bu hafta sonu\nnereye kaçıyoruz?",
+  "exploreNotifications": "Bildirimler",
+  "exploreNotificationsUnread": "Bildirimler, okunmamış bildirim var",
+  "exploreSearchTitle": "Nereye gidiyorsun?",
+  "exploreSearchSubtitle": "Tarih seç · Misafir ekle",
+  "exploreFilters": "Filtreler",
+
+  "categoryAll": "Tümü",
+  "categoryPool": "Havuzlu",
+  "categoryLakeView": "Göl manzaralı",
+  "categoryForest": "Orman içi",
+  "categoryJacuzzi": "Jakuzili",
+  "categoryFireplace": "Şömineli",
+  "categoryAFrame": "A-frame",
+
+  "explorePopularTitle": "{region} en sevilenler",
+  "@explorePopularTitle": {
+    "description": "region, bulunma ekiyle gelir: Sapanca'da",
+    "placeholders": { "region": { "type": "String" } }
+  },
+  "explorePopularSubtitle": "Gecelik fiyat · tüm ücretler dahil",
+
+  "exploreWeekendTitle": "Bu hafta sonu boş olanlar",
+  "exploreWeekendSubtitle": "{dates} · {nights} gecelik toplam, ücretler dahil",
+  "@exploreWeekendSubtitle": {
+    "placeholders": {
+      "dates": { "type": "String" },
+      "nights": { "type": "int" }
+    }
+  },
+
+  "exploreEmptyTitle": "Bu kategoride şimdilik bungalov yok",
+  "exploreEmptyBody": "Başka bir kategoriye göz at, yenileri sürekli ekleniyor.",
+  "exploreErrorTitle": "Bungalovlar yüklenemedi",
+  "exploreErrorBody": "Bağlantını kontrol edip tekrar dene.",
+
+  "weatherTemperature": "{degrees}°",
+  "@weatherTemperature": {
+    "placeholders": { "degrees": { "type": "int" } }
+  },
+  "weatherDayCondition": "{weekday} · {condition}",
+  "@weatherDayCondition": {
+    "placeholders": {
+      "weekday": { "type": "String" },
+      "condition": { "type": "String" }
+    }
+  },
+  "weatherSunny": "Güneşli",
+  "weatherPartlyCloudy": "Parçalı bulutlu",
+  "weatherCloudy": "Bulutlu",
+  "weatherRainy": "Yağmurlu",
+  "weatherSnowy": "Karlı",
+  "weatherPoolDay": "Havuz keyfi için ideal hafta sonu — {count} bungalov müsait.",
+  "@weatherPoolDay": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "weatherAvailable": "Bu hafta sonu {count} bungalov müsait.",
+  "@weatherAvailable": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "badgeGuestFavorite": "Misafirlerin gözdesi",
+  "badgeNightsLeft": "Son {count} gece!",
+  "@badgeNightsLeft": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "photoCounter": "{current} / {total}",
+  "@photoCounter": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "photoOf": "Fotoğraf {current} / {total}",
+  "@photoOf": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+
+  "listingSave": "Kaydet",
+  "listingUnsave": "Kayıtlılardan çıkar",
+  "listingPerNight": "/ gece",
+  "listingNightsTotal": "· {nights} gece toplam",
+  "@listingNightsTotal": {
+    "placeholders": { "nights": { "type": "int" } }
+  },
+  "listingRating": "Puan {rating}",
+  "@listingRating": {
+    "placeholders": { "rating": { "type": "String" } }
+  },
+  "listingNightlySemantics": "Gecelik {price}",
+  "@listingNightlySemantics": {
+    "placeholders": { "price": { "type": "String" } }
+  },
+  "listingTotalSemantics": "{nights} gece toplam {price}",
+  "@listingTotalSemantics": {
+    "placeholders": {
+      "nights": { "type": "int" },
+      "price": { "type": "String" }
+    }
+  },
+  "listingDiscountSemantics": "{nights} gece toplam {price}, indirimsiz {original}",
+  "@listingDiscountSemantics": {
+    "placeholders": {
+      "nights": { "type": "int" },
+      "price": { "type": "String" },
+      "original": { "type": "String" }
+    }
+  },
+  "listingGuests": "{count} misafir",
+  "@listingGuests": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "propertyBungalow": "Bungalov",
+  "propertyTreeHouse": "Ağaç ev",
+  "propertyAFrame": "A-frame",
+  "propertyCabin": "Kulübe",
+
+  "settingLakeView": "Göl manzaralı",
+  "settingLakeside": "Göl kıyısı",
+  "settingForest": "Orman içi",
+
+  "amenityPool": "Havuz",
+  "amenityHeatedPool": "Isıtmalı havuz",
+  "amenityJacuzzi": "Jakuzi",
+  "amenityFireplace": "Şömine",
+
+  "back": "Geri",
+  "close": "Kapat",
+  "or": "veya",
+  "continueLabel": "Devam et",
+  "showPassword": "Şifreyi göster",
+  "hidePassword": "Şifreyi gizle",
+  "fieldEmail": "E-posta",
+  "fieldPassword": "Şifre",
+  "fieldPhone": "Telefon",
+  "fieldPhoneNumber": "Telefon numarası",
+  "fieldFirstName": "Ad",
+  "fieldLastName": "Soyad",
+  "fieldBirthDate": "Doğum tarihi",
+  "fieldNewPassword": "Yeni şifre",
+  "fieldNewPasswordRepeat": "Yeni şifre (tekrar)",
+  "hintPhone": "5XX XXX XX XX",
+  "hintBirthDate": "GG / AA / YYYY",
+  "countryCodeTr": "+90",
+  "verificationCode": "Doğrulama kodu",
+
+  "welcomeBrand": "kozalak",
+  "welcomeStats": "4,9 · 1.200+ bungalov",
+  "welcomeTitle": "Doğaya en yakın\nkaçamak burada.",
+  "welcomeBody": "Havuzlu, göl manzaralı, orman içi bungalovları keşfet; birkaç dokunuşla rezervasyonunu yap.",
+  "welcomeCreateAccount": "Hesap oluştur",
+  "welcomeSignIn": "Giriş yap",
+  "welcomeBrowse": "Şimdilik göz at",
+
+  "signInTitle": "Tekrar hoş geldin",
+  "signInSubtitle": "Kaçamaklarına kaldığın yerden devam et.",
+  "signInRememberMe": "Beni hatırla",
+  "signInForgot": "Şifremi unuttum",
+  "signInSubmit": "Giriş yap",
+  "signInGoogle": "Google ile devam et",
+  "signInApple": "Apple ile devam et",
+  "signInGoogleBadge": "G",
+  "signInNoAccount": "Hesabın yok mu?",
+  "signInRegister": "Kayıt ol",
+  "signInPhoneNote": "Numarana 6 haneli bir doğrulama kodu göndereceğiz.",
+  "signInSendSms": "SMS kodu gönder",
+  "signInInvalidCredentials": "E-posta veya şifre hatalı. {count} deneme hakkın kaldı.",
+  "@signInInvalidCredentials": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "signInLocked": "Deneme hakkın doldu. Şifreni sıfırlayarak devam edebilirsin.",
+
+  "errorEmail": "Geçerli bir e-posta adresi gir",
+  "errorPasswordShort": "Şifren en az 8 karakter olmalı",
+  "errorPhone": "Geçerli bir cep telefonu numarası gir",
+  "errorName": "Bu alanı doldur",
+  "errorBirthDate": "Geçerli bir tarih gir",
+  "errorUnderage": "Kayıt için 18 yaşından büyük olmalısın.",
+  "errorPasswordRule": "En az 8 karakter ve 1 rakam kullan",
+  "errorPasswordMismatch": "Şifreler aynı değil",
+  "errorInvalidCode": "Kod hatalı. Kontrol edip tekrar dene.",
+  "errorEmailInUse": "Bu e-posta ile zaten bir hesap var. Giriş yapmayı dene.",
+  "errorNetwork": "Bağlantı kurulamadı. İnternetini kontrol edip tekrar dene.",
+
+  "smsTitle": "SMS kodunu gir",
+  "smsBody": "{phone} numarasına 6 haneli bir kod gönderdik.",
+  "@smsBody": {
+    "placeholders": { "phone": { "type": "String" } }
+  },
+  "smsChangeNumber": "Numarayı değiştir",
+  "resendCode": "Kodu tekrar gönder",
+  "resendCodeIn": "Kodu tekrar gönder · ",
+
+  "registerTitle": "Hesabını oluştur",
+  "registerSubtitle": "Bir dakikada kaydol, ilk kaçamağını planlamaya başla.",
+  "registerAgeNote": "Kayıt için 18 yaşından büyük olmalısın.",
+  "registerPasswordHint": "En az 8 karakter, 1 rakam",
+  "passwordWeak": "Zayıf",
+  "passwordMedium": "Orta güçte",
+  "passwordStrong": "Güçlü",
+  "registerTermsLink": "Kullanım Koşulları",
+  "registerTermsMiddle": "’nı ve ",
+  "registerKvkkLink": "KVKK Aydınlatma Metni",
+  "registerTermsEnd": "’ni okudum, kabul ediyorum.",
+  "registerTermsSemantics": "Kullanım Koşulları’nı ve KVKK Aydınlatma Metni’ni okudum, kabul ediyorum.",
+  "registerMarketing": "Kampanya ve fırsatlardan e-posta/SMS ile haberdar olmak istiyorum. (İsteğe bağlı)",
+  "registerHaveAccount": "Zaten hesabın var mı?",
+  "registerSignIn": "Giriş yap",
+
+  "verifyEmailTitle": "E-postanı doğrula",
+  "verifyEmailBody": "{email} adresine 6 haneli bir kod gönderdik. Kodu aşağıya yaz.",
+  "@verifyEmailBody": {
+    "placeholders": { "email": { "type": "String" } }
+  },
+  "verifyEmailSubmit": "Doğrula",
+  "verifyEmailChange": "E-posta adresini değiştir",
+
+  "forgotTitle": "Şifreni mi unuttun?",
+  "forgotBody": "Dert etme. Hesabına bağlı e-postanı yaz, sana bir sıfırlama kodu gönderelim.",
+  "forgotSubmit": "Kod gönder",
+  "forgotRemembered": "Şifreni hatırladın mı?",
+  "forgotSignIn": "Giriş yap",
+
+  "resetCodeTitle": "Kodu gir",
+  "resetCodeBody": "{email} adresine gönderdiğimiz 6 haneli kodu yaz.",
+  "@resetCodeBody": {
+    "placeholders": { "email": { "type": "String" } }
+  },
+  "resetCodeTip": "Kod gelmediyse spam/gereksiz klasörünü kontrol et.",
+
+  "newPasswordTitle": "Yeni şifreni belirle",
+  "newPasswordBody": "Daha önce kullanmadığın, tahmin edilmesi zor bir şifre seç.",
+  "newPasswordRulesTitle": "Şifren şunları içermeli",
+  "ruleMinLength": "En az 8 karakter",
+  "ruleUppercase": "En az bir büyük harf",
+  "ruleDigit": "En az bir rakam",
+  "ruleSpecial": "En az bir özel karakter (!, ?, #)",
+  "newPasswordSubmit": "Şifreyi güncelle",
+
+  "passwordUpdatedTitle": "Şifren güncellendi!",
+  "passwordUpdatedBody": "Artık yeni şifrenle giriş yapabilirsin. Güvenliğin için diğer cihazlardaki oturumlarını kapattık.",
+  "passwordUpdatedSubmit": "Giriş yap",
+
+  "loginRequiredTitle": "Kaydetmek için giriş yap",
+  "loginRequiredBody": "Beğendiğin bungalovları listelere eklemek ve rezervasyon yapmak için bir hesaba ihtiyacın var.",
+  "loginRequiredEmail": "E-posta ile devam et"
+,
+
+  "amenityAirConditioning": "Klima",
+  "amenityWifi": "Wi-Fi",
+  "amenityParking": "Otopark",
+  "badgeRareFind": "Nadir fırsat",
+  "featureLakeView": "Göl manzarası",
+
+  "clearAll": "Tümünü temizle",
+  "clear": "Temizle",
+  "reset": "Sıfırla",
+  "save": "Kaydet",
+
+  "searchTabListings": "Bungalovlar",
+  "searchTabMap": "Haritada ara",
+  "searchWhereTitle": "Nereye?",
+  "searchLocationLabel": "Konum",
+  "searchLocationHint": "Bölge ya da bungalov ara",
+  "searchRecent": "Son aramalar",
+  "searchPopularRoutes": "Popüler rotalar",
+  "searchWhen": "Ne zaman?",
+  "searchWho": "Kim?",
+  "searchAnyDate": "Esnek tarih",
+  "searchAddDates": "Tarih ekle",
+  "searchSubmit": "Bungalov ara",
+  "searchSummary": "{dates} · {guests}",
+  "@searchSummary": {
+    "placeholders": {
+      "dates": { "type": "String" },
+      "guests": { "type": "String" }
+    }
+  },
+  "searchAnywhere": "Her yer",
+
+  "filtersTitle": "Filtreler",
+  "filtersPrice": "Gecelik fiyat",
+  "filtersPriceNote": "Vergiler ve ücretler dahil",
+  "filtersMin": "En az",
+  "filtersMax": "En çok",
+  "filtersFeatures": "Bungalov özellikleri",
+  "filtersBedrooms": "Yatak odası",
+  "filtersAnyBedrooms": "Farketmez",
+  "filtersBedroomsPlus": "{count}+",
+  "@filtersBedroomsPlus": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "filtersBooking": "Rezervasyon tercihleri",
+  "filtersInstant": "Anında onay",
+  "filtersInstantNote": "Ev sahibi onayı beklemeden rezervasyon",
+  "filtersFreeCancel": "Ücretsiz iptal",
+  "filtersFreeCancelNote": "Girişten 24 saat öncesine kadar",
+  "filtersPets": "Evcil hayvan kabul eden",
+  "filtersPetsNote": "Patili dostunla gel",
+  "filtersAccessible": "Engelsiz erişim",
+  "filtersAccessibleNote": "Basamaksız giriş, geniş kapılar",
+  "filtersShow": "{count} bungalovu göster",
+  "@filtersShow": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "filtersPriceChip": "₺{min}–{max}",
+  "@filtersPriceChip": {
+    "placeholders": {
+      "min": { "type": "String" },
+      "max": { "type": "String" }
+    }
+  },
+  "filtersActive": "{count} filtre etkin",
+  "@filtersActive": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "removeFilter": "{name} filtresini kaldır",
+  "@removeFilter": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+
+  "resultsCount": "{count} bungalov",
+  "@resultsCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "sortRecommended": "Önerilen",
+  "sortPriceLow": "Fiyat (artan)",
+  "sortPriceHigh": "Fiyat (azalan)",
+  "sortRating": "En yüksek puan",
+  "sortTitle": "Sırala",
+  "resultsMap": "Harita",
+  "resultsList": "Liste",
+  "mapPriceNote": "{nights} gecelik toplam fiyatlar · ücretler dahil",
+  "@mapPriceNote": {
+    "placeholders": { "nights": { "type": "int" } }
+  },
+  "mapMyLocation": "Konumuma git",
+  "mapListingLine": "{rating} · {setting}",
+  "@mapListingLine": {
+    "placeholders": {
+      "rating": { "type": "String" },
+      "setting": { "type": "String" }
+    }
+  },
+  "nightsTotalShort": "{nights} gece toplam",
+  "@nightsTotalShort": {
+    "placeholders": { "nights": { "type": "int" } }
+  },
+
+  "noResultsTitle": "Bu kriterlere uygun\nbungalov bulamadık",
+  "noResultsBody": "Birkaç filtreyi gevşetmeyi dene. Şu öneriler işine yarayabilir:",
+  "relaxDates": "Tarihleri ±2 gün esnet",
+  "relaxHeatedPool": "Isıtmalı havuzu kaldır",
+  "relaxPrice": "Fiyat aralığını genişlet",
+  "relaxExtra": "{count} bungalov daha çıkıyor",
+  "@relaxExtra": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "clearAllFilters": "Tüm filtreleri temizle",
+
+  "datesTitle": "Ne zaman geliyorsun?",
+  "datesSubtitle": "Fiyatlar gece başına. Yeşil noktalı günler daha uygun.",
+  "datesPrevMonth": "Önceki ay",
+  "datesNextMonth": "Sonraki ay",
+  "datesLegendSelected": "Seçili",
+  "datesLegendStay": "Konaklama",
+  "datesLegendDeal": "Uygun fiyat",
+  "datesLegendBooked": "Dolu",
+  "datesSummary": "{dates} · {nights} gece",
+  "@datesSummary": {
+    "placeholders": {
+      "dates": { "type": "String" },
+      "nights": { "type": "int" }
+    }
+  },
+  "datesPickCheckIn": "Giriş tarihini seç",
+  "datesPickCheckOut": "Çıkış tarihini seç",
+  "datesClear": "Tarihleri temizle",
+  "dayPriceShort": "{price}b",
+  "@dayPriceShort": {
+    "placeholders": { "price": { "type": "String" } }
+  },
+  "dayUnavailable": "{day}, dolu",
+  "@dayUnavailable": {
+    "placeholders": { "day": { "type": "String" } }
+  },
+
+  "guestsTitle": "Kimler geliyor?",
+  "guestsSubtitle": "Misafir sayısı fiyatı ve kuralları etkileyebilir.",
+  "guestsAdults": "Yetişkin",
+  "guestsAdultsNote": "13 yaş ve üzeri",
+  "guestsChildren": "Çocuk",
+  "guestsChildrenNote": "2–12 yaş",
+  "guestsInfants": "Bebek",
+  "guestsInfantsNote": "2 yaş altı · kapasiteye sayılmaz",
+  "guestsPets": "Evcil hayvan",
+  "guestsPetsNote": "Patili dostlar",
+  "guestsPetsNotAllowed": "Bu bungalov evcil hayvan kabul etmiyor",
+  "guestsCapacity": "Bu bungalov en fazla {count} misafir kabul ediyor.",
+  "@guestsCapacity": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "counterDecrease": "{name} azalt",
+  "@counterDecrease": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "counterIncrease": "{name} artır",
+  "@counterIncrease": {
+    "placeholders": { "name": { "type": "String" } }
+  }
+,
+  "weekdaysShort": "Pt,Sa,Ça,Pe,Cu,Ct,Pz",
+
+  "share": "Paylaş",
+  "photoTour": "Fotoğraf turu",
+  "photoTourSubtitle": "{title} · {count} fotoğraf",
+  "@photoTourSubtitle": {
+    "placeholders": {
+      "title": { "type": "String" },
+      "count": { "type": "int" }
+    }
+  },
+  "photoCountShort": "{count} fotoğraf",
+  "@photoCountShort": { "placeholders": { "count": { "type": "int" } } },
+  "pinchToZoom": "İki parmakla yakınlaştır",
+  "roomLiving": "Oturma odası",
+  "roomBedroom": "Yatak odası",
+  "roomBathroom": "Banyo",
+  "roomOutdoor": "Dış alan",
+  "roomPool": "Havuz",
+  "photoProgress": "{current} / {total} fotoğraf",
+  "@photoProgress": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "propertyBadgeBungalow": "Ahşap bungalov",
+  "statGuests": "{count} misafir",
+  "@statGuests": { "placeholders": { "count": { "type": "int" } } },
+  "statRooms": "{count} oda",
+  "@statRooms": { "placeholders": { "count": { "type": "int" } } },
+  "statBeds": "{count} yatak",
+  "@statBeds": { "placeholders": { "count": { "type": "int" } } },
+  "statBaths": "{count} banyo",
+  "@statBaths": { "placeholders": { "count": { "type": "int" } } },
+  "guestFavoriteTwoLine": "Misafirlerin\ngözdesi",
+  "topPercent": "En iyi %{percent}",
+  "@topPercent": { "placeholders": { "percent": { "type": "int" } } },
+  "reviewsLabel": "Değerlendirme",
+  "hostLine": "Ev sahibi: {name}",
+  "@hostLine": { "placeholders": { "name": { "type": "String" } } },
+  "hostSuperhost": "Altın Kozalak Ev Sahibi",
+  "hostStandard": "Ev sahibi",
+  "hostYears": "{years} yıl",
+  "@hostYears": { "placeholders": { "years": { "type": "int" } } },
+  "hostSubline": "{level} · {years}",
+  "@hostSubline": {
+    "placeholders": {
+      "level": { "type": "String" },
+      "years": { "type": "String" }
+    }
+  },
+  "messageHost": "Ev sahibine yaz",
+  "poolTitle": "Havuz",
+  "poolPrivate": "Sana özel · paylaşımsız",
+  "poolShared": "Ortak kullanım",
+  "poolTemperature": "Sıcaklık",
+  "poolSize": "Boyut",
+  "poolDepth": "Derinlik",
+  "poolSeason": "Açık olduğu",
+  "poolHeated": "{temp}°C · Isıtmalı",
+  "@poolHeated": { "placeholders": { "temp": { "type": "int" } } },
+  "poolUnheated": "Isıtmasız",
+  "poolSizeValue": "{w} × {l} m",
+  "@poolSizeValue": {
+    "placeholders": {
+      "w": { "type": "String" },
+      "l": { "type": "String" }
+    }
+  },
+  "poolDepthValue": "{min} – {max} m",
+  "@poolDepthValue": {
+    "placeholders": {
+      "min": { "type": "String" },
+      "max": { "type": "String" }
+    }
+  },
+  "readMore": "Devamını oku",
+  "guestsLoved": "Misafirler bunu sevdi",
+  "topicPool": "Havuz",
+  "topicCleanliness": "Temizlik",
+  "topicHost": "Ev sahibi",
+  "topicCount": "{topic} · {count}",
+  "@topicCount": {
+    "placeholders": {
+      "topic": { "type": "String" },
+      "count": { "type": "int" }
+    }
+  },
+  "allReviews": "{count} değerlendirmenin tümü",
+  "@allReviews": { "placeholders": { "count": { "type": "int" } } },
+  "whatOffers": "Bu mekân neler sunuyor?",
+  "allAmenities": "{count} olanağın tümü",
+  "@allAmenities": { "placeholders": { "count": { "type": "int" } } },
+  "amenityCount": "{count} olanak",
+  "@amenityCount": { "placeholders": { "count": { "type": "int" } } },
+  "whereYouWillBe": "Nerede olacaksın?",
+  "locationAfterBooking": "Tam konum rezervasyondan sonra paylaşılır.",
+  "addressAfterBooking": "Tam adres rezervasyondan sonra paylaşılır.",
+  "nearbyMinutes": "{name} · {minutes} dk",
+  "@nearbyMinutes": {
+    "placeholders": {
+      "name": { "type": "String" },
+      "minutes": { "type": "int" }
+    }
+  },
+  "expandMap": "Haritayı büyüt",
+  "availability": "Uygunluk",
+  "changeDates": "Tarihleri değiştir",
+  "thingsToKnow": "Bilinmesi gerekenler",
+  "cancellationPolicy": "İptal politikası",
+  "cancellationSummary": "{hours} saat ücretsiz iptal, sonrasında iade yok.",
+  "@cancellationSummary": { "placeholders": { "hours": { "type": "int" } } },
+  "houseRules": "Ev kuralları",
+  "houseRulesSummary": "Giriş {checkIn} · Çıkış {checkOut} · En fazla {guests} misafir",
+  "@houseRulesSummary": {
+    "placeholders": {
+      "checkIn": { "type": "String" },
+      "checkOut": { "type": "String" },
+      "guests": { "type": "int" }
+    }
+  },
+  "safetyTitle": "Güvenlik ve mekân",
+  "reportListing": "Bu ilanı bildir",
+  "nearbyListings": "Yakındaki diğer bungalovlar",
+  "rareFindBanner": "Nadir fırsat! Bu yer genelde dolu",
+  "bookNow": "Rezerve et",
+  "requestToBook": "Talep gönder",
+  "nightsAndDates": "{nights} gece · {dates}",
+  "@nightsAndDates": {
+    "placeholders": {
+      "nights": { "type": "int" },
+      "dates": { "type": "String" }
+    }
+  },
+  "addDatesForPrice": "Fiyat için tarih ekle",
+  "perNightPrice": "{price} / gece",
+  "@perNightPrice": { "placeholders": { "price": { "type": "String" } } },
+  "aboutListing": "Bu bungalov hakkında",
+  "descSpace": "Mekân",
+  "descGuestAccess": "Misafir erişimi",
+  "descOther": "Bilinmesi gerekenler",
+  "listingNumbers": "İlan no: {listingNo}  ·  İzin belge no: {permitNo}",
+  "@listingNumbers": {
+    "placeholders": {
+      "listingNo": { "type": "String" },
+      "permitNo": { "type": "String" }
+    }
+  },
+  "reviewsTitle": "Değerlendirmeler",
+  "reviewsCount": "{count} değerlendirme",
+  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
+  "ratingCleanliness": "Temizlik",
+  "ratingAccuracy": "Doğruluk",
+  "ratingCommunication": "İletişim",
+  "ratingLocation": "Konum",
+  "all": "Tümü",
+  "daysAgo": "{count} gün önce",
+  "@daysAgo": { "placeholders": { "count": { "type": "int" } } },
+  "weeksAgo": "{count} hafta önce",
+  "@weeksAgo": { "placeholders": { "count": { "type": "int" } } },
+  "monthsAgo": "{count} ay önce",
+  "@monthsAgo": { "placeholders": { "count": { "type": "int" } } },
+  "today": "Bugün",
+  "starsLabel": "{count} yıldız",
+  "@starsLabel": { "placeholders": { "count": { "type": "int" } } },
+  "groupOutdoor": "Dış alan",
+  "groupIndoor": "İç mekân",
+  "groupNotIncluded": "Dahil olmayanlar",
+  "amenPrivatePool": "Özel havuz",
+  "amenJacuzzi": "Jakuzi",
+  "amenBarbecue": "Mangal alanı",
+  "amenParking": "Ücretsiz otopark",
+  "amenKitchen": "Tam donanımlı mutfak",
+  "amenWifi": "Hızlı Wi-Fi",
+  "amenAirConditioning": "Klima",
+  "amenOrthopedicBed": "Ortopedik yatak",
+  "amenFireplace": "Şömine",
+  "amenPets": "Evcil hayvan",
+  "amenStepFree": "Engelsiz giriş",
+  "rulesTabHouse": "Ev kuralları",
+  "rulesTabCancel": "İptal",
+  "rulesTabSafety": "Güvenlik",
+  "rulesCheckInOut": "Giriş ve çıkış",
+  "rulesDuringStay": "Konaklama sırasında",
+  "rulesCancelPreview": "İptal politikası (önizleme)",
+  "ruleCheckIn": "Giriş {from} – {to}",
+  "@ruleCheckIn": {
+    "placeholders": {
+      "from": { "type": "String" },
+      "to": { "type": "String" }
+    }
+  },
+  "ruleCheckOut": "Çıkış {time}’e kadar",
+  "@ruleCheckOut": { "placeholders": { "time": { "type": "String" } } },
+  "ruleKeybox": "Anahtar kutusu ile kendin giriş yap",
+  "ruleSmartLock": "Akıllı kilit ile kendin giriş yap",
+  "ruleHostCheckIn": "Ev sahibi seni karşılar",
+  "ruleMaxGuests": "En fazla {count} misafir",
+  "@ruleMaxGuests": { "placeholders": { "count": { "type": "int" } } },
+  "rulePetsNo": "Evcil hayvan kabul edilmez",
+  "rulePetsYes": "Evcil hayvan kabul edilir",
+  "ruleQuiet": "Sessiz saatler {from} – {to}",
+  "@ruleQuiet": {
+    "placeholders": {
+      "from": { "type": "String" },
+      "to": { "type": "String" }
+    }
+  },
+  "ruleNoSmoking": "Kapalı alanda sigara içilmez",
+  "cancelUntil": "{date}’e kadar",
+  "@cancelUntil": { "placeholders": { "date": { "type": "String" } } },
+  "cancelAfter": "{date}’ten sonra",
+  "@cancelAfter": { "placeholders": { "date": { "type": "String" } } },
+  "cancelFullRefund": "Ücretin tamamı iade edilir",
+  "cancelNoRefund": "İade yapılmaz",
+  "cancelPickDates": "Tarih seçtiğinde iptal tarihleri burada görünür.",
+  "safetyCo": "Karbonmonoksit alarmı",
+  "safetySmoke": "Duman dedektörü",
+  "safetyFirstAid": "İlk yardım çantası",
+  "safetyExtinguisher": "Yangın söndürücü",
+  "safetyCamera": "Dış mekân kamerası",
+  "approxLocation": "{area} · yaklaşık konum",
+  "@approxLocation": { "placeholders": { "area": { "type": "String" } } },
+  "whatsNearby": "Yakında neler var?",
+  "distanceWalk": "{distance} · {minutes} dk yürüme",
+  "@distanceWalk": {
+    "placeholders": {
+      "distance": { "type": "String" },
+      "minutes": { "type": "int" }
+    }
+  },
+  "distanceDrive": "{distance} · {minutes} dk",
+  "@distanceDrive": {
+    "placeholders": {
+      "distance": { "type": "String" },
+      "minutes": { "type": "int" }
+    }
+  },
+  "meters": "{value} m",
+  "@meters": { "placeholders": { "value": { "type": "String" } } },
+  "kilometers": "{value} km",
+  "@kilometers": { "placeholders": { "value": { "type": "String" } } },
+  "yourHost": "Ev sahibin",
+  "hostResponseRate": "Yanıt oranı",
+  "hostResponseTime": "Yanıt süresi",
+  "hostLanguages": "Konuştuğu diller",
+  "hostIdentity": "Kimlik",
+  "hostVerified": "Doğrulandı",
+  "hostNotVerified": "Doğrulanmadı",
+  "withinHour": "1 saat içinde",
+  "withinHours": "{hours} saat içinde",
+  "@withinHours": { "placeholders": { "hours": { "type": "int" } } },
+  "percentValue": "%{value}",
+  "@percentValue": { "placeholders": { "value": { "type": "int" } } },
+  "about": "Hakkında",
+  "hostListings": "{name}’ın bungalovları",
+  "@hostListings": { "placeholders": { "name": { "type": "String" } } },
+  "ratingLabel": "Puan",
+  "copyLink": "Bağlantıyı kopyala",
+  "linkCopied": "Bağlantı kopyalandı",
+  "shareWhatsapp": "WhatsApp",
+  "shareMessages": "Mesajlar",
+  "shareEmail": "E-posta",
+  "shareOther": "Diğer",
+  "ratingAndRegion": "{rating} · {region}",
+  "@ratingAndRegion": {
+    "placeholders": {
+      "rating": { "type": "String" },
+      "region": { "type": "String" }
+    }
+  },
+  "reportTitle": "Bu ilanı neden bildiriyorsun?",
+  "reportSubtitle": "Bildirimin ev sahibiyle paylaşılmaz. Ekibimiz 24 saat içinde inceler.",
+  "reportInaccurate": "Fotoğraflar ya da bilgiler gerçeği yansıtmıyor",
+  "reportFraud": "Dolandırıcılık şüphesi",
+  "reportOffPlatform": "Uygulama dışında ödeme istendi",
+  "reportSafety": "Güvenlik sorunu",
+  "reportOther": "Diğer",
+  "reportDetails": "Ayrıntı ekle (isteğe bağlı)",
+  "reportDetailsHint": "Ne gördüğünü kısaca anlat…",
+  "reportEmergency": "Acil bir güvenlik durumu varsa önce 112’yi ara.",
+  "reportSubmit": "Bildirimi gönder",
+  "reportSent": "Bildirimin alındı. Teşekkürler!",
+  "saveToList": "Listeye kaydet",
+  "newList": "Yeni liste oluştur",
+  "listItems": "{count} kayıt",
+  "@listItems": { "placeholders": { "count": { "type": "int" } } },
+  "emptyList": "Boş liste",
+  "listName": "Liste adı",
+  "listNameHint": "Örn. Yaz tatili",
+  "create": "Oluştur",
+
+  "lakeName": "{region} Gölü",
+  "@lakeName": { "placeholders": { "region": { "type": "String" } } }
+}
