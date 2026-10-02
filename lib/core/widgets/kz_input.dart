@@ -31,6 +31,8 @@ class KzInput extends StatefulWidget {
     this.textCapitalization = TextCapitalization.none,
     this.onChanged,
     this.onSubmitted,
+    this.onTap,
+    this.maxLength,
   });
 
   final String label;
@@ -58,6 +60,12 @@ class KzInput extends StatefulWidget {
   final TextCapitalization textCapitalization;
   final ValueChanged<String>? onChanged;
   final ValueChanged<String>? onSubmitted;
+
+  /// Verilirse alan salt okunur olur ve dokununca seçici açılır (saat, ay…).
+  final VoidCallback? onTap;
+
+  /// Verilirse etiket satırında "21 / 50" sayacı gösterilir ve sınırlanır.
+  final int? maxLength;
 
   /// Gizli şifrede noktalar arası boşluk (Figma: %12).
   static const double _obscuredSpacing = 0.12;
@@ -117,7 +125,7 @@ class _KzInputState extends State<KzInput> {
 
     final box = GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: _focus.requestFocus,
+      onTap: widget.onTap ?? _focus.requestFocus,
       child: AnimatedContainer(
         duration: KzMotion.of(context, KzMotion.micro),
         constraints: const BoxConstraints(minHeight: KzSize.input),
@@ -156,14 +164,29 @@ class _KzInputState extends State<KzInput> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    widget.label,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: KzText.captionSemi.copyWith(
-                      color: accent ?? kz.ink2,
-                      height: KzText.tightLeading,
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          widget.label,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: KzText.captionSemi.copyWith(
+                            color: accent ?? kz.ink2,
+                            height: KzText.tightLeading,
+                          ),
+                        ),
+                      ),
+                      if (widget.maxLength != null && widget.controller != null)
+                        ListenableBuilder(
+                          listenable: widget.controller!,
+                          builder: (context, _) => Text(
+                            '${widget.controller!.text.characters.length} / '
+                            '${widget.maxLength}',
+                            style: KzText.caption.copyWith(color: kz.ink2),
+                          ),
+                        ),
+                    ],
                   ),
                   const SizedBox(height: KzSpace.s3),
                   TextField(
@@ -173,7 +196,14 @@ class _KzInputState extends State<KzInput> {
                     obscuringCharacter: '•',
                     keyboardType: widget.keyboardType,
                     textInputAction: widget.textInputAction,
-                    inputFormatters: widget.inputFormatters,
+                    inputFormatters: [
+                      ...?widget.inputFormatters,
+                      if (widget.maxLength != null)
+                        LengthLimitingTextInputFormatter(widget.maxLength),
+                    ],
+                    readOnly: widget.onTap != null,
+                    showCursor: widget.onTap == null,
+                    onTap: widget.onTap,
                     autofillHints: widget.autofillHints,
                     textCapitalization: widget.textCapitalization,
                     onChanged: widget.onChanged,

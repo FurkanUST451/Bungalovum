@@ -1,14 +1,16 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/responsive/breakpoints.dart';
 import '../core/theme/tokens.dart';
 import '../core/widgets/kz_tab_bar.dart';
 import '../l10n/l10n.dart';
+import '../features/chat/presentation/controllers/chat_controllers.dart';
 import 'app_tabs.dart';
 
 /// Sekmeli kabuk: telefonda yüzen tab bar, tablette (expanded) sol rail.
-class AppShell extends StatelessWidget {
+class AppShell extends ConsumerWidget {
   const AppShell({super.key, required this.shell});
 
   final StatefulNavigationShell shell;
@@ -17,8 +19,11 @@ class AppShell extends StatelessWidget {
       shell.goBranch(index, initialLocation: index == shell.currentIndex);
 
   @override
-  Widget build(BuildContext context) {
-    final items = appTabs(context.l10n);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final items = appTabs(
+      context.l10n,
+      unreadChats: ref.watch(unreadChatsProvider),
+    );
     final kz = context.kz;
 
     if (context.windowSize == KzWindowSize.expanded) {
@@ -62,15 +67,4 @@ class AppShell extends StatelessWidget {
       ),
     );
   }
-}
-
-/// Henüz kodlanmamış sekmeler için boş zemin. İlgili Figma ekranları
-/// (Kaydettiklerim 56, Seyahatler 44, Sohbetler 61, Hesabım 65) kodlandıkça
-/// kaldırılır.
-class PendingTabScreen extends StatelessWidget {
-  const PendingTabScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) =>
-      ColoredBox(color: context.kz.bg, child: const SizedBox.expand());
 }

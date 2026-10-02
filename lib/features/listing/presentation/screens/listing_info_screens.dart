@@ -422,15 +422,7 @@ class _RulesScreenState extends ConsumerState<RulesScreen> {
           ),
         );
       }
-      final [inH, inM] = r.checkInFrom.split(':').map(int.parse).toList();
-      final deadline = DateTime(
-        dates.checkIn.year,
-        dates.checkIn.month,
-        dates.checkIn.day,
-        inH,
-        inM,
-      ).subtract(Duration(hours: d.freeCancelHours));
-      final when = KzFormat.dayMonthTime(deadline);
+      final deadline = d.freeCancelDeadline(dates.checkIn);
       Widget step(Color c, String title, String body) => Semantics(
         container: true,
         child: Row(
@@ -463,8 +455,16 @@ class _RulesScreenState extends ConsumerState<RulesScreen> {
         ),
       );
       return section(_tab == 0 ? l.rulesCancelPreview : l.cancellationPolicy, [
-        step(kz.forest, l.cancelUntil(when), l.cancelFullRefund),
-        step(kz.apricot, l.cancelAfter(when), l.cancelNoRefund),
+        step(
+          kz.forest,
+          l.cancelUntil(KzFormat.dayMonthTimeDative(deadline)),
+          l.cancelFullRefund,
+        ),
+        step(
+          kz.apricot,
+          l.cancelAfter(KzFormat.dayMonthTimeAblative(deadline)),
+          l.cancelNoRefund,
+        ),
       ]);
     }
 

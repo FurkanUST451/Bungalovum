@@ -183,7 +183,7 @@ final class BookingQuoteProvider
   }
 }
 
-String _$bookingQuoteHash() => r'88360ecb520c0fc0a43bc8ed74af67dd7ec7dec4';
+String _$bookingQuoteHash() => r'fde888cfebe02d6a5c939f4cd95ddc14433dcf0d';
 
 /// Taslak gece sayısı için fiyat kalemleri.
 

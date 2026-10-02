@@ -40,15 +40,43 @@ class KzNavButton extends StatelessWidget {
 
 /// Üst satır: solda geri/kapat, ortada başlık (isteğe bağlı), sağda aksiyon.
 class KzTopBar extends StatelessWidget {
-  const KzTopBar({super.key, required this.leading, this.title, this.trailing});
+  const KzTopBar({
+    super.key,
+    required this.leading,
+    this.title,
+    this.trailing,
+    this.subtleTitle = false,
+  });
 
   final Widget leading;
   final String? title;
   final Widget? trailing;
 
+  /// Küçük ink2 başlık (sihirbaz "Adım 3 / 10").
+  final bool subtleTitle;
+
   @override
   Widget build(BuildContext context) {
     final kz = context.kz;
+    // Başlık yoksa sağ öğe (ör. "Tümünü okundu say") kalan alanı kullanır;
+    // dar ekranda taşmak yerine alt satıra kayar.
+    if (title == null) {
+      return Padding(
+        padding: const EdgeInsets.only(top: KzSpace.s8, bottom: KzSpace.s6),
+        child: Row(
+          children: [
+            leading,
+            const SizedBox(width: KzSpace.s12),
+            Expanded(
+              child: Align(
+                alignment: AlignmentDirectional.centerEnd,
+                child: trailing ?? const SizedBox.shrink(),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
     return Padding(
       padding: const EdgeInsets.only(top: KzSpace.s8, bottom: KzSpace.s6),
       child: Row(
@@ -64,7 +92,9 @@ class KzTopBar extends StatelessWidget {
                       textAlign: TextAlign.center,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: KzText.titleLg.copyWith(color: kz.ink),
+                      style: subtleTitle
+                          ? KzText.label.copyWith(color: kz.ink2)
+                          : KzText.titleLg.copyWith(color: kz.ink),
                     ),
                   ),
           ),

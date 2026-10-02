@@ -199,6 +199,7 @@ abstract final class ListingCatalog {
       cleaningFee: cleaning,
       serviceFee: service,
       discount: discount,
+      discountKind: DiscountKind.earlyBooking,
     );
   }
 

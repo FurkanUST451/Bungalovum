@@ -4,10 +4,18 @@ part 'listing.freezed.dart';
 part 'listing.g.dart';
 
 /// Bungalov türü (ev sahibi sihirbazı › Tür ve Konum).
-enum PropertyType { bungalow, treeHouse, aFrame, cabin }
+enum PropertyType {
+  bungalow,
+  aFrame,
+  treeHouse,
+  stoneHouse,
+  glampingTent,
+  tinyHouse,
+  cabin,
+}
 
 /// Konum karakteri (ev sahibi sihirbazı › Tür ve Konum).
-enum ListingSetting { lakeView, lakeside, forest }
+enum ListingSetting { lakeside, lakeView, forest, mountainView, nearSea }
 
 /// Öne çıkan olanaklar (ev sahibi sihirbazı › Havuz ve Olanaklar).
 enum Amenity {

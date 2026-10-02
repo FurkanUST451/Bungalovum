@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import '../icons/kz_icons.dart';
 import '../theme/tokens.dart';
 import 'kz_icon.dart';
+import 'kz_link.dart';
 
 enum KzTipTone {
   /// Sand zemin, apricot ikon, ink2 metin — ipucu.
@@ -26,6 +27,7 @@ class KzTip extends StatelessWidget {
     required this.icon,
     this.tone = KzTipTone.neutral,
     this.title,
+    this.link,
   });
 
   final String message;
@@ -34,6 +36,9 @@ class KzTip extends StatelessWidget {
 
   /// İsteğe bağlı kalın başlık satırı.
   final String? title;
+
+  /// Metnin sonuna eklenen satır içi link: (etiket, dokununca).
+  final (String, VoidCallback)? link;
 
   @override
   Widget build(BuildContext context) {
@@ -100,8 +105,22 @@ class KzTip extends StatelessWidget {
                     ),
                     const SizedBox(height: KzSpace.s2),
                   ],
-                  Text(
-                    message,
+                  Text.rich(
+                    TextSpan(
+                      text: message,
+                      children: [
+                        if (link case (final label, final onPressed))
+                          WidgetSpan(
+                            alignment: PlaceholderAlignment.baseline,
+                            baseline: TextBaseline.alphabetic,
+                            child: KzLink(
+                              label: label,
+                              style: textStyle,
+                              onPressed: onPressed,
+                            ),
+                          ),
+                      ],
+                    ),
                     style: textStyle.copyWith(height: KzText.caption.height),
                   ),
                 ],

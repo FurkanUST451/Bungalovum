@@ -250,7 +250,10 @@ class _RatingStrip extends StatelessWidget {
               const SizedBox(height: KzSpace.s4),
               FittedBox(
                 fit: BoxFit.scaleDown,
-                child: KzStars(rating: listing.rating ?? 0, size: KzSpace.s12 - 1),
+                child: KzStars(
+                  rating: listing.rating ?? 0,
+                  size: KzSpace.s12 - 1,
+                ),
               ),
             ],
           ),
@@ -306,13 +309,13 @@ class _RatingStrip extends StatelessWidget {
   }
 }
 
-class _HostRow extends StatelessWidget {
+class _HostRow extends ConsumerWidget {
   const _HostRow({required this.detail});
 
   final ListingDetail detail;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final kz = context.kz;
     final l = context.l10n;
     final host = detail.host;
@@ -365,7 +368,8 @@ class _HostRow extends StatelessWidget {
               background: kz.forestSoft,
               iconColor: kz.forest,
               semanticLabel: l.messageHost,
-              onPressed: () => context.push(AppRoutes.chat('host-${host.id}')),
+              onPressed: () =>
+                  openListingChat(context, ref, detail.listing.id, host.name),
             ),
           ],
         ),

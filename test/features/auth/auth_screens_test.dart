@@ -82,12 +82,18 @@ void main() {
   testWidgets('Kayıt: koşullar onaylanmadan Devam pasif', (tester) async {
     await _pump(
       tester,
-      testScreen(RegisterScreen(today: fixedClock()), size: const Size(390, 844)),
+      testScreen(
+        RegisterScreen(today: fixedClock()),
+        size: const Size(390, 844),
+      ),
       const Size(390, 844),
     );
     final button = find.bySemanticsLabel('Devam et');
     final handle = tester.ensureSemantics();
-    expect(tester.getSemantics(button).flagsCollection.isEnabled, Tristate.isFalse);
+    expect(
+      tester.getSemantics(button).flagsCollection.isEnabled,
+      Tristate.isFalse,
+    );
     handle.dispose();
   });
 

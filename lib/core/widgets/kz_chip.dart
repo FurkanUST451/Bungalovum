@@ -45,6 +45,9 @@ enum KzChipSize {
 
   /// 11/700, padding 5×9 — kart içi olanak etiketleri, sayaç.
   mini,
+
+  /// 15/800, padding 10×16 — başlıktaki tutar rozeti (Ödeme).
+  large,
 }
 
 class KzChip extends StatelessWidget {
@@ -58,6 +61,7 @@ class KzChip extends StatelessWidget {
     this.onPressed,
     this.trailingIcon,
     this.semanticLabel,
+    this.labelColor,
   });
 
   /// Etiketten sonra gelen ikon (ör. kaldırmak için X).
@@ -65,6 +69,10 @@ class KzChip extends StatelessWidget {
 
   /// Verilmezse etiket okunur.
   final String? semanticLabel;
+
+  /// Metin rengini türün renginden farklı yapmak için (ör. görsel üstü
+  /// "İptal edildi" rozeti apricotText).
+  final Color? labelColor;
 
   final String label;
   final KzChipVariant variant;
@@ -111,6 +119,13 @@ class KzChip extends StatelessWidget {
         ),
         KzText.microTight,
       ),
+      KzChipSize.large => (
+        const EdgeInsets.symmetric(
+          horizontal: KzSpace.s16,
+          vertical: KzSpace.s10,
+        ),
+        KzText.titleSm.copyWith(height: KzText.tightLeading),
+      ),
     };
 
     final chip = Container(
@@ -132,7 +147,7 @@ class KzChip extends StatelessWidget {
               label,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: style.copyWith(color: fg),
+              style: style.copyWith(color: labelColor ?? fg),
             ),
           ),
           if (trailingIcon != null) ...[

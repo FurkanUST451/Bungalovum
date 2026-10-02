@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
 
@@ -24,6 +26,17 @@ class KzPhoto extends StatelessWidget {
         final w = constraints.maxWidth.isFinite
             ? (constraints.maxWidth * dpr).round()
             : null;
+        // Yüklenmeyi bekleyen yerel fotoğraf (ör. ilan sihirbazı).
+        if (!src.startsWith('http')) {
+          return Image.file(
+            File(src),
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
+            cacheWidth: w,
+            errorBuilder: (_, _, _) => fallback,
+          );
+        }
         return CachedNetworkImage(
           imageUrl: src,
           memCacheWidth: w,

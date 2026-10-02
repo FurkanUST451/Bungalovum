@@ -28,4 +28,10 @@ abstract final class KzOpacity {
 
   /// Soluk ikon/öğe (dahil olmayan olanak).
   static const double muted = 0.5;
+
+  /// İllüstrasyonlarda hafif renk katmanı (konum halkası).
+  static const double tint = 0.12;
+
+  /// İllüstrasyonlarda belirgin renk katmanı (tepe).
+  static const double wash = 0.35;
 }

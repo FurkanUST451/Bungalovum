@@ -5,12 +5,24 @@ import '../theme/tokens.dart';
 import 'kz_icon.dart';
 import 'kz_pressable.dart';
 
-/// Figma `Buton` (Tür = Birincil / İkincil / Koyu / Çerçeve).
-enum KzButtonVariant { primary, secondary, dark, outline }
+/// Figma `Buton` (Tür = Birincil / İkincil / Koyu / Çerçeve) + kart içi
+/// vurgulu (accent: apricotSoft) ve geri alınamaz aksiyon (danger: çerçeve +
+/// apricotText) türleri.
+enum KzButtonVariant {
+  primary,
+  secondary,
+  dark,
+  outline,
+  accent,
+  danger,
+
+  /// Geri alınamaz işlemin son onayı (İptali onayla): apricotText zemin.
+  destructive,
+}
 
 /// regular: 58 yükseklik, 16/800. social: 56, 15/800 (Google / Apple ile
-/// devam et).
-enum KzButtonSize { regular, social }
+/// devam et). compact: 44, 13/800 — kart içi aksiyonlar (Seyahatler).
+enum KzButtonSize { regular, social, compact }
 
 /// Yükseklik 58, pill, 16/800 metin. Basılıyken 0.97 ölçek; yüklenirken
 /// genişlik sabit kalır ve spinner gösterilir; pasifken %40 opaklık.
@@ -25,6 +37,7 @@ class KzButton extends StatelessWidget {
     this.expand = true,
     this.size = KzButtonSize.regular,
     this.leading,
+    this.icon,
   });
 
   final String label;
@@ -40,6 +53,9 @@ class KzButton extends StatelessWidget {
   /// Etiketin solundaki öğe (ör. sağlayıcı rozeti).
   final Widget? leading;
 
+  /// Etiketin solundaki ikon (buton rengini alır).
+  final KzIcons? icon;
+
   static const double _disabledOpacity = 0.4;
   static const double _spinnerStroke = 2.5;
 
@@ -51,24 +67,33 @@ class KzButton extends StatelessWidget {
       KzButtonVariant.secondary => (kz.sand, kz.ink, null, null),
       KzButtonVariant.dark => (kz.ink, kz.onForest, null, null),
       KzButtonVariant.outline => (kz.surface, kz.ink, kz.line, null),
+      KzButtonVariant.accent => (kz.apricotSoft, kz.apricotText, null, null),
+      KzButtonVariant.danger => (kz.surface, kz.apricotText, kz.line, null),
+      KzButtonVariant.destructive => (kz.apricotText, kz.onForest, null, null),
     };
     final enabled = onPressed != null && !loading;
-    final social = size == KzButtonSize.social;
+    final compact = size == KzButtonSize.compact;
+    final textStyle = switch (size) {
+      KzButtonSize.regular => KzText.bodyStrong,
+      KzButtonSize.social => KzText.bodyStrongSm,
+      KzButtonSize.compact => KzText.label,
+    };
 
     final content = Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         if (leading != null) ...[leading!, const SizedBox(width: KzSpace.s10)],
+        if (icon != null) ...[
+          KzIcon(icon!, size: KzSize.iconXs + KzSpace.s2, color: fg),
+          const SizedBox(width: KzSpace.s6),
+        ],
         Flexible(
           child: Text(
             label,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: (social ? KzText.bodyStrongSm : KzText.bodyStrong).copyWith(
-              fontWeight: KzText.extraBold,
-              color: fg,
-            ),
+            style: textStyle.copyWith(fontWeight: KzText.extraBold, color: fg),
           ),
         ),
         if (trailingArrow) ...[
@@ -82,27 +107,38 @@ class KzButton extends StatelessWidget {
       opacity: onPressed == null ? _disabledOpacity : 1,
       duration: KzMotion.of(context, KzMotion.micro),
       child: Container(
-        height: social ? KzSize.socialButton : KzSize.button,
+        height: switch (size) {
+          KzButtonSize.regular => KzSize.button,
+          KzButtonSize.social => KzSize.socialButton,
+          KzButtonSize.compact => KzSize.minTouch,
+        },
         width: expand ? double.infinity : null,
-        padding: const EdgeInsets.symmetric(horizontal: KzSpace.s24),
+        // Tam genişlikte içerik ortalanır, yan boşluk yalnızca taşmayı
+        // önler; içerik genişliğindeki butonda genişliği belirler.
+        padding: EdgeInsets.symmetric(
+          horizontal: compact || expand ? KzSpace.s12 : KzSpace.s24,
+        ),
         decoration: BoxDecoration(
           color: bg,
           borderRadius: KzRadii.all(KzRadii.pill),
           border: border == null ? null : Border.all(color: border),
           boxShadow: shadow,
         ),
-        alignment: Alignment.center,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            // Yüklenirken metin görünmez ama yer kaplar: genişlik sabit kalır.
-            Opacity(opacity: loading ? 0 : 1, child: content),
-            if (loading)
-              SizedBox.square(
-                dimension: KzSize.iconMd,
-                child: _Spinner(color: fg, stroke: _spinnerStroke),
-              ),
-          ],
+        child: Center(
+          widthFactor: expand ? null : 1,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // Yüklenirken metin görünmez ama yer kaplar: genişlik sabit
+              // kalır.
+              Opacity(opacity: loading ? 0 : 1, child: content),
+              if (loading)
+                SizedBox.square(
+                  dimension: KzSize.iconMd,
+                  child: _Spinner(color: fg, stroke: _spinnerStroke),
+                ),
+            ],
+          ),
         ),
       ),
     );

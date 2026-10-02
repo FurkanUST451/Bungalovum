@@ -15,6 +15,12 @@ _Wishlist _$WishlistFromJson(Map<String, dynamic> json) => _Wishlist(
           .toList() ??
       const <String>[],
   updatedAt: DateTime.parse(json['updatedAt'] as String),
+  notes:
+      (json['notes'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ) ??
+      const <String, String>{},
+  shareable: json['shareable'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$WishlistToJson(_Wishlist instance) => <String, dynamic>{
@@ -22,4 +28,17 @@ Map<String, dynamic> _$WishlistToJson(_Wishlist instance) => <String, dynamic>{
   'name': instance.name,
   'listingIds': instance.listingIds,
   'updatedAt': instance.updatedAt.toIso8601String(),
+  'notes': instance.notes,
+  'shareable': instance.shareable,
 };
+
+_RecentView _$RecentViewFromJson(Map<String, dynamic> json) => _RecentView(
+  listingId: json['listingId'] as String,
+  viewedAt: DateTime.parse(json['viewedAt'] as String),
+);
+
+Map<String, dynamic> _$RecentViewToJson(_RecentView instance) =>
+    <String, dynamic>{
+      'listingId': instance.listingId,
+      'viewedAt': instance.viewedAt.toIso8601String(),
+    };

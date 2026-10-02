@@ -1,5 +1,6 @@
 import 'package:bungapp/core/utils/formatters.dart';
 import 'package:bungapp/core/widgets/kz_sheet.dart';
+import 'package:bungapp/core/widgets/kz_skeleton.dart';
 import 'package:bungapp/features/auth/domain/auth_models.dart';
 import 'package:bungapp/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:bungapp/features/saved/presentation/controllers/saved_listings_controller.dart';
@@ -25,15 +26,24 @@ Future<void> pumpExplore(
   await tester.pump(const Duration(milliseconds: 500));
 }
 
-Future<void> scrollTo(WidgetTester tester, Finder finder) =>
-    tester.scrollUntilVisible(
-      finder,
-      200,
-      scrollable: find.byType(Scrollable).first,
-    );
+Future<void> scrollTo(WidgetTester tester, Finder finder) => tester
+    .scrollUntilVisible(finder, 200, scrollable: find.byType(Scrollable).first);
 
 void main() {
   setUpAll(() => initializeDateFormatting(kzLocale));
+
+  // 78 · Yükleniyor: akış gelene kadar iskelet, spinner yok.
+  testWidgets('Yükleniyor durumu iskelet gösterir', (tester) async {
+    tester.view.physicalSize = const Size(390, 844) * 3;
+    tester.view.devicePixelRatio = 3;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(testApp(size: const Size(390, 844)));
+    expect(find.byType(KzSkeleton), findsWidgets);
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(find.byType(KzSkeleton), findsNothing);
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump(const Duration(seconds: 1));
+  });
 
   group('Keşfet taşma testi', () {
     for (final entry in testDevices.entries) {
@@ -65,10 +75,7 @@ void main() {
     );
     expect(find.text('Son 2 gece!'), findsOneWidget);
     expect(find.text('1 / 18'), findsWidgets);
-    expect(
-      find.textContaining('₺10.800', findRichText: true),
-      findsOneWidget,
-    );
+    expect(find.textContaining('₺10.800', findRichText: true), findsOneWidget);
   });
 
   testWidgets('Kategori seçimi akışı filtreler', (tester) async {
@@ -100,6 +107,8 @@ void main() {
 
     // Kalp → 30 · Listeye kaydet → Kaydet.
     await tester.tap(find.bySemanticsLabel('Kaydet').first);
+    // İlk kare sheet animasyonunu başlatır, ikincisi bitirir.
+    await tester.pump();
     await tester.pump(const Duration(milliseconds: 500));
     expect(find.text('Listeye kaydet'), findsOneWidget);
     final saveButton = find.descendant(

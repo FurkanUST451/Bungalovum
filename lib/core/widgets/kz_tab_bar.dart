@@ -8,10 +8,49 @@ import 'kz_pressable.dart';
 
 @immutable
 class KzTabItem {
-  const KzTabItem({required this.icon, required this.label});
+  const KzTabItem({required this.icon, required this.label, this.badge});
 
   final KzIcons icon;
   final String label;
+
+  /// Okunmamış rozeti; null değilse ikonun köşesinde apricot nokta ve
+  /// erişilebilirlik etiketine bu metin eklenir ("2 okunmamış mesaj").
+  final String? badge;
+
+  String get semanticLabel => badge == null ? label : '$label, $badge';
+}
+
+/// İkonun sağ üstünde apricot nokta (surface halkalı).
+class _Badge extends StatelessWidget {
+  const _Badge({required this.child, required this.show});
+
+  final Widget child;
+  final bool show;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!show) return child;
+    final kz = context.kz;
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        child,
+        Positioned(
+          right: -KzSpace.s2,
+          top: -KzSpace.s2,
+          child: Container(
+            width: KzSize.badgeDot,
+            height: KzSize.badgeDot,
+            decoration: BoxDecoration(
+              color: kz.apricot,
+              shape: BoxShape.circle,
+              border: Border.all(color: kz.surface, width: KzSize.badgeStroke),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 /// Yüzen alt tab bar (Figma `Tab bar`, Aktif=…).
@@ -138,7 +177,7 @@ class _TabButton extends StatelessWidget {
     final duration = KzMotion.of(context, KzMotion.transition);
     return KzPressable(
       onPressed: onPressed,
-      semanticLabel: item.label,
+      semanticLabel: item.semanticLabel,
       selected: selected,
       haptic: true,
       child: AnimatedContainer(
@@ -157,10 +196,13 @@ class _TabButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            KzIcon(
-              item.icon,
-              size: selected ? KzSize.iconMd : KzSize.iconLg,
-              color: selected ? kz.onForest : kz.ink2,
+            _Badge(
+              show: item.badge != null && !selected,
+              child: KzIcon(
+                item.icon,
+                size: selected ? KzSize.iconMd : KzSize.iconLg,
+                color: selected ? kz.onForest : kz.ink2,
+              ),
             ),
             if (selected && showLabel) ...[
               const SizedBox(width: KzSpace.s8),
@@ -236,7 +278,7 @@ class _RailButton extends StatelessWidget {
     final duration = KzMotion.of(context, KzMotion.transition);
     return KzPressable(
       onPressed: onPressed,
-      semanticLabel: item.label,
+      semanticLabel: item.semanticLabel,
       selected: selected,
       haptic: true,
       child: Padding(
@@ -254,10 +296,13 @@ class _RailButton extends StatelessWidget {
                 borderRadius: KzRadii.all(KzRadii.pill),
               ),
               alignment: Alignment.center,
-              child: KzIcon(
-                item.icon,
-                size: KzSize.iconLg,
-                color: selected ? kz.onForest : kz.ink2,
+              child: _Badge(
+                show: item.badge != null && !selected,
+                child: KzIcon(
+                  item.icon,
+                  size: KzSize.iconLg,
+                  color: selected ? kz.onForest : kz.ink2,
+                ),
               ),
             ),
             const SizedBox(height: KzSpace.s4),

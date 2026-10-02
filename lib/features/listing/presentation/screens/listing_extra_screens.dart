@@ -11,6 +11,7 @@ import '../../../../core/widgets/kz_action_row.dart';
 import '../../../../core/widgets/kz_avatar.dart';
 import '../../../../core/widgets/kz_bottom_bar.dart';
 import '../../../../core/widgets/kz_button.dart';
+import '../../../../core/widgets/kz_checkbox.dart';
 import '../../../../core/widgets/kz_chip.dart';
 import '../../../../core/widgets/kz_icon.dart';
 import '../../../../core/widgets/kz_map_backdrop.dart';
@@ -18,7 +19,9 @@ import '../../../../core/widgets/kz_photo.dart';
 import '../../../../core/widgets/kz_pressable.dart';
 import '../../../../core/widgets/kz_screen.dart';
 import '../../../../core/widgets/kz_skeleton.dart';
+import '../../../../core/widgets/kz_text_area.dart';
 import '../../../../core/widgets/kz_tip.dart';
+import '../../../../core/widgets/kz_toast.dart';
 import '../../../../l10n/l10n.dart';
 import '../../data/listing_repository.dart';
 import '../../domain/listing_detail.dart';
@@ -454,8 +457,6 @@ class _ReportListingScreenState extends ConsumerState<ReportListingScreen> {
   final _details = TextEditingController();
   bool _sending = false;
 
-  static const double _radio = 22;
-  static const double _radioOn = 7;
   static const double _detailsMin = 120;
 
   @override
@@ -470,19 +471,7 @@ class _ReportListingScreenState extends ConsumerState<ReportListingScreen> {
         .read(listingRepositoryProvider)
         .report(widget.id, _reason!, _details.text.trim());
     if (!mounted) return;
-    final kz = context.kz;
-    ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-      SnackBar(
-        content: Text(
-          context.l10n.reportSent,
-          style: KzText.label.copyWith(color: kz.onForest),
-        ),
-        backgroundColor: kz.ink,
-        behavior: SnackBarBehavior.floating,
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: KzRadii.all(KzRadii.md)),
-      ),
-    );
+    showKzToast(context, context.l10n.reportSent);
     context.pop();
   }
 
@@ -533,21 +522,7 @@ class _ReportListingScreenState extends ConsumerState<ReportListingScreen> {
                       ),
                       child: Row(
                         children: [
-                          AnimatedContainer(
-                            duration: KzMotion.of(context, KzMotion.micro),
-                            width: _radio,
-                            height: _radio,
-                            decoration: BoxDecoration(
-                              color: kz.surface,
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: _reason == reason ? kz.forest : kz.line,
-                                width: _reason == reason
-                                    ? _radioOn
-                                    : KzSize.borderCheckbox,
-                              ),
-                            ),
-                          ),
+                          KzRadio(value: _reason == reason),
                           const SizedBox(width: KzSpace.s12),
                           Expanded(
                             child: Text(
@@ -569,36 +544,11 @@ class _ReportListingScreenState extends ConsumerState<ReportListingScreen> {
           ),
         ),
         const SizedBox(height: KzSpace.s14),
-        Container(
-          constraints: const BoxConstraints(minHeight: _detailsMin),
-          padding: const EdgeInsets.all(KzSpace.s16),
-          decoration: BoxDecoration(
-            color: kz.surface,
-            borderRadius: KzRadii.all(KzRadii.field),
-            border: Border.all(color: kz.line),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                l.reportDetails,
-                style: KzText.captionSemi.copyWith(color: kz.ink2),
-              ),
-              const SizedBox(height: KzSpace.s6),
-              TextField(
-                controller: _details,
-                maxLines: null,
-                minLines: 2,
-                style: KzText.body.copyWith(color: kz.ink),
-                decoration: InputDecoration(
-                  isCollapsed: true,
-                  border: InputBorder.none,
-                  hintText: l.reportDetailsHint,
-                  hintStyle: KzText.body.copyWith(color: kz.placeholder),
-                ),
-              ),
-            ],
-          ),
+        KzTextArea(
+          label: l.reportDetails,
+          hint: l.reportDetailsHint,
+          controller: _details,
+          minHeight: _detailsMin,
         ),
         const SizedBox(height: KzSpace.s14),
         KzTip(

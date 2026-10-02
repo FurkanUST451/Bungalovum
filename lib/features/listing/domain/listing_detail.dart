@@ -52,6 +52,20 @@ abstract class ListingDetail with _$ListingDetail {
       _$ListingDetailFromJson(json);
 }
 
+extension ListingDetailCancellation on ListingDetail {
+  /// Ücretsiz iptalin son anı: giriş günü + giriş saati − [freeCancelHours].
+  DateTime freeCancelDeadline(DateTime checkIn) {
+    final [h, m] = rules.checkInFrom.split(':').map(int.parse).toList();
+    return DateTime(
+      checkIn.year,
+      checkIn.month,
+      checkIn.day,
+      h,
+      m,
+    ).subtract(Duration(hours: freeCancelHours));
+  }
+}
+
 enum HostLevel { standard, superhost }
 
 @freezed
@@ -242,6 +256,7 @@ enum SafetyKind {
   smokeDetector,
   firstAidKit,
   fireExtinguisher,
+  poolFence,
   outdoorCamera,
 }
 

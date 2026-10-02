@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../status/presentation/screens/status_screens.dart';
 import '../../../../app/routes.dart';
 import '../../../../core/icons/kz_icons.dart';
 import '../../../../core/responsive/breakpoints.dart';
@@ -97,7 +98,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     iconSize: KzSize.iconMd,
                     shadow: KzShadows.raised,
                     semanticLabel: l.mapMyLocation,
-                    onPressed: () => context.push(AppRoutes.locationPermission),
+                    // Konum alınınca harita ortalanır (harita SDK'sıyla).
+                    onPressed: () => ensureLocationPermission(context, ref),
                   ),
                 ),
                 const SizedBox(height: KzSpace.s32),

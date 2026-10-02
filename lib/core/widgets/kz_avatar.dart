@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../utils/formatters.dart';
 import '../icons/kz_icons.dart';
 import '../theme/tokens.dart';
 import 'kz_icon.dart';
@@ -29,7 +30,7 @@ class KzAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final kz = context.kz;
-    final initial = name.isEmpty ? '' : name.characters.first.toUpperCase();
+    final initial = name.isEmpty ? '' : name.characters.first.toUpperCaseTr();
     final palette = [
       (kz.apricot, kz.ink),
       (kz.pool, kz.onForest),

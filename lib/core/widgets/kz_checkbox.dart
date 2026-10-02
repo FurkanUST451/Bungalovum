@@ -83,3 +83,32 @@ class KzCheckboxTile extends StatelessWidget {
     );
   }
 }
+
+/// Radyo işareti: seçiliyken kalın forest halka, değilken ince line halka.
+class KzRadio extends StatelessWidget {
+  const KzRadio({super.key, required this.value, this.size = KzSize.checkbox});
+
+  final bool value;
+  final double size;
+
+  /// Seçili halkanın kalınlığı (Figma: 22'lik dairede 7).
+  static const double _ringRatio = 7 / 22;
+
+  @override
+  Widget build(BuildContext context) {
+    final kz = context.kz;
+    return AnimatedContainer(
+      duration: KzMotion.of(context, KzMotion.micro),
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: kz.surface,
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: value ? kz.forest : kz.line,
+          width: value ? size * _ringRatio : KzSize.borderCheckbox,
+        ),
+      ),
+    );
+  }
+}

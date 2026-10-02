@@ -8,6 +8,9 @@ extension PropertyTypeLabel on PropertyType {
     PropertyType.treeHouse => l.propertyTreeHouse,
     PropertyType.aFrame => l.propertyAFrame,
     PropertyType.cabin => l.propertyCabin,
+    PropertyType.stoneHouse => l.propertyStoneHouse,
+    PropertyType.glampingTent => l.propertyGlampingTent,
+    PropertyType.tinyHouse => l.propertyTinyHouse,
   };
 }
 
@@ -16,6 +19,8 @@ extension ListingSettingLabel on ListingSetting {
     ListingSetting.lakeView => l.settingLakeView,
     ListingSetting.lakeside => l.settingLakeside,
     ListingSetting.forest => l.settingForest,
+    ListingSetting.mountainView => l.settingMountainView,
+    ListingSetting.nearSea => l.settingNearSea,
   };
 }
 

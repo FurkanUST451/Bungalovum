@@ -3,6 +3,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'price_calculator.freezed.dart';
 part 'price_calculator.g.dart';
 
+/// İndirim kaleminin türü (fiyat ayrıntısındaki satır adı).
+enum DiscountKind { earlyBooking, lastMinute, longStay, coupon, special }
+
 /// Konaklama fiyat kalemleri. Temizlik, hizmet bedeli ve indirim tutarları
 /// backend'den gelir; uygulamada sabit oran yoktur.
 @freezed
@@ -13,6 +16,7 @@ abstract class PriceBreakdown with _$PriceBreakdown {
     @Default(0) int cleaningFee,
     @Default(0) int serviceFee,
     @Default(0) int discount,
+    @Default(DiscountKind.special) DiscountKind discountKind,
   }) = _PriceBreakdown;
 
   factory PriceBreakdown.fromJson(Map<String, dynamic> json) =>

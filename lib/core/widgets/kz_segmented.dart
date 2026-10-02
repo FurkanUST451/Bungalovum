@@ -10,11 +10,16 @@ class KzSegmented<T> extends StatelessWidget {
     required this.segments,
     required this.selected,
     required this.onChanged,
+    this.compact = false,
   });
 
   final List<(T, String)> segments;
   final T selected;
   final ValueChanged<T> onChanged;
+
+  /// Uzun etiketli 3'lü seçimler için 13 px metin ve dar iç boşluk
+  /// (Sorun Bildir › Ne kadar acil?).
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +45,8 @@ class KzSegmented<T> extends StatelessWidget {
                   curve: KzMotion.enter,
                   constraints: const BoxConstraints(minHeight: KzSize.segment),
                   alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: KzSpace.s8,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: compact ? KzSpace.s4 : KzSpace.s8,
                     vertical: KzSpace.s4,
                   ),
                   decoration: BoxDecoration(
@@ -53,7 +58,7 @@ class KzSegmented<T> extends StatelessWidget {
                     label,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: KzText.bodySm.copyWith(
+                    style: (compact ? KzText.label : KzText.bodySm).copyWith(
                       fontWeight: value == selected
                           ? KzText.extraBold
                           : KzText.semiBold,

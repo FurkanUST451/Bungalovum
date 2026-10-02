@@ -1,14 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../features/account/domain/account_models.dart';
+import '../features/account/presentation/screens/account_screen.dart';
+import '../features/account/presentation/screens/help_legal_screens.dart';
+import '../features/account/presentation/screens/personal_info_screen.dart';
+import '../features/account/presentation/screens/security_screens.dart';
+import '../features/account/presentation/screens/settings_screens.dart';
 import '../features/auth/presentation/screens/code_verification_screens.dart';
 import '../features/auth/presentation/screens/password_reset_screens.dart';
 import '../features/auth/presentation/screens/register_screen.dart';
 import '../features/auth/presentation/screens/sign_in_screen.dart';
 import '../features/auth/presentation/screens/welcome_screen.dart';
+import '../features/booking/presentation/screens/booking_confirm_screen.dart';
+import '../features/booking/presentation/screens/booking_done_screen.dart';
 import '../features/booking/presentation/screens/date_picker_screen.dart';
+import '../features/booking/presentation/screens/guest_details_screen.dart';
+import '../features/booking/presentation/screens/payment_failed_screen.dart';
+import '../features/booking/presentation/screens/payment_screen.dart';
+import '../features/booking/presentation/screens/request_status_screens.dart';
+import '../features/booking/presentation/screens/three_ds_screen.dart';
 import '../features/booking/presentation/screens/guest_picker_screen.dart';
 import '../features/explore/presentation/screens/explore_screen.dart';
+import '../features/host/domain/listing_draft.dart';
+import '../features/host/presentation/screens/host_screens.dart';
+import '../features/host/presentation/screens/wizard_step_screen.dart';
 import '../features/listing/domain/listing_detail.dart';
 import '../features/listing/presentation/screens/listing_detail_screen.dart';
 import '../features/listing/presentation/screens/listing_extra_screens.dart';
@@ -18,6 +34,22 @@ import '../features/search/presentation/screens/filters_screen.dart';
 import '../features/search/presentation/screens/map_screen.dart';
 import '../features/search/presentation/screens/results_screen.dart';
 import '../features/search/presentation/screens/search_screen.dart';
+import '../features/chat/presentation/screens/chat_screen.dart';
+import '../features/chat/presentation/screens/chats_screen.dart';
+import '../features/chat/presentation/screens/notifications_screen.dart';
+import '../features/saved/presentation/screens/recently_viewed_screen.dart';
+import '../features/saved/presentation/screens/saved_screen.dart';
+import '../features/saved/presentation/screens/wishlist_detail_screen.dart';
+import '../features/status/presentation/screens/status_screens.dart';
+import '../features/trips/presentation/screens/cancel_booking_screen.dart';
+import '../features/trips/presentation/screens/house_guide_screen.dart';
+import '../features/trips/presentation/screens/receipt_screens.dart';
+import '../features/trips/presentation/screens/report_issue_screen.dart';
+import '../features/trips/presentation/screens/trip_detail_screen.dart';
+import '../features/trips/presentation/screens/trips_screen.dart';
+import '../features/trips/presentation/screens/write_review_screen.dart';
+import '../features/wallet/presentation/screens/payment_history_coupons_screens.dart';
+import '../features/wallet/presentation/screens/wallet_screens.dart';
 import 'app_shell.dart';
 import 'routes.dart';
 
@@ -148,6 +180,13 @@ GoRouter buildRouter({String initialLocation = AppRoutes.welcome}) => GoRouter(
           path: 'konum',
           builder: (_, s) => LocationScreen(id: s.pathParameters['id']!),
         ),
+        // 33 ve 40 aynı ekran; mod ilanın anında onay ayarından gelir.
+        for (final path in const ['rezervasyon', 'talep'])
+          GoRoute(
+            path: path,
+            builder: (_, s) =>
+                BookingConfirmScreen(listingId: s.pathParameters['id']!),
+          ),
         GoRoute(
           path: 'bildir',
           pageBuilder: (_, s) => MaterialPage(
@@ -184,6 +223,218 @@ GoRouter buildRouter({String initialLocation = AppRoutes.welcome}) => GoRouter(
       ),
     ),
 
+    // 34–39 · Ödeme ve rezervasyon sonucu
+    GoRoute(path: AppRoutes.payment, builder: (_, _) => const PaymentScreen()),
+    GoRoute(
+      path: AppRoutes.paymentNewCard,
+      builder: (_, _) => const PaymentScreen(newCard: true),
+    ),
+    GoRoute(
+      path: AppRoutes.payment3ds,
+      pageBuilder: (_, s) => MaterialPage(
+        key: s.pageKey,
+        fullscreenDialog: true,
+        child: const ThreeDsScreen(),
+      ),
+    ),
+    GoRoute(
+      path: AppRoutes.paymentFailed,
+      builder: (_, _) => const PaymentFailedScreen(),
+    ),
+    GoRoute(
+      path: '/rezervasyon/:bookingId/tamam',
+      builder: (_, s) =>
+          BookingDoneScreen(bookingId: s.pathParameters['bookingId']!),
+    ),
+    GoRoute(
+      path: '/rezervasyon/:bookingId/talep-gonderildi',
+      builder: (_, s) =>
+          RequestSentScreen(bookingId: s.pathParameters['bookingId']!),
+    ),
+    GoRoute(
+      path: '/rezervasyon/:bookingId/onaylandi',
+      builder: (_, s) =>
+          RequestApprovedScreen(bookingId: s.pathParameters['bookingId']!),
+    ),
+    GoRoute(
+      path: '/rezervasyon/:bookingId/reddedildi',
+      builder: (_, s) =>
+          RequestDeclinedScreen(bookingId: s.pathParameters['bookingId']!),
+    ),
+    GoRoute(
+      path: '/rezervasyon/:bookingId/misafir-bilgileri',
+      builder: (_, s) =>
+          GuestDetailsScreen(bookingId: s.pathParameters['bookingId']!),
+    ),
+
+    // 63–64 · Sohbet ve bildirimler
+    GoRoute(
+      path: '/sohbet/:id',
+      builder: (_, s) => ChatScreen(conversationId: s.pathParameters['id']!),
+    ),
+    GoRoute(
+      path: AppRoutes.notifications,
+      builder: (_, _) => const NotificationsScreen(),
+    ),
+
+    // 58–60 · Kaydedilenler
+    GoRoute(
+      path: '/liste/:id',
+      builder: (_, s) => WishlistDetailScreen(listId: s.pathParameters['id']!),
+    ),
+    GoRoute(
+      path: AppRoutes.recentlyViewed,
+      builder: (_, _) => const RecentlyViewedScreen(),
+    ),
+
+    // 49–55 · Seyahat
+    GoRoute(
+      path: '/seyahat/:id',
+      builder: (_, s) => TripDetailScreen(bookingId: s.pathParameters['id']!),
+      routes: [
+        GoRoute(
+          path: 'ev-kilavuzu',
+          builder: (_, s) =>
+              HouseGuideScreen(bookingId: s.pathParameters['id']!),
+        ),
+        GoRoute(
+          path: 'sorun',
+          pageBuilder: (_, s) => MaterialPage(
+            key: s.pageKey,
+            fullscreenDialog: true,
+            child: ReportIssueScreen(bookingId: s.pathParameters['id']!),
+          ),
+        ),
+        GoRoute(
+          path: 'makbuz',
+          builder: (_, s) => ReceiptScreen(bookingId: s.pathParameters['id']!),
+        ),
+        GoRoute(path: 'fatura', builder: (_, _) => const BillingScreen()),
+        GoRoute(
+          path: 'iptal',
+          builder: (_, s) =>
+              CancelBookingScreen(bookingId: s.pathParameters['id']!),
+        ),
+        GoRoute(
+          path: 'degerlendir',
+          pageBuilder: (_, s) => MaterialPage(
+            key: s.pageKey,
+            fullscreenDialog: true,
+            child: WriteReviewScreen(bookingId: s.pathParameters['id']!),
+          ),
+        ),
+      ],
+    ),
+
+    // Hesap
+    GoRoute(
+      path: AppRoutes.personalInfo,
+      builder: (_, _) => const PersonalInfoScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.security,
+      builder: (_, _) => const SecurityScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.closeAccount,
+      builder: (_, _) => const CloseAccountScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.notificationPrefs,
+      builder: (_, _) => const NotificationPrefsScreen(),
+    ),
+    GoRoute(path: AppRoutes.privacy, builder: (_, _) => const PrivacyScreen()),
+    GoRoute(path: AppRoutes.help, builder: (_, _) => const HelpScreen()),
+    GoRoute(
+      path: AppRoutes.legal,
+      builder: (_, _) => const LegalScreen(),
+      routes: [
+        GoRoute(
+          path: ':doc',
+          redirect: (_, s) =>
+              LegalDoc.values.asNameMap().containsKey(s.pathParameters['doc'])
+              ? null
+              : AppRoutes.legal,
+          builder: (_, s) => LegalDocScreen(
+            doc: LegalDoc.values.byName(s.pathParameters['doc']!),
+          ),
+        ),
+      ],
+    ),
+
+    // Cüzdan
+    GoRoute(path: AppRoutes.wallet, builder: (_, _) => const WalletScreen()),
+    GoRoute(
+      path: AppRoutes.paymentMethods,
+      builder: (_, _) => const PaymentMethodsScreen(),
+    ),
+    GoRoute(path: AppRoutes.addCard, builder: (_, _) => const AddCardScreen()),
+    GoRoute(
+      path: AppRoutes.paymentHistory,
+      builder: (_, _) => const PaymentHistoryScreen(),
+    ),
+    GoRoute(path: AppRoutes.coupons, builder: (_, _) => const CouponsScreen()),
+
+    // Ev sahibi (82–95)
+    GoRoute(
+      path: AppRoutes.becomeHost,
+      pageBuilder: (_, s) => MaterialPage(
+        key: s.pageKey,
+        fullscreenDialog: true,
+        child: const BecomeHostScreen(),
+      ),
+    ),
+    GoRoute(
+      path: AppRoutes.hostPreview,
+      builder: (_, _) => const HostPreviewScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.hostInReview,
+      builder: (_, _) => const HostInReviewScreen(),
+    ),
+    GoRoute(
+      path: '/ilan-olustur/:step',
+      redirect: (_, s) =>
+          WizardStep.fromNumber(int.tryParse(s.pathParameters['step']!) ?? 0) ==
+              null
+          ? AppRoutes.becomeHost
+          : null,
+      builder: (_, s) => wizardStepScreen(
+        WizardStep.fromNumber(int.parse(s.pathParameters['step']!))!,
+        editing: s.uri.query == editQuery,
+      ),
+    ),
+    GoRoute(
+      path: AppRoutes.hostListings,
+      builder: (_, _) => const HostListingsScreen(),
+    ),
+
+    // Durum ekranları
+    GoRoute(
+      path: AppRoutes.offline,
+      pageBuilder: (_, s) => MaterialPage(
+        key: s.pageKey,
+        fullscreenDialog: true,
+        child: const OfflineScreen(),
+      ),
+    ),
+    GoRoute(
+      path: AppRoutes.locationPermission,
+      pageBuilder: (_, s) => MaterialPage(
+        key: s.pageKey,
+        fullscreenDialog: true,
+        child: const LocationPermissionScreen(),
+      ),
+    ),
+    GoRoute(
+      path: AppRoutes.notificationPermission,
+      pageBuilder: (_, s) => MaterialPage(
+        key: s.pageKey,
+        fullscreenDialog: true,
+        child: const NotificationPermissionScreen(),
+      ),
+    ),
+
     // Sekmeler
     StatefulShellRoute.indexedStack(
       builder: (context, state, shell) => AppShell(shell: shell),
@@ -196,17 +447,38 @@ GoRouter buildRouter({String initialLocation = AppRoutes.welcome}) => GoRouter(
             ),
           ],
         ),
-        for (final path in const [
-          AppRoutes.saved,
-          AppRoutes.trips,
-          AppRoutes.chats,
-          AppRoutes.account,
-        ])
-          StatefulShellBranch(
-            routes: [
-              GoRoute(path: path, builder: (_, _) => const PendingTabScreen()),
-            ],
-          ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.saved,
+              builder: (_, _) => const SavedScreen(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.trips,
+              builder: (_, _) => const TripsScreen(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.chats,
+              builder: (_, _) => const ChatsScreen(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.account,
+              builder: (_, _) => const AccountScreen(),
+            ),
+          ],
+        ),
       ],
     ),
   ],

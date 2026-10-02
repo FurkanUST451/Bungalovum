@@ -10,9 +10,15 @@ abstract interface class WishlistRepository {
   Future<void> save(Wishlist list);
   Future<void> delete(String id);
 
-  /// Son baktıkların (60) — en yeniden eskiye ilan kimlikleri.
-  Future<List<String>> recentlyViewed();
+  /// Son baktıkların (60) — en yeniden eskiye, son 30 gün.
+  Future<List<RecentView>> recentlyViewed();
+
   Future<void> markViewed(String listingId);
+
+  Future<void> clearRecentlyViewed();
+
+  /// Paylaşılabilir liste bağlantısı.
+  String shareLink(String listId);
 }
 
 @Riverpod(keepAlive: true)
@@ -20,9 +26,13 @@ WishlistRepository wishlistRepository(Ref ref) => MockWishlistRepository();
 
 /// Sahte listeler (Figma 30 / 56 içeriği).
 class MockWishlistRepository implements WishlistRepository {
-  MockWishlistRepository({this.latency = const Duration(milliseconds: 250)});
+  MockWishlistRepository({
+    this.latency = const Duration(milliseconds: 250),
+    DateTime Function()? clock,
+  }) : _clock = clock ?? DateTime.now;
 
   final Duration latency;
+  final DateTime Function() _clock;
 
   Future<void> _wait() => Future<void>.delayed(latency);
 
@@ -37,6 +47,7 @@ class MockWishlistRepository implements WishlistRepository {
         'kartepe-yuva',
       ],
       updatedAt: DateTime(2026, 9, 30),
+      notes: const {'cam-yamac': 'Annemlerle gidebiliriz'},
     ),
     Wishlist(
       id: 'havuzlu-yaz',
@@ -51,11 +62,20 @@ class MockWishlistRepository implements WishlistRepository {
     ),
   ];
 
-  final _recent = <String>[
-    'gol-esintisi',
-    'cam-kozalak',
-    'kartepe-yuva',
-    'abant-kulube',
+  late final _recent = <RecentView>[
+    RecentView(listingId: 'gol-esintisi', viewedAt: _clock()),
+    RecentView(
+      listingId: 'kartepe-yuva',
+      viewedAt: _clock().subtract(const Duration(minutes: 40)),
+    ),
+    RecentView(
+      listingId: 'cam-yamac',
+      viewedAt: _clock().subtract(const Duration(days: 1)),
+    ),
+    RecentView(
+      listingId: 'abant-kulube',
+      viewedAt: _clock().subtract(const Duration(days: 1, hours: 2)),
+    ),
   ];
 
   @override
@@ -90,15 +110,27 @@ class MockWishlistRepository implements WishlistRepository {
   }
 
   @override
-  Future<List<String>> recentlyViewed() async {
+  Future<List<RecentView>> recentlyViewed() async {
     await _wait();
-    return List.unmodifiable(_recent);
+    final since = _clock().subtract(
+      const Duration(days: RecentPolicy.keepDays),
+    );
+    return List.unmodifiable(_recent.where((r) => r.viewedAt.isAfter(since)));
   }
 
   @override
   Future<void> markViewed(String listingId) async {
     _recent
-      ..remove(listingId)
-      ..insert(0, listingId);
+      ..removeWhere((r) => r.listingId == listingId)
+      ..insert(0, RecentView(listingId: listingId, viewedAt: _clock()));
   }
+
+  @override
+  Future<void> clearRecentlyViewed() async {
+    await _wait();
+    _recent.clear();
+  }
+
+  @override
+  String shareLink(String listId) => 'kozalak.app/l/$listId';
 }

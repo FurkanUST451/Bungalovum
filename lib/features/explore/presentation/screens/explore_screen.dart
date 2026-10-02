@@ -12,6 +12,7 @@ import '../../../../core/utils/formatters.dart';
 import '../../../../core/widgets/kz_skeleton.dart';
 import '../../../../core/widgets/kz_tab_bar.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../chat/presentation/controllers/chat_controllers.dart';
 import '../../../listing/domain/listing.dart';
 import '../../domain/explore_feed.dart';
 import '../controllers/explore_controller.dart';
@@ -76,7 +77,9 @@ class ExploreScreen extends ConsumerWidget {
                   child: padded(
                     ExploreHeader(
                       locationLabel: feed?.locationLabel,
-                      hasUnreadNotifications: true,
+                      hasUnreadNotifications: ref.watch(
+                        hasUnreadNotificationsProvider,
+                      ),
                       onNotifications: () => _openNotifications(context),
                     ),
                   ),

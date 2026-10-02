@@ -68,15 +68,20 @@ Map<String, dynamic> _$ListingToJson(_Listing instance) => <String, dynamic>{
 
 const _$PropertyTypeEnumMap = {
   PropertyType.bungalow: 'bungalow',
-  PropertyType.treeHouse: 'treeHouse',
   PropertyType.aFrame: 'aFrame',
+  PropertyType.treeHouse: 'treeHouse',
+  PropertyType.stoneHouse: 'stoneHouse',
+  PropertyType.glampingTent: 'glampingTent',
+  PropertyType.tinyHouse: 'tinyHouse',
   PropertyType.cabin: 'cabin',
 };
 
 const _$ListingSettingEnumMap = {
-  ListingSetting.lakeView: 'lakeView',
   ListingSetting.lakeside: 'lakeside',
+  ListingSetting.lakeView: 'lakeView',
   ListingSetting.forest: 'forest',
+  ListingSetting.mountainView: 'mountainView',
+  ListingSetting.nearSea: 'nearSea',
 };
 
 const _$AmenityEnumMap = {

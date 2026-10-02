@@ -8,10 +8,10 @@ import 'kz_icon.dart';
 enum KzSpotTone { forest, apricot, pool, sand }
 
 /// Köşe rozeti zemini.
-enum KzSpotBadge { apricot, forest, forestSoft }
+enum KzSpotBadge { apricot, forest, forestSoft, warning }
 
 /// Köşedeki küçük nokta.
-enum KzSpotDot { none, pool, apricot }
+enum KzSpotDot { none, pool, apricot, forest }
 
 /// Kodla çizilen küçük illüstrasyon (boş durumlar, doğrulama ekranları):
 /// yumuşak daire + beyaz kutu içinde ikon + köşede rozet (+ nokta).
@@ -61,6 +61,7 @@ class KzSpotIllustration extends StatelessWidget {
       KzSpotBadge.apricot => (kz.apricot, kz.onForest),
       KzSpotBadge.forest => (kz.forest, kz.onForest),
       KzSpotBadge.forestSoft => (kz.forestSoft, kz.forest),
+      KzSpotBadge.warning => (kz.apricotText, kz.onForest),
     };
     T pick<T>((T, T) v) => large ? v.$2 : v.$1;
     final canvas = pick(_canvas);
@@ -124,7 +125,11 @@ class KzSpotIllustration extends StatelessWidget {
                   width: _dot,
                   height: _dot,
                   decoration: BoxDecoration(
-                    color: dot == KzSpotDot.pool ? kz.pool : kz.apricot,
+                    color: switch (dot) {
+                      KzSpotDot.pool => kz.pool,
+                      KzSpotDot.forest => kz.forest,
+                      _ => kz.apricot,
+                    },
                     shape: BoxShape.circle,
                   ),
                 ),

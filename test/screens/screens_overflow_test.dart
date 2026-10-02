@@ -1,5 +1,4 @@
 import 'package:bungapp/core/utils/formatters.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -45,6 +44,9 @@ void main() {
           final e = tester.takeException();
           if (e != null) failures.add('${screen.key}: ${describe(e)}');
         }
+        // Son ekranın zincirleme mock yanıtlarını boşalt.
+        await tester.pumpWidget(const SizedBox.shrink());
+        await tester.pump(const Duration(seconds: 1));
         expect(failures, isEmpty, reason: failures.join('\n\n'));
       });
     }

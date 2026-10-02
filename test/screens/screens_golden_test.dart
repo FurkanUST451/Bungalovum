@@ -10,6 +10,10 @@ import '../helpers/test_app.dart';
 Future<void> _settle(WidgetTester tester) async {
   await tester.pump();
   await tester.pump(const Duration(milliseconds: 300));
+  // Mock depoların sıfır gecikmeli yanıtları zincirleme gelir; kalan
+  // zamanlayıcıları boşalt.
+  await tester.pump(const Duration(milliseconds: 300));
+  await tester.pump(const Duration(milliseconds: 300));
 }
 
 void main() {

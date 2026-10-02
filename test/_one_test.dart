@@ -13,7 +13,7 @@ const _s = String.fromEnvironment('S', defaultValue: '1.0');
 
 void main() {
   setUpAll(() => initializeDateFormatting(kzLocale));
-  testWidgets('one', (tester) async {
+  testWidgets('one', skip: _key.isEmpty, (tester) async {
     final size = Size(_w.toDouble(), _h.toDouble());
     tester.view.physicalSize = size * 3;
     tester.view.devicePixelRatio = 3;

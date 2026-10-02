@@ -56,10 +56,14 @@ class KzActionRow extends StatelessWidget {
     this.card = true,
     this.chevron = true,
     this.trailing,
+    this.titleColor,
   });
 
   final KzIcons icon;
   final String title;
+
+  /// Geri alınamaz aksiyonlarda apricotText ("Rezervasyonu iptal et").
+  final Color? titleColor;
   final String? subtitle;
   final VoidCallback? onPressed;
   final KzIconBoxTone tone;
@@ -83,7 +87,7 @@ class KzActionRow extends StatelessWidget {
               Text(
                 title,
                 style: (card ? KzText.label : KzText.bodyStrongSm).copyWith(
-                  color: kz.ink,
+                  color: titleColor ?? kz.ink,
                   fontWeight: card ? KzText.extraBold : KzText.bold,
                   fontSize: card
                       ? KzText.bodySm.fontSize

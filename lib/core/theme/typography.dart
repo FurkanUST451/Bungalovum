@@ -98,4 +98,7 @@ abstract final class KzText {
   /// 12/800 +6% — grup başlıkları ("HESAP"). Türkçe büyük harf için
   /// `toUpperCaseTr` kullan.
   static final overline = _s(12, extraBold, 1.3, 0.06);
+
+  /// 17/800 +6% — rezervasyon kodu ("KZ-48K2Q").
+  static final code = _s(17, extraBold, 1.25, 0.06);
 }

@@ -9,6 +9,7 @@ import '../../../../core/widgets/kz_icon.dart';
 import '../../../../core/widgets/kz_photo.dart';
 import '../../../../core/widgets/kz_pressable.dart';
 import '../../../../core/widgets/kz_sheet.dart';
+import '../../../../core/widgets/kz_toast.dart';
 import '../../../../l10n/l10n.dart';
 import '../../data/listing_repository.dart';
 import '../../domain/listing.dart';
@@ -83,19 +84,7 @@ class _Share extends ConsumerWidget {
   Future<void> _copy(BuildContext context, String link) async {
     await Clipboard.setData(ClipboardData(text: link));
     if (!context.mounted) return;
-    final kz = context.kz;
-    ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-      SnackBar(
-        content: Text(
-          context.l10n.linkCopied,
-          style: KzText.label.copyWith(color: kz.onForest),
-        ),
-        backgroundColor: kz.ink,
-        behavior: SnackBarBehavior.floating,
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: KzRadii.all(KzRadii.md)),
-      ),
-    );
+    showKzToast(context, context.l10n.linkCopied);
   }
 
   @override

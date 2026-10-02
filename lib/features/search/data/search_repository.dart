@@ -27,6 +27,9 @@ class PriceHistogram {
 abstract interface class SearchRepository {
   Future<List<ListingOffer>> search(SearchQuery query);
   Future<int> count(SearchQuery query);
+
+  /// Verilen ilanlardan [dates] için dolu olanlar.
+  Future<Set<String>> unavailable(List<String> listingIds, StayDates dates);
   Future<PriceHistogram> priceHistogram(SearchQuery query);
   Future<List<RelaxSuggestion>> relaxSuggestions(SearchQuery query);
   Future<List<RecentSearch>> recentSearches();

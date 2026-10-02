@@ -13,6 +13,9 @@ _PriceBreakdown _$PriceBreakdownFromJson(Map<String, dynamic> json) =>
       cleaningFee: (json['cleaningFee'] as num?)?.toInt() ?? 0,
       serviceFee: (json['serviceFee'] as num?)?.toInt() ?? 0,
       discount: (json['discount'] as num?)?.toInt() ?? 0,
+      discountKind:
+          $enumDecodeNullable(_$DiscountKindEnumMap, json['discountKind']) ??
+          DiscountKind.special,
     );
 
 Map<String, dynamic> _$PriceBreakdownToJson(_PriceBreakdown instance) =>
@@ -22,4 +25,13 @@ Map<String, dynamic> _$PriceBreakdownToJson(_PriceBreakdown instance) =>
       'cleaningFee': instance.cleaningFee,
       'serviceFee': instance.serviceFee,
       'discount': instance.discount,
+      'discountKind': _$DiscountKindEnumMap[instance.discountKind]!,
     };
+
+const _$DiscountKindEnumMap = {
+  DiscountKind.earlyBooking: 'earlyBooking',
+  DiscountKind.lastMinute: 'lastMinute',
+  DiscountKind.longStay: 'longStay',
+  DiscountKind.coupon: 'coupon',
+  DiscountKind.special: 'special',
+};

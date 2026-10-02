@@ -88,10 +88,12 @@ abstract final class AppRoutes {
   static const privacy = '/hesap/gizlilik';
   static const help = '/hesap/yardim';
   static const legal = '/hesap/hukuki';
+  static String legalDoc(String slug) => '/hesap/hukuki/$slug';
 
   // 73–77 · Cüzdan
   static const wallet = '/cuzdan';
   static const paymentMethods = '/cuzdan/odeme-yontemleri';
+  static const addCard = '/cuzdan/odeme-yontemleri/kart-ekle';
   static const paymentHistory = '/cuzdan/odeme-gecmisi';
   static const coupons = '/cuzdan/kuponlar';
 

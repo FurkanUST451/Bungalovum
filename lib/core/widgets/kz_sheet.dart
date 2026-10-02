@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../icons/kz_icons.dart';
 import '../responsive/breakpoints.dart';
@@ -15,10 +16,16 @@ Future<T?> showKzSheet<T>({
   String? title,
   String? closeLabel,
 }) {
+  // Sheet sekme çubuğunun da üstünde açılsın diye uygulamanın kök
+  // navigator'ına itilir. `useRootNavigator` yerine GoRouter'ın kökü
+  // kullanılır: uygulama başka bir uygulamanın içine gömülüyse (ör. golden
+  // testleri) en dıştaki navigator bizim tema ve yerelleştirmemizi taşımaz.
+  final root = GoRouter.maybeOf(context)?.routerDelegate.navigatorKey;
+  final host = root?.currentContext ?? context;
   return showModalBottomSheet<T>(
-    context: context,
+    context: host,
     isScrollControlled: true,
-    useRootNavigator: true,
+    useRootNavigator: root?.currentContext == null,
     useSafeArea: true,
     backgroundColor: Colors.transparent,
     elevation: 0,

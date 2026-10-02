@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../core/services/connectivity.dart';
 import '../core/theme/app_theme.dart';
 import '../l10n/l10n.dart';
 import 'router.dart';
 
-class KozalakApp extends StatefulWidget {
+class KozalakApp extends ConsumerStatefulWidget {
   const KozalakApp({
     super.key,
     this.initialLocation = AppRoutes.welcome,
@@ -24,10 +26,10 @@ class KozalakApp extends StatefulWidget {
   static const double maxTextScale = 1.3;
 
   @override
-  State<KozalakApp> createState() => _KozalakAppState();
+  ConsumerState<KozalakApp> createState() => _KozalakAppState();
 }
 
-class _KozalakAppState extends State<KozalakApp> {
+class _KozalakAppState extends ConsumerState<KozalakApp> {
   late final GoRouter _router =
       widget.router ?? buildRouter(initialLocation: widget.initialLocation);
 
@@ -37,8 +39,16 @@ class _KozalakAppState extends State<KozalakApp> {
     super.dispose();
   }
 
+  /// Bağlantı koparsa 79 · Bağlantı Yok açılır; gelince ekran kendini kapatır.
+  void _onConnectivity(AsyncValue<bool>? prev, AsyncValue<bool> next) {
+    if (next.value != false || prev?.value == false) return;
+    final path = _router.routerDelegate.currentConfiguration.uri.path;
+    if (path != AppRoutes.offline) _router.push(AppRoutes.offline);
+  }
+
   @override
   Widget build(BuildContext context) {
+    ref.listen(isOnlineProvider, _onConnectivity);
     return MaterialApp.router(
       onGenerateTitle: (context) => context.l10n.tabExplore,
       debugShowCheckedModeBanner: false,

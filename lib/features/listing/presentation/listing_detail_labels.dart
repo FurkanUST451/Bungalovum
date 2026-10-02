@@ -114,6 +114,7 @@ extension SafetyKindUi on SafetyKind {
     SafetyKind.smokeDetector => l.safetySmoke,
     SafetyKind.firstAidKit => l.safetyFirstAid,
     SafetyKind.fireExtinguisher => l.safetyExtinguisher,
+    SafetyKind.poolFence => l.safetyPoolFence,
     SafetyKind.outdoorCamera => l.safetyCamera,
   };
 
@@ -121,6 +122,7 @@ extension SafetyKindUi on SafetyKind {
     SafetyKind.coAlarm || SafetyKind.smokeDetector => KzIcons.alert,
     SafetyKind.firstAidKit => KzIcons.plus,
     SafetyKind.fireExtinguisher => KzIcons.flame,
+    SafetyKind.poolFence => KzIcons.shield,
     SafetyKind.outdoorCamera => KzIcons.camera,
   };
 }

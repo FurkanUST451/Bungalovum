@@ -13,12 +13,15 @@ void main() {
   setUpAll(() => initializeDateFormatting(kzLocale));
   const size = Size(390, 844);
   final keys = _filter.split(',');
+  // Önizleme aracı: yalnızca --dart-define=SCREENS=... ile çalışır.
   goldenTest(
     'sheet',
+    skip: _filter.isEmpty,
     fileName: '_sheet',
     pumpBeforeTest: (t) async {
       await t.pump();
       await t.pump(const Duration(milliseconds: 50));
+      await t.pump(const Duration(milliseconds: 300));
       await t.pump(const Duration(milliseconds: 300));
     },
     builder: () => GoldenTestGroup(

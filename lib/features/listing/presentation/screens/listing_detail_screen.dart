@@ -20,6 +20,7 @@ import '../../../../core/widgets/kz_pressable.dart';
 import '../../../../core/widgets/kz_screen.dart';
 import '../../../../core/widgets/kz_skeleton.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../chat/presentation/controllers/chat_controllers.dart';
 import '../../../booking/domain/price_calculator.dart';
 import '../../../booking/presentation/controllers/booking_draft.dart';
 import '../../../booking/presentation/screens/date_picker_screen.dart';

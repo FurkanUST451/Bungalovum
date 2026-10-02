@@ -1,18 +1,33 @@
 import 'package:bungapp/app/app.dart';
 import 'package:bungapp/app/router.dart';
+import 'package:bungapp/core/services/connectivity.dart';
+import 'package:bungapp/core/services/permissions.dart';
+import 'package:bungapp/core/utils/clock.dart';
+import 'package:bungapp/features/account/data/account_repository.dart';
+import 'package:bungapp/features/account/data/mock_account_repository.dart';
 import 'package:bungapp/features/auth/data/auth_repository.dart';
 import 'package:bungapp/features/auth/data/mock_auth_repository.dart';
+import 'package:bungapp/features/booking/data/booking_repository.dart';
+import 'package:bungapp/features/chat/data/chat_repository.dart';
+import 'package:bungapp/features/chat/data/mock_chat_repository.dart';
+import 'package:bungapp/features/booking/data/mock_booking_repository.dart';
 import 'package:bungapp/features/explore/data/explore_repository.dart';
+import 'package:bungapp/features/host/data/host_repository.dart';
+import 'package:bungapp/features/host/data/mock_host_repository.dart';
 import 'package:bungapp/features/explore/data/mock_explore_repository.dart';
 import 'package:bungapp/features/listing/data/listing_repository.dart';
 import 'package:bungapp/features/listing/data/mock_listing_repository.dart';
 import 'package:bungapp/features/saved/data/wishlist_repository.dart';
 import 'package:bungapp/features/search/data/mock_search_repository.dart';
 import 'package:bungapp/features/search/data/search_repository.dart';
+import 'package:bungapp/features/wallet/data/mock_wallet_repository.dart';
+import 'package:bungapp/features/wallet/data/wallet_repository.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:go_router/go_router.dart';
+
+import 'fake_services.dart';
 
 /// Figma örnek verisiyle aynı hafta sonu (6 – 8 Kas) çıksın diye sabit saat.
 DateTime fixedClock() => DateTime(2026, 11, 3);
@@ -31,7 +46,10 @@ EdgeInsets devicePadding(Size size) => size.width < 600
     : const EdgeInsets.only(top: 24, bottom: 20);
 
 /// Her uygulama örneği için taze mock depolar (testler arası durum sızmaz).
-List<Override> get _overrides => [
+List<Override> _overrides({
+  PermissionService? permissions,
+  ConnectivityService? connectivity,
+}) => [
   exploreRepositoryProvider.overrideWithValue(
     MockExploreRepository(clock: fixedClock, latency: Duration.zero),
   ),
@@ -45,16 +63,40 @@ List<Override> get _overrides => [
     MockListingRepository(latency: Duration.zero),
   ),
   wishlistRepositoryProvider.overrideWithValue(
-    MockWishlistRepository(latency: Duration.zero),
+    MockWishlistRepository(latency: Duration.zero, clock: fixedClock),
   ),
+  bookingRepositoryProvider.overrideWithValue(
+    MockBookingRepository(latency: Duration.zero, clock: fixedClock),
+  ),
+  chatRepositoryProvider.overrideWithValue(
+    MockChatRepository(latency: Duration.zero, clock: fixedClock),
+  ),
+  accountRepositoryProvider.overrideWithValue(
+    MockAccountRepository(latency: Duration.zero, clock: fixedClock),
+  ),
+  walletRepositoryProvider.overrideWithValue(
+    MockWalletRepository(latency: Duration.zero, clock: fixedClock),
+  ),
+  hostRepositoryProvider.overrideWithValue(
+    MockHostRepository(latency: Duration.zero, clock: fixedClock),
+  ),
+  permissionServiceProvider.overrideWithValue(
+    permissions ?? FakePermissionService(),
+  ),
+  connectivityServiceProvider.overrideWithValue(
+    connectivity ?? FakeConnectivityService(),
+  ),
+  clockProvider.overrideWithValue(fixedClock),
 ];
 
 Widget _device({
   required Size size,
   required double textScale,
   required Widget child,
+  PermissionService? permissions,
+  ConnectivityService? connectivity,
 }) => ProviderScope(
-  overrides: _overrides,
+  overrides: _overrides(permissions: permissions, connectivity: connectivity),
   child: MediaQuery(
     data: MediaQueryData(
       size: size,
@@ -72,9 +114,13 @@ Widget testApp({
   required Size size,
   double textScale = 1,
   String initialLocation = AppRoutes.explore,
+  PermissionService? permissions,
+  ConnectivityService? connectivity,
 }) => _device(
   size: size,
   textScale: textScale,
+  permissions: permissions,
+  connectivity: connectivity,
   child: KozalakApp(initialLocation: initialLocation),
 );
 
@@ -84,9 +130,13 @@ Widget testScreen(
   Widget screen, {
   required Size size,
   double textScale = 1,
+  PermissionService? permissions,
+  ConnectivityService? connectivity,
 }) => _device(
   size: size,
   textScale: textScale,
+  permissions: permissions,
+  connectivity: connectivity,
   child: KozalakApp(
     router: GoRouter(
       routes: [GoRoute(path: '/', builder: (_, _) => screen)],

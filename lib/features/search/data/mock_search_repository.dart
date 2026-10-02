@@ -47,6 +47,19 @@ class MockSearchRepository implements SearchRepository {
     return true;
   }
 
+  @override
+  Future<Set<String>> unavailable(
+    List<String> listingIds,
+    StayDates dates,
+  ) async {
+    await _wait();
+    return {
+      for (final id in listingIds)
+        if (ListingCatalog.byId(id) case final l?)
+          if (!_available(l, dates)) id,
+    };
+  }
+
   List<Listing> _match(SearchQuery q) => ListingCatalog.all
       .where(
         (l) =>

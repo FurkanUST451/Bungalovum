@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PriceBreakdown {
 
- int get nightlyRate; int get nights; int get cleaningFee; int get serviceFee; int get discount;
+ int get nightlyRate; int get nights; int get cleaningFee; int get serviceFee; int get discount; DiscountKind get discountKind;
 /// Create a copy of PriceBreakdown
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $PriceBreakdownCopyWith<PriceBreakdown> get copyWith => _$PriceBreakdownCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PriceBreakdown&&(identical(other.nightlyRate, nightlyRate) || other.nightlyRate == nightlyRate)&&(identical(other.nights, nights) || other.nights == nights)&&(identical(other.cleaningFee, cleaningFee) || other.cleaningFee == cleaningFee)&&(identical(other.serviceFee, serviceFee) || other.serviceFee == serviceFee)&&(identical(other.discount, discount) || other.discount == discount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PriceBreakdown&&(identical(other.nightlyRate, nightlyRate) || other.nightlyRate == nightlyRate)&&(identical(other.nights, nights) || other.nights == nights)&&(identical(other.cleaningFee, cleaningFee) || other.cleaningFee == cleaningFee)&&(identical(other.serviceFee, serviceFee) || other.serviceFee == serviceFee)&&(identical(other.discount, discount) || other.discount == discount)&&(identical(other.discountKind, discountKind) || other.discountKind == discountKind));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,nightlyRate,nights,cleaningFee,serviceFee,discount);
+int get hashCode => Object.hash(runtimeType,nightlyRate,nights,cleaningFee,serviceFee,discount,discountKind);
 
 @override
 String toString() {
-  return 'PriceBreakdown(nightlyRate: $nightlyRate, nights: $nights, cleaningFee: $cleaningFee, serviceFee: $serviceFee, discount: $discount)';
+  return 'PriceBreakdown(nightlyRate: $nightlyRate, nights: $nights, cleaningFee: $cleaningFee, serviceFee: $serviceFee, discount: $discount, discountKind: $discountKind)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $PriceBreakdownCopyWith<$Res>  {
   factory $PriceBreakdownCopyWith(PriceBreakdown value, $Res Function(PriceBreakdown) _then) = _$PriceBreakdownCopyWithImpl;
 @useResult
 $Res call({
- int nightlyRate, int nights, int cleaningFee, int serviceFee, int discount
+ int nightlyRate, int nights, int cleaningFee, int serviceFee, int discount, DiscountKind discountKind
 });
 
 
@@ -66,14 +66,15 @@ class _$PriceBreakdownCopyWithImpl<$Res>
 
 /// Create a copy of PriceBreakdown
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? nightlyRate = null,Object? nights = null,Object? cleaningFee = null,Object? serviceFee = null,Object? discount = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? nightlyRate = null,Object? nights = null,Object? cleaningFee = null,Object? serviceFee = null,Object? discount = null,Object? discountKind = null,}) {
   return _then(PriceBreakdown(
 nightlyRate: null == nightlyRate ? _self.nightlyRate : nightlyRate // ignore: cast_nullable_to_non_nullable
 as int,nights: null == nights ? _self.nights : nights // ignore: cast_nullable_to_non_nullable
 as int,cleaningFee: null == cleaningFee ? _self.cleaningFee : cleaningFee // ignore: cast_nullable_to_non_nullable
 as int,serviceFee: null == serviceFee ? _self.serviceFee : serviceFee // ignore: cast_nullable_to_non_nullable
 as int,discount: null == discount ? _self.discount : discount // ignore: cast_nullable_to_non_nullable
-as int,
+as int,discountKind: null == discountKind ? _self.discountKind : discountKind // ignore: cast_nullable_to_non_nullable
+as DiscountKind,
   ));
 }
 
@@ -158,10 +159,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int nightlyRate,  int nights,  int cleaningFee,  int serviceFee,  int discount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int nightlyRate,  int nights,  int cleaningFee,  int serviceFee,  int discount,  DiscountKind discountKind)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PriceBreakdown() when $default != null:
-return $default(_that.nightlyRate,_that.nights,_that.cleaningFee,_that.serviceFee,_that.discount);case _:
+return $default(_that.nightlyRate,_that.nights,_that.cleaningFee,_that.serviceFee,_that.discount,_that.discountKind);case _:
   return orElse();
 
 }
@@ -179,10 +180,10 @@ return $default(_that.nightlyRate,_that.nights,_that.cleaningFee,_that.serviceFe
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int nightlyRate,  int nights,  int cleaningFee,  int serviceFee,  int discount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int nightlyRate,  int nights,  int cleaningFee,  int serviceFee,  int discount,  DiscountKind discountKind)  $default,) {final _that = this;
 switch (_that) {
 case _PriceBreakdown():
-return $default(_that.nightlyRate,_that.nights,_that.cleaningFee,_that.serviceFee,_that.discount);case _:
+return $default(_that.nightlyRate,_that.nights,_that.cleaningFee,_that.serviceFee,_that.discount,_that.discountKind);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -199,10 +200,10 @@ return $default(_that.nightlyRate,_that.nights,_that.cleaningFee,_that.serviceFe
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int nightlyRate,  int nights,  int cleaningFee,  int serviceFee,  int discount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int nightlyRate,  int nights,  int cleaningFee,  int serviceFee,  int discount,  DiscountKind discountKind)?  $default,) {final _that = this;
 switch (_that) {
 case _PriceBreakdown() when $default != null:
-return $default(_that.nightlyRate,_that.nights,_that.cleaningFee,_that.serviceFee,_that.discount);case _:
+return $default(_that.nightlyRate,_that.nights,_that.cleaningFee,_that.serviceFee,_that.discount,_that.discountKind);case _:
   return null;
 
 }
@@ -214,7 +215,7 @@ return $default(_that.nightlyRate,_that.nights,_that.cleaningFee,_that.serviceFe
 @JsonSerializable()
 
 class _PriceBreakdown implements PriceBreakdown {
-  const _PriceBreakdown({required this.nightlyRate, required this.nights, this.cleaningFee = 0, this.serviceFee = 0, this.discount = 0});
+  const _PriceBreakdown({required this.nightlyRate, required this.nights, this.cleaningFee = 0, this.serviceFee = 0, this.discount = 0, this.discountKind = DiscountKind.special});
   factory _PriceBreakdown.fromJson(Map<String, dynamic> json) => _$PriceBreakdownFromJson(json);
 
 @override final  int nightlyRate;
@@ -222,6 +223,7 @@ class _PriceBreakdown implements PriceBreakdown {
 @override@JsonKey() final  int cleaningFee;
 @override@JsonKey() final  int serviceFee;
 @override@JsonKey() final  int discount;
+@override@JsonKey() final  DiscountKind discountKind;
 
 /// Create a copy of PriceBreakdown
 /// with the given fields replaced by the non-null parameter values.
@@ -236,16 +238,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PriceBreakdown&&(identical(other.nightlyRate, nightlyRate) || other.nightlyRate == nightlyRate)&&(identical(other.nights, nights) || other.nights == nights)&&(identical(other.cleaningFee, cleaningFee) || other.cleaningFee == cleaningFee)&&(identical(other.serviceFee, serviceFee) || other.serviceFee == serviceFee)&&(identical(other.discount, discount) || other.discount == discount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PriceBreakdown&&(identical(other.nightlyRate, nightlyRate) || other.nightlyRate == nightlyRate)&&(identical(other.nights, nights) || other.nights == nights)&&(identical(other.cleaningFee, cleaningFee) || other.cleaningFee == cleaningFee)&&(identical(other.serviceFee, serviceFee) || other.serviceFee == serviceFee)&&(identical(other.discount, discount) || other.discount == discount)&&(identical(other.discountKind, discountKind) || other.discountKind == discountKind));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,nightlyRate,nights,cleaningFee,serviceFee,discount);
+int get hashCode => Object.hash(runtimeType,nightlyRate,nights,cleaningFee,serviceFee,discount,discountKind);
 
 @override
 String toString() {
-  return 'PriceBreakdown(nightlyRate: $nightlyRate, nights: $nights, cleaningFee: $cleaningFee, serviceFee: $serviceFee, discount: $discount)';
+  return 'PriceBreakdown(nightlyRate: $nightlyRate, nights: $nights, cleaningFee: $cleaningFee, serviceFee: $serviceFee, discount: $discount, discountKind: $discountKind)';
 }
 
 
@@ -256,7 +258,7 @@ abstract mixin class _$PriceBreakdownCopyWith<$Res> implements $PriceBreakdownCo
   factory _$PriceBreakdownCopyWith(_PriceBreakdown value, $Res Function(_PriceBreakdown) _then) = __$PriceBreakdownCopyWithImpl;
 @override @useResult
 $Res call({
- int nightlyRate, int nights, int cleaningFee, int serviceFee, int discount
+ int nightlyRate, int nights, int cleaningFee, int serviceFee, int discount, DiscountKind discountKind
 });
 
 
@@ -273,14 +275,15 @@ class __$PriceBreakdownCopyWithImpl<$Res>
 
 /// Create a copy of PriceBreakdown
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? nightlyRate = null,Object? nights = null,Object? cleaningFee = null,Object? serviceFee = null,Object? discount = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? nightlyRate = null,Object? nights = null,Object? cleaningFee = null,Object? serviceFee = null,Object? discount = null,Object? discountKind = null,}) {
   return _then(_PriceBreakdown(
 nightlyRate: null == nightlyRate ? _self.nightlyRate : nightlyRate // ignore: cast_nullable_to_non_nullable
 as int,nights: null == nights ? _self.nights : nights // ignore: cast_nullable_to_non_nullable
 as int,cleaningFee: null == cleaningFee ? _self.cleaningFee : cleaningFee // ignore: cast_nullable_to_non_nullable
 as int,serviceFee: null == serviceFee ? _self.serviceFee : serviceFee // ignore: cast_nullable_to_non_nullable
 as int,discount: null == discount ? _self.discount : discount // ignore: cast_nullable_to_non_nullable
-as int,
+as int,discountKind: null == discountKind ? _self.discountKind : discountKind // ignore: cast_nullable_to_non_nullable
+as DiscountKind,
   ));
 }
 

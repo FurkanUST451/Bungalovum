@@ -1,5 +1,10 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../booking/domain/price_calculator.dart';
+import '../../../listing/data/listing_repository.dart';
+import '../../../listing/domain/listing.dart';
+import '../../../search/data/search_repository.dart';
+import '../../../search/presentation/controllers/search_controller.dart';
 import '../../data/wishlist_repository.dart';
 import '../../domain/wishlist.dart';
 
@@ -68,6 +73,34 @@ class Wishlists extends _$Wishlists {
     await _repo.delete(id);
     await _reload();
   }
+
+  /// 59 · Listeyi Düzenle: ad ve paylaşım.
+  Future<void> updateDetails(
+    String id, {
+    required String name,
+    required bool shareable,
+  }) async {
+    final list = _current.firstWhere((l) => l.id == id);
+    await _repo.save(
+      list.copyWith(
+        name: name,
+        shareable: shareable,
+        updatedAt: DateTime.now(),
+      ),
+    );
+    await _reload();
+  }
+
+  /// Boş not, notu siler.
+  Future<void> setNote(String id, String listingId, String note) async {
+    final list = _current.firstWhere((l) => l.id == id);
+    final notes = {...list.notes};
+    note.trim().isEmpty
+        ? notes.remove(listingId)
+        : notes[listingId] = note.trim();
+    await _repo.save(list.copyWith(notes: notes));
+    await _reload();
+  }
 }
 
 /// Herhangi bir listede olan ilanlar (kalp dolu görünür).
@@ -78,5 +111,57 @@ Set<String> savedListingIds(Ref ref) => {
 };
 
 @riverpod
-Future<List<String>> recentlyViewed(Ref ref) =>
+Future<List<RecentView>> recentlyViewed(Ref ref) =>
     ref.watch(wishlistRepositoryProvider).recentlyViewed();
+
+/// Tek ilanın özet bilgisi (kapak mozaikleri, kartlar).
+@riverpod
+Future<Listing> listingSummary(Ref ref, String id) async {
+  final r = await ref.watch(listingRepositoryProvider).byIds([id]);
+  return r.single;
+}
+
+/// 58 · Liste Detayı satırı: ilan + aktif tarihlere göre fiyat / doluluk + not.
+class WishlistItem {
+  const WishlistItem({
+    required this.listing,
+    required this.price,
+    required this.unavailable,
+    this.note,
+  });
+
+  final Listing listing;
+  final PriceBreakdown price;
+
+  /// Seçili tarihlerde dolu.
+  final bool unavailable;
+  final String? note;
+}
+
+/// Liste silinmişse null.
+@riverpod
+Future<List<WishlistItem>?> wishlistItems(Ref ref, String listId) async {
+  final lists = await ref.watch(wishlistsProvider.future);
+  final list = lists.where((l) => l.id == listId).firstOrNull;
+  if (list == null) return null;
+  final q = ref.watch(searchQueryControllerProvider);
+  final listings = ref.watch(listingRepositoryProvider);
+  final items = await listings.byIds(list.listingIds);
+  final prices = await Future.wait([
+    for (final l in items) listings.quote(l.id, q.nights),
+  ]);
+  final busy = q.dates == null
+      ? const <String>{}
+      : await ref
+            .watch(searchRepositoryProvider)
+            .unavailable(list.listingIds, q.dates!);
+  return [
+    for (final (i, l) in items.indexed)
+      WishlistItem(
+        listing: l,
+        price: prices[i],
+        unavailable: busy.contains(l.id),
+        note: list.notes[l.id],
+      ),
+  ];
+}
