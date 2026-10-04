@@ -50,3 +50,8 @@ final class EmailInUse extends AuthFailure {
 final class NetworkFailure extends AuthFailure {
   const NetworkFailure();
 }
+
+/// Kullanıcı Google/Apple penceresini kapattı; hata olarak gösterilmez.
+final class SignInCancelled extends AuthFailure {
+  const SignInCancelled();
+}

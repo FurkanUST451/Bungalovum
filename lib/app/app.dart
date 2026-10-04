@@ -8,8 +8,8 @@ import '../core/theme/app_theme.dart';
 import '../l10n/l10n.dart';
 import 'router.dart';
 
-class KozalakApp extends ConsumerStatefulWidget {
-  const KozalakApp({
+class BungalovumApp extends ConsumerStatefulWidget {
+  const BungalovumApp({
     super.key,
     this.initialLocation = AppRoutes.welcome,
     this.router,
@@ -26,10 +26,10 @@ class KozalakApp extends ConsumerStatefulWidget {
   static const double maxTextScale = 1.3;
 
   @override
-  ConsumerState<KozalakApp> createState() => _KozalakAppState();
+  ConsumerState<BungalovumApp> createState() => _BungalovumAppState();
 }
 
-class _KozalakAppState extends ConsumerState<KozalakApp> {
+class _BungalovumAppState extends ConsumerState<BungalovumApp> {
   late final GoRouter _router =
       widget.router ?? buildRouter(initialLocation: widget.initialLocation);
 
@@ -64,8 +64,8 @@ class _KozalakAppState extends ConsumerState<KozalakApp> {
       ],
       routerConfig: _router,
       builder: (context, child) => MediaQuery.withClampedTextScaling(
-        minScaleFactor: KozalakApp.minTextScale,
-        maxScaleFactor: KozalakApp.maxTextScale,
+        minScaleFactor: BungalovumApp.minTextScale,
+        maxScaleFactor: BungalovumApp.maxTextScale,
         // Scaffold kullanmayan ekranlar için metin varsayılanlarını sağlar;
         // şeffaf olduğu için Material görünümü (elevation/renk) sızmaz.
         child: Material(type: MaterialType.transparency, child: child),

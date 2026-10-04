@@ -8,7 +8,7 @@ import 'kz_circle_button.dart';
 import 'kz_icon.dart';
 import 'kz_pressable.dart';
 
-/// Kozalak alt sayfası: surface zemin, üst köşeler 30, tutamak, isteğe bağlı
+/// Bungalovum alt sayfası: surface zemin, üst köşeler 30, tutamak, isteğe bağlı
 /// başlık + kapat. Tablette 560 genişlikte ortalanır.
 Future<T?> showKzSheet<T>({
   required BuildContext context,

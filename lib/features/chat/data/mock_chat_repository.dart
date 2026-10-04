@@ -41,7 +41,7 @@ class MockChatRepository implements ChatRepository {
     'c-destek': Conversation(
       id: 'c-destek',
       kind: ConversationKind.support,
-      title: 'Kozalak Destek',
+      title: 'Bungalovum Destek',
       ticketNo: '2041',
       lastMessage: 'Sorununuz çözüldü, iyi tatiller!',
       lastAt: _ago(const Duration(days: 3)),

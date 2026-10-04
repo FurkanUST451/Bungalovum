@@ -114,11 +114,11 @@ void main() {
         latency: Duration.zero,
         clock: fixedClock,
       );
-      final coupons = await repo.redeemCoupon(' kozalak10 ');
-      expect(coupons.single.code, 'KOZALAK10');
+      final coupons = await repo.redeemCoupon(' bungalovum10 ');
+      expect(coupons.single.code, 'BUNGALOVUM10');
       expect(coupons.single.isActive(fixedClock()), isTrue);
       await expectLater(
-        repo.redeemCoupon('KOZALAK10'),
+        repo.redeemCoupon('BUNGALOVUM10'),
         throwsA(
           isA<CouponRejected>().having(
             (e) => e.error,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../data/auth_repository.dart';
@@ -5,15 +7,27 @@ import '../../domain/auth_models.dart';
 
 part 'auth_controller.g.dart';
 
-/// Oturum: null = misafir (göz atıyor).
+/// Oturum: null = misafir (göz atıyor). Başlangıçta cihazda saklı Supabase
+/// oturumu varsa kullanıcı otomatik giriş yapmış sayılır.
 @Riverpod(keepAlive: true)
 class AuthSession extends _$AuthSession {
   @override
-  AuthUser? build() => null;
+  AuthUser? build() {
+    final repo = ref.read(authRepositoryProvider);
+    // Oturum dışarıdan sonlanırsa (süre doldu, başka cihazdan çıkış) misafir ol.
+    final sub = repo.userChanges.listen((user) {
+      if (user == null) state = null;
+    });
+    ref.onDispose(sub.cancel);
+    return repo.currentUser;
+  }
 
   void signedIn(AuthUser user) => state = user;
 
-  void signOut() => state = null;
+  void signOut() {
+    state = null;
+    unawaited(ref.read(authRepositoryProvider).signOut());
+  }
 }
 
 /// Ekranların çağırdığı kimlik akışları. Başarılı girişte oturumu açar;

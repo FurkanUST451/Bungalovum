@@ -71,6 +71,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     });
     try {
       await action();
+    } on SignInCancelled {
+      // Kullanıcı Google/Apple penceresini kapattı; hata göstermeye gerek yok.
     } on Object catch (e) {
       if (mounted) {
         setState(() => _serverError = authFailureMessage(context.l10n, e));

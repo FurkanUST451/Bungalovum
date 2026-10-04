@@ -17,7 +17,7 @@ abstract interface class ListingRepository {
 
   Future<List<Listing>> byIds(List<String> ids);
 
-  /// Paylaşım bağlantısı: "kozalak.app/b/gol-esintisi".
+  /// Paylaşım bağlantısı: "bungalovum.app/b/gol-esintisi".
   String shareLink(String id);
 
   Future<void> report(String id, ReportReason reason, String details);

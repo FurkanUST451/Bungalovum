@@ -94,7 +94,7 @@ abstract class ThreeDsChallenge with _$ThreeDsChallenge {
   const factory ThreeDsChallenge({
     required String id,
 
-    /// "Kozalak Seyahat"
+    /// "Bungalovum Seyahat"
     required String merchant,
     required int amount,
     required String cardLast4,

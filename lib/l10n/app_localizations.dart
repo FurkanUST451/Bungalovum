@@ -577,7 +577,7 @@ abstract class AppLocalizations {
   /// No description provided for @welcomeBrand.
   ///
   /// In tr, this message translates to:
-  /// **'kozalak'**
+  /// **'bungalovum'**
   String get welcomeBrand;
 
   /// No description provided for @welcomeStats.
@@ -1723,7 +1723,7 @@ abstract class AppLocalizations {
   /// No description provided for @hostSuperhost.
   ///
   /// In tr, this message translates to:
-  /// **'Altın Kozalak Ev Sahibi'**
+  /// **'Altın Bungalovum Ev Sahibi'**
   String get hostSuperhost;
 
   /// No description provided for @hostStandard.
@@ -5107,7 +5107,7 @@ abstract class AppLocalizations {
   /// No description provided for @versionLine.
   ///
   /// In tr, this message translates to:
-  /// **'Kozalak · Sürüm {version}'**
+  /// **'Bungalovum · Sürüm {version}'**
   String versionLine(String version);
 
   /// No description provided for @guestAccountTitle.
@@ -5422,11 +5422,11 @@ abstract class AppLocalizations {
   /// **'Senin için'**
   String get groupForYou;
 
-  /// No description provided for @groupFromKozalak.
+  /// No description provided for @groupFromBungalovum.
   ///
   /// In tr, this message translates to:
-  /// **'Kozalak’tan'**
-  String get groupFromKozalak;
+  /// **'Bungalovum’dan'**
+  String get groupFromBungalovum;
 
   /// No description provided for @topicPromotions.
   ///
@@ -5905,7 +5905,7 @@ abstract class AppLocalizations {
   /// No description provided for @chatSafetyNote.
   ///
   /// In tr, this message translates to:
-  /// **'Güvenliğin için ödemeleri yalnızca Kozalak üzerinden yap.'**
+  /// **'Güvenliğin için ödemeleri yalnızca Bungalovum üzerinden yap.'**
   String get chatSafetyNote;
 
   /// No description provided for @notificationsTitle.

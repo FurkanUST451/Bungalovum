@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Conversation {
 
- String get id; ConversationKind get kind;/// Karşı taraf: "Ayla Hanım", "Kozalak Destek".
+ String get id; ConversationKind get kind;/// Karşı taraf: "Ayla Hanım", "Bungalovum Destek".
  String get title; String? get listingId; String? get bookingId;/// Destek talep numarası: "2041".
  String? get ticketNo; String get lastMessage; DateTime get lastAt; int get unread; bool get online;/// Son mesajı ben mi gönderdim (önizlemede "Sen: ...").
  bool get lastFromMe;
@@ -225,7 +225,7 @@ class _Conversation extends Conversation {
 
 @override final  String id;
 @override final  ConversationKind kind;
-/// Karşı taraf: "Ayla Hanım", "Kozalak Destek".
+/// Karşı taraf: "Ayla Hanım", "Bungalovum Destek".
 @override final  String title;
 @override final  String? listingId;
 @override final  String? bookingId;

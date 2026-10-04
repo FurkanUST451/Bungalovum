@@ -32,7 +32,7 @@ abstract interface class ChatRepository {
     required String hostName,
   });
 
-  /// Kozalak destek sohbeti; yoksa açar.
+  /// Bungalovum destek sohbeti; yoksa açar.
   Future<String> supportConversation();
 
   Future<List<AppNotification>> notifications();

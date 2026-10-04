@@ -28,62 +28,101 @@ class KzOtpField extends StatefulWidget {
 
   @override
   State<KzOtpField> createState() => _KzOtpFieldState();
+
+  /// "Kodun: 482 913" ya da "482913" gibi kopyalanan metinden kodu çıkarır.
+  /// Yalnızca tam [KzOtpField.length] haneli tek bir rakam dizisi kabul edilir
+  /// (rastgele pano içeriği koda dönüşmesin diye).
+  @visibleForTesting
+  static String? codeFromText(String? text, int length) {
+    if (text == null) return null;
+    final plain = text.replaceAll(String.fromCharCode(0xa0), ' ');
+    // Rakam grupları ("482 913", "482-913") tek kod sayılır.
+    final candidates = RegExp('[0-9]+([ -][0-9]+)*')
+        .allMatches(plain)
+        .map((m) => m.group(0)!.replaceAll(RegExp('[^0-9]'), ''))
+        .where((digits) => digits.length == length)
+        .toList();
+    return candidates.length == 1 ? candidates.single : null;
+  }
 }
 
-class _KzOtpFieldState extends State<KzOtpField> {
+class _KzOtpFieldState extends State<KzOtpField>
+    with WidgetsBindingObserver {
   final _focus = FocusNode();
+
+  /// Son bildirilen tam kod; odak ya da imleç değişince aynı kod tekrar
+  /// gönderilmesin diye tutulur.
+  String? _completed;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     widget.controller.addListener(_changed);
-    _focus.addListener(_changed);
+    _focus.addListener(_refresh);
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     widget.controller.removeListener(_changed);
+    _focus.removeListener(_refresh);
     _focus.dispose();
     super.dispose();
   }
 
+  /// Uygulama arka plandan dönünce:
+  /// - Android klavyeyi kapatmış olur ama kutu hâlâ odaklı sayılır; klavyeyi
+  ///   yeniden aç.
+  /// - Kullanıcı kodu mailden kopyalayıp dönmüştür; panoda 6 haneli kod varsa
+  ///   kutuyu doldur (basılı tutup yapıştırmak her cihazda çalışmıyor).
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed) return;
+    if (_focus.hasFocus) _showKeyboard();
+    _fillFromClipboard();
+  }
+
+  Future<void> _fillFromClipboard() async {
+    if (widget.controller.text.isNotEmpty) return;
+    // Android, uygulama öne gelir gelmez panoyu okutmayabilir; kısa bekle.
+    await Future<void>.delayed(const Duration(milliseconds: 350));
+    if (!mounted || widget.controller.text.isNotEmpty) return;
+    final data = await Clipboard.getData(Clipboard.kTextPlain);
+    final code = KzOtpField.codeFromText(data?.text, widget.length);
+    if (code == null || !mounted || widget.controller.text.isNotEmpty) return;
+    widget.controller.text = code;
+  }
+
+  void _showKeyboard() {
+    _focus.requestFocus();
+    SystemChannels.textInput.invokeMethod<void>('TextInput.show');
+  }
+
+  void _refresh() {
+    if (mounted) setState(() {});
+  }
+
   void _changed() {
+    if (!mounted) return;
     setState(() {});
     final text = widget.controller.text;
-    if (text.length == widget.length) widget.onCompleted?.call(text);
+    if (text.length == widget.length) {
+      if (text == _completed) return;
+      _completed = text;
+      widget.onCompleted?.call(text);
+    } else {
+      _completed = null;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final kz = context.kz;
     final code = widget.controller.text;
-    return GestureDetector(
-      onTap: _focus.requestFocus,
-      behavior: HitTestBehavior.opaque,
-      child: Stack(
-        children: [
-          // Görünmez gerçek giriş alanı.
-          Positioned.fill(
-            child: Opacity(
-              opacity: 0,
-              child: TextField(
-                controller: widget.controller,
-                focusNode: _focus,
-                autofocus: widget.autofocus,
-                keyboardType: TextInputType.number,
-                autofillHints: const [AutofillHints.oneTimeCode],
-                maxLength: widget.length,
-                showCursor: false,
-                enableInteractiveSelection: false,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                decoration: const InputDecoration(
-                  counterText: '',
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-          ),
-          Semantics(
+    return Stack(
+      children: [
+        Semantics(
             label: widget.semanticLabel,
             value: code,
             textField: true,
@@ -112,8 +151,32 @@ class _KzOtpFieldState extends State<KzOtpField> {
               ),
             ),
           ),
-        ],
-      ),
+        // Görünmez gerçek giriş alanı kutucukların ÜSTÜNDE durur: kutunun
+        // neresine dokunulursa dokunulsun dokunma doğrudan bu alana gider ve
+        // klavye her seferinde açılır (altta kalınca yalnızca kutucuk
+        // aralarına dokunmak işe yarıyordu).
+        Positioned.fill(
+          child: Opacity(
+            opacity: 0,
+            child: TextField(
+              controller: widget.controller,
+              focusNode: _focus,
+              autofocus: widget.autofocus,
+              keyboardType: TextInputType.number,
+              autofillHints: const [AutofillHints.oneTimeCode],
+              maxLength: widget.length,
+              showCursor: false,
+              // Basılı tutunca "Yapıştır" menüsü açılır (kod mailden kopyalanır).
+              enableInteractiveSelection: true,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              decoration: const InputDecoration(
+                counterText: '',
+                border: InputBorder.none,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

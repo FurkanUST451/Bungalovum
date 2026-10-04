@@ -22,10 +22,10 @@ class MockBookingRepository implements BookingRepository {
   static const declineCode = '000000';
 
   /// Geçerli örnek kupon: konaklama tutarında %10 indirim.
-  static const sampleCoupon = 'KOZALAK10';
+  static const sampleCoupon = 'BUNGALOVUM10';
   static const expiredCoupon = 'YAZ2025';
   static const _couponRate = 0.10;
-  static const _merchant = 'Kozalak Seyahat';
+  static const _merchant = 'Bungalovum Seyahat';
   static const _codeTtl = Duration(minutes: 3);
   static const _hold = Duration(minutes: 15);
 
@@ -337,7 +337,7 @@ class MockBookingRepository implements BookingRepository {
     lockboxCode: '4829',
     lockboxHint: 'Kapının sağındaki gri kutu',
     wifiName: 'GolEsintisi_5G',
-    wifiPassword: 'kozalak2026',
+    wifiPassword: 'bungalovum2026',
     sections: [
       GuideSection(
         kind: GuideSectionKind.pool,
@@ -414,7 +414,7 @@ class MockBookingRepository implements BookingRepository {
   @override
   Future<Uri> receiptPdf(String bookingId) async {
     await _wait();
-    return Uri.https('kozalak.app', '/makbuz/$bookingId.pdf');
+    return Uri.https('bungalovum.app', '/makbuz/$bookingId.pdf');
   }
 
   @override

@@ -368,6 +368,7 @@ const _$SafetyKindEnumMap = {
   SafetyKind.smokeDetector: 'smokeDetector',
   SafetyKind.firstAidKit: 'firstAidKit',
   SafetyKind.fireExtinguisher: 'fireExtinguisher',
+  SafetyKind.poolFence: 'poolFence',
   SafetyKind.outdoorCamera: 'outdoorCamera',
 };
 

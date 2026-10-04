@@ -281,7 +281,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get verificationCode => 'Doğrulama kodu';
 
   @override
-  String get welcomeBrand => 'kozalak';
+  String get welcomeBrand => 'bungalovum';
 
   @override
   String get welcomeStats => '4,9 · 1.200+ bungalov';
@@ -930,7 +930,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get hostSuperhost => 'Altın Kozalak Ev Sahibi';
+  String get hostSuperhost => 'Altın Bungalovum Ev Sahibi';
 
   @override
   String get hostStandard => 'Ev sahibi';
@@ -2854,7 +2854,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String versionLine(String version) {
-    return 'Kozalak · Sürüm $version';
+    return 'Bungalovum · Sürüm $version';
   }
 
   @override
@@ -3032,7 +3032,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get groupForYou => 'Senin için';
 
   @override
-  String get groupFromKozalak => 'Kozalak’tan';
+  String get groupFromBungalovum => 'Bungalovum’dan';
 
   @override
   String get topicPromotions => 'Kampanya ve indirimler';
@@ -3290,7 +3290,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get chatSafetyNote =>
-      'Güvenliğin için ödemeleri yalnızca Kozalak üzerinden yap.';
+      'Güvenliğin için ödemeleri yalnızca Bungalovum üzerinden yap.';
 
   @override
   String get notificationsTitle => 'Bildirimler';

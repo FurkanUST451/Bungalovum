@@ -295,7 +295,7 @@ as bool,
 /// @nodoc
 mixin _$ThreeDsChallenge {
 
- String get id;/// "Kozalak Seyahat"
+ String get id;/// "Bungalovum Seyahat"
  String get merchant; int get amount; String get cardLast4; DateTime get expiresAt;/// Tarihlerin misafir için tutulduğu son an.
  DateTime get holdUntil; int get codeLength;
 /// Create a copy of ThreeDsChallenge
@@ -499,7 +499,7 @@ class _ThreeDsChallenge implements ThreeDsChallenge {
   
 
 @override final  String id;
-/// "Kozalak Seyahat"
+/// "Bungalovum Seyahat"
 @override final  String merchant;
 @override final  int amount;
 @override final  String cardLast4;

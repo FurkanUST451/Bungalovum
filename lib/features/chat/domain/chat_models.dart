@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'chat_models.freezed.dart';
 
 /// Sohbet türü (62 · filtre çipleri): konaklama/talep ev sahibiyle, destek
-/// Kozalak ekibiyle.
+/// Bungalovum ekibiyle.
 enum ConversationKind { stay, request, support }
 
 @freezed
@@ -14,7 +14,7 @@ abstract class Conversation with _$Conversation {
     required String id,
     required ConversationKind kind,
 
-    /// Karşı taraf: "Ayla Hanım", "Kozalak Destek".
+    /// Karşı taraf: "Ayla Hanım", "Bungalovum Destek".
     required String title,
     String? listingId,
     String? bookingId,

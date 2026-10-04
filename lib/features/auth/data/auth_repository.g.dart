@@ -8,17 +8,20 @@ part of 'auth_repository.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// API hazır olduğunda `dio` tabanlı uygulama ile değiştirilir.
+/// Varsayılan sahte uygulamadır (testler, önizleme); `main.dart` gerçek
+/// Supabase uygulamasıyla değiştirir.
 
 @ProviderFor(authRepository)
 final authRepositoryProvider = AuthRepositoryProvider._();
 
-/// API hazır olduğunda `dio` tabanlı uygulama ile değiştirilir.
+/// Varsayılan sahte uygulamadır (testler, önizleme); `main.dart` gerçek
+/// Supabase uygulamasıyla değiştirir.
 
 final class AuthRepositoryProvider
     extends $FunctionalProvider<AuthRepository, AuthRepository, AuthRepository>
     with $Provider<AuthRepository> {
-  /// API hazır olduğunda `dio` tabanlı uygulama ile değiştirilir.
+  /// Varsayılan sahte uygulamadır (testler, önizleme); `main.dart` gerçek
+  /// Supabase uygulamasıyla değiştirir.
   AuthRepositoryProvider._()
     : super(
         from: null,

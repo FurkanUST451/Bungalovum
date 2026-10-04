@@ -131,7 +131,7 @@ void main() {
       'kupon: geçerli kod indirimi uygular, ödeme tutarına yansır',
       () async {
         final checkout = c.read(checkoutControllerProvider.notifier);
-        await checkout.applyCoupon(' kozalak10 ');
+        await checkout.applyCoupon(' bungalovum10 ');
         final s = c.read(checkoutControllerProvider);
         expect(s.couponCode, MockBookingRepository.sampleCoupon);
         expect(s.couponQuote!.discountKind, DiscountKind.coupon);

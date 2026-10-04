@@ -121,7 +121,7 @@ Widget testApp({
   textScale: textScale,
   permissions: permissions,
   connectivity: connectivity,
-  child: KozalakApp(initialLocation: initialLocation),
+  child: BungalovumApp(initialLocation: initialLocation),
 );
 
 /// Tek bir ekran, uygulamanın teması ve l10n'u ile (rota parametresi
@@ -137,7 +137,7 @@ Widget testScreen(
   textScale: textScale,
   permissions: permissions,
   connectivity: connectivity,
-  child: KozalakApp(
+  child: BungalovumApp(
     router: GoRouter(
       routes: [GoRoute(path: '/', builder: (_, _) => screen)],
     ),

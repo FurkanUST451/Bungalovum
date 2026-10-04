@@ -101,7 +101,7 @@ class MockHostRepository implements HostRepository {
     lockboxCode: '4829',
     lockboxHint: 'Kapının sağındaki gri kutu',
     wifiName: 'GolEsintisi_5G',
-    wifiPassword: 'kozalak2026',
+    wifiPassword: 'bungalovum2026',
     poolInstructions:
         'Havuz 09:00–23:00 arası açık. Jakuzi ısınması ~30 dk, panel mutfak '
         'kapısının yanında.',

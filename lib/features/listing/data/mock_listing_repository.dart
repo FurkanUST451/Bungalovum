@@ -308,7 +308,7 @@ class MockListingRepository implements ListingRepository {
   }
 
   @override
-  String shareLink(String id) => 'kozalak.app/b/$id';
+  String shareLink(String id) => 'bungalovum.app/b/$id';
 
   @override
   Future<void> report(String id, ReportReason reason, String details) =>

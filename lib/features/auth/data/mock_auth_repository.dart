@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import '../domain/auth_models.dart';
 import 'auth_repository.dart';
 
 /// Geliştirme için sahte kimlik doğrulama.
 ///
-/// - E-posta girişi: `deniz@ornek.com` / `Kozalak2026` (başka her çift
+/// - E-posta girişi: `deniz@ornek.com` / `Bungalovum2026` (başka her çift
 ///   "hatalı" sayılır ve deneme hakkı düşer).
 /// - Her 6 haneli kod geçerlidir; `000000` geçersiz kod örneğidir.
 class MockAuthRepository implements AuthRepository {
@@ -12,7 +14,7 @@ class MockAuthRepository implements AuthRepository {
   final Duration latency;
 
   static const demoEmail = 'deniz@ornek.com';
-  static const demoPassword = 'Kozalak2026';
+  static const demoPassword = 'Bungalovum2026';
   static const invalidCode = '000000';
   static const _maxAttempts = 3;
 
@@ -98,4 +100,13 @@ class MockAuthRepository implements AuthRepository {
     required String token,
     required String password,
   }) => _wait();
+
+  @override
+  AuthUser? get currentUser => null;
+
+  @override
+  Stream<AuthUser?> get userChanges => const Stream.empty();
+
+  @override
+  Future<void> signOut() async {}
 }

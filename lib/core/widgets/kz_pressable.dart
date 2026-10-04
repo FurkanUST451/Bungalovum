@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 
 import '../theme/tokens.dart';
 
-/// Kozalak dokunma geri bildirimi: ripple yerine hafif ölçek + opaklık.
+/// Bungalovum dokunma geri bildirimi: ripple yerine hafif ölçek + opaklık.
 ///
 /// [minTouchSize] ile görsel öğe küçük olsa bile dokunma alanı en az 44×44
 /// olur. [haptic] birincil aksiyonlarda `lightImpact` tetikler.

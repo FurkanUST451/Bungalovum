@@ -109,7 +109,7 @@ class NotificationPrefsScreen extends ConsumerWidget {
         ),
         const SizedBox(height: KzSpace.s20),
         KzGroup(
-          title: l.groupFromKozalak,
+          title: l.groupFromBungalovum,
           rows: [
             row(NotifTopic.news),
             row(NotifTopic.surveys),

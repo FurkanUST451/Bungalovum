@@ -1,4 +1,4 @@
-# CLAUDE.md — Kozalak · Bungalov Kiralama Uygulaması
+# CLAUDE.md — Bungalovum · Bungalov Kiralama Uygulaması
 
 Bu dosya, projede çalışan Claude Code için **tek doğruluk kaynağıdır**. Her oturumun başında okunur. Tasarım Figma'dadır, bu dosya Figma'nın koda nasıl aktarılacağını, hangi kurallara uyulacağını ve nelerden kaçınılacağını tanımlar.
 
@@ -219,7 +219,7 @@ Figma "Bileşenler" sayfasındaki her component set'in **tek** bir Flutter karş
 
 Genel:
 - Dokunma alanı en az **44×44** (görsel küçükse `hitTestBehavior` + padding ile büyüt).
-- Ripple (InkWell dalgası) yerine Kozalak stili: hafif scale/opacity geri bildirimi. Haptic: birincil aksiyonlarda `HapticFeedback.lightImpact`.
+- Ripple (InkWell dalgası) yerine Bungalovum stili: hafif scale/opacity geri bildirimi. Haptic: birincil aksiyonlarda `HapticFeedback.lightImpact`.
 - Tüm interaktif öğelerde `Semantics` etiketi (Türkçe).
 
 ## 8. Hareket ve etkileşim
@@ -295,3 +295,14 @@ Bir ekran ancak şunların hepsi sağlandığında tamamdır:
 - Ekran başına özel buton/input yazma — `Kz*` bileşenini genişlet.
 - Airbnb'ye ait ad, ikon, renk (#FF385C vb.) veya metin kullanma.
 - Kullanıcıya sormadan yeni ekran, akış veya paket ekleme; tasarımda olmayan bir şeyi uydurma — gerekiyorsa önce sor.
+
+## 14. Backend (Supabase + Cloudflare R2)
+
+- Supabase projesi (dev): `kuncwgfudkgmubdaawok`. Şema yalnızca `supabase/migrations/` ile değişir; panelden elle tablo düzenleme yok. Her değişiklik yeni bir migration dosyasıdır, eskiler düzenlenmez (canlıya gittikten sonra).
+- `public` şeması: RLS'i açık tablolar ve RPC fonksiyonları. `private` şeması API'ye kapalıdır: TCKN, IBAN, kart token'ı, misafir kimlik numarası, iç fonksiyonlar.
+- Durum değiştiren işlemler (rezervasyon, ödeme, iptal, ilanı incelemeye gönderme, IBAN/kimlik) yalnızca RPC ile yapılır; uygulama bu tablolara doğrudan yazmaz. Korunan kolonları trigger'lar engeller.
+- RPC hataları sabit kodla döner (`dates_unavailable`, `min_nights`…); uygulama kodu ARB metnine eşler.
+- Enum'lar: Dart `camelCase` ↔ veritabanı `snake_case` (`inReview` ↔ `in_review`).
+- Fiyat ve iade hesabı veritabanında (`quote_booking`, `cancellation_terms`); komisyon ve süreler `platform_settings` tablosunda.
+- Dosyalar: ilan/değerlendirme fotoğrafları Cloudflare R2'de (Edge Function `r2-upload-url` imzalı adres verir); kimlik, belge, sohbet eki ve sorun fotoğrafları Supabase Storage'ın gizli bucket'larında.
+- Gizli anahtarlar (R2, ödeme sağlayıcısı, `service_role`) yalnızca Supabase secrets'ta; uygulamada ve repoda bulunmaz.

@@ -132,5 +132,5 @@ class MockWishlistRepository implements WishlistRepository {
   }
 
   @override
-  String shareLink(String listId) => 'kozalak.app/l/$listId';
+  String shareLink(String listId) => 'bungalovum.app/l/$listId';
 }

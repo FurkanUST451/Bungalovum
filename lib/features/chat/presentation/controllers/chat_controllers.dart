@@ -115,7 +115,7 @@ class Notifications extends _$Notifications {
 bool hasUnreadNotifications(Ref ref) =>
     (ref.watch(notificationsProvider).value ?? const []).any((n) => !n.read);
 
-/// Kozalak destek sohbetini açar.
+/// Bungalovum destek sohbetini açar.
 Future<void> openSupportChat(BuildContext context, WidgetRef ref) async {
   final id = await ref.read(chatRepositoryProvider).supportConversation();
   await ref.read(conversationsProvider.notifier).refresh();

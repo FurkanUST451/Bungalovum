@@ -8,15 +8,18 @@ part of 'auth_controller.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// Oturum: null = misafir (göz atıyor).
+/// Oturum: null = misafir (göz atıyor). Başlangıçta cihazda saklı Supabase
+/// oturumu varsa kullanıcı otomatik giriş yapmış sayılır.
 
 @ProviderFor(AuthSession)
 final authSessionProvider = AuthSessionProvider._();
 
-/// Oturum: null = misafir (göz atıyor).
+/// Oturum: null = misafir (göz atıyor). Başlangıçta cihazda saklı Supabase
+/// oturumu varsa kullanıcı otomatik giriş yapmış sayılır.
 final class AuthSessionProvider
     extends $NotifierProvider<AuthSession, AuthUser?> {
-  /// Oturum: null = misafir (göz atıyor).
+  /// Oturum: null = misafir (göz atıyor). Başlangıçta cihazda saklı Supabase
+  /// oturumu varsa kullanıcı otomatik giriş yapmış sayılır.
   AuthSessionProvider._()
     : super(
         from: null,
@@ -44,9 +47,10 @@ final class AuthSessionProvider
   }
 }
 
-String _$authSessionHash() => r'eea780a259a252be933951ce33b7ad7789b4a3a9';
+String _$authSessionHash() => r'5a30cd0ac274341a21808b02ce76ec3fb38c70d8';
 
-/// Oturum: null = misafir (göz atıyor).
+/// Oturum: null = misafir (göz atıyor). Başlangıçta cihazda saklı Supabase
+/// oturumu varsa kullanıcı otomatik giriş yapmış sayılır.
 
 abstract class _$AuthSession extends $Notifier<AuthUser?> {
   AuthUser? build();

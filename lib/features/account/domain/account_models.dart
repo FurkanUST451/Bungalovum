@@ -175,5 +175,5 @@ abstract class FaqItem with _$FaqItem {
 
 abstract final class AppInfo {
   static const version = '1.0.0';
-  static const companyName = 'Kozalak Seyahat';
+  static const companyName = 'Bungalovum Seyahat';
 }

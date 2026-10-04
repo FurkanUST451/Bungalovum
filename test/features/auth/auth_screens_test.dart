@@ -71,7 +71,7 @@ void main() {
       const Size(390, 844),
     );
     await tester.enterText(find.byType(EditableText).at(0), 'deniz@ornek.com');
-    await tester.enterText(find.byType(EditableText).at(1), 'Kozalak2026');
+    await tester.enterText(find.byType(EditableText).at(1), 'Bungalovum2026');
     await tester.tap(find.text('Giriş yap').last);
     for (var i = 0; i < 6; i++) {
       await tester.pump(const Duration(milliseconds: 100));
@@ -131,8 +131,8 @@ void main() {
     test('Şifre gücü', () {
       expect(PasswordStrength.of(''), PasswordStrength.empty);
       expect(PasswordStrength.of('abc'), PasswordStrength.weak);
-      expect(PasswordStrength.of('Kozalak26'), PasswordStrength.medium);
-      expect(PasswordStrength.of('Kozalak26!'), PasswordStrength.strong);
+      expect(PasswordStrength.of('Bungalovum26'), PasswordStrength.medium);
+      expect(PasswordStrength.of('Bungalovum26!'), PasswordStrength.strong);
     });
 
     test('Maskeleme', () {

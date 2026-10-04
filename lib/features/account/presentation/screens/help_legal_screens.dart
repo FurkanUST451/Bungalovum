@@ -28,7 +28,7 @@ import '../../domain/account_models.dart';
 import '../controllers/account_controllers.dart';
 
 /// Yardım rehberinin web adresi.
-final _helpCenterUri = Uri.https('kozalak.app', '/yardim');
+final _helpCenterUri = Uri.https('bungalovum.app', '/yardim');
 
 /// 71 · Yardım.
 class HelpScreen extends ConsumerStatefulWidget {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../domain/auth_models.dart';
@@ -31,8 +33,17 @@ abstract interface class AuthRepository {
 
   /// Şifreyi günceller; diğer cihazlardaki oturumlar backend'de kapatılır.
   Future<void> resetPassword({required String token, required String password});
+
+  /// Cihazda saklı oturumun kullanıcısı; yoksa null (misafir).
+  AuthUser? get currentUser;
+
+  /// Oturum dışarıdan sonlandığında (süre doldu, başka cihazdan çıkış) null yayar.
+  Stream<AuthUser?> get userChanges;
+
+  Future<void> signOut();
 }
 
-/// API hazır olduğunda `dio` tabanlı uygulama ile değiştirilir.
+/// Varsayılan sahte uygulamadır (testler, önizleme); `main.dart` gerçek
+/// Supabase uygulamasıyla değiştirir.
 @Riverpod(keepAlive: true)
 AuthRepository authRepository(Ref ref) => MockAuthRepository();

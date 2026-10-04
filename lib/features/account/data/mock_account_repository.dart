@@ -17,7 +17,7 @@ class MockAccountRepository implements AccountRepository {
   final bool hasUpcomingBooking;
 
   /// Mock'ta doğru kabul edilen geçerli şifre.
-  static const samplePassword = 'kozalak2026';
+  static const samplePassword = 'bungalovum2026';
 
   Future<void> _wait() => Future<void>.delayed(latency);
 
@@ -175,7 +175,7 @@ class MockAccountRepository implements AccountRepository {
       updatedAt: DateTime(2026, 10, 1),
       paragraphs: [
         '## 1. Taraflar ve kapsam',
-        'Bu metin, ${_titles[doc]} kapsamında Kozalak Seyahat ile '
+        'Bu metin, ${_titles[doc]} kapsamında Bungalovum Seyahat ile '
             'kullanıcı arasındaki esasları düzenler.',
         '## 2. Açıklamalar',
         'Metnin güncel ve bağlayıcı sürümü yayın öncesinde hukuk ekibi '

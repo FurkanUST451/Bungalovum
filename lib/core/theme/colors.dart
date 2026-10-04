@@ -169,6 +169,6 @@ class KzColors extends ThemeExtension<KzColors> {
 }
 
 extension KzColorsContext on BuildContext {
-  /// Aktif temanın Kozalak renkleri.
+  /// Aktif temanın Bungalovum renkleri.
   KzColors get kz => Theme.of(this).extension<KzColors>() ?? KzColors.light;
 }
