@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../auth/presentation/controllers/auth_controller.dart';
 import '../../../booking/data/booking_repository.dart';
 import '../../../booking/domain/booking.dart';
 import '../../../saved/presentation/controllers/saved_listings_controller.dart';
@@ -11,7 +12,11 @@ part 'account_controllers.g.dart';
 @Riverpod(keepAlive: true)
 class Profile extends _$Profile {
   @override
-  Future<UserProfile> build() => ref.watch(accountRepositoryProvider).profile();
+  Future<UserProfile> build() {
+    // Hesap değişince (çıkış, başka kullanıcı) profil yeniden okunur.
+    ref.watch(authSessionProvider);
+    return ref.watch(accountRepositoryProvider).profile();
+  }
 
   AccountRepository get _repo => ref.read(accountRepositoryProvider);
 
