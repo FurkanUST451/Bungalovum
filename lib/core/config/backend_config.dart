@@ -9,12 +9,12 @@
 abstract final class BackendConfig {
   static const supabaseUrl = String.fromEnvironment(
     'SUPABASE_URL',
-    defaultValue: 'https://kuncwgfudkgmubdaawok.supabase.co',
+    defaultValue: 'https://opsgxubtmxxowygmtyzn.supabase.co',
   );
 
   static const supabasePublishableKey = String.fromEnvironment(
     'SUPABASE_KEY',
-    defaultValue: 'sb_publishable_YaBdr729iKgKhkVuvZe9-w_u8f3U0BI',
+    defaultValue: 'sb_publishable_rz56Eb4F7gfk9jrQdbGt9g_iwTw_Q6D',
   );
 
   /// Google Cloud Console › Web uygulaması OAuth istemci kimliği. Supabase'te

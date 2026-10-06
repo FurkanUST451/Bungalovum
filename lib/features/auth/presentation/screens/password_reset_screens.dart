@@ -134,12 +134,14 @@ class _NewPasswordScreenState extends ConsumerState<NewPasswordScreen> {
     super.dispose();
   }
 
-  bool get _rulesMet =>
-      PasswordRule.values.every((r) => r.isMet(_password.text));
+  /// Şifre sıfırlamada karmaşıklık kuralı yok; yalnızca en az uzunluk
+  /// (Supabase de en az 6 karakter ister).
+  bool get _lengthOk =>
+      _password.text.length >= AuthValidators.minPasswordLength;
 
   Future<void> _submit() async {
     setState(() => _submitted = true);
-    if (!_rulesMet || _password.text != _repeat.text) return;
+    if (!_lengthOk || _password.text != _repeat.text) return;
     setState(() {
       _loading = true;
       _serverError = null;
@@ -194,11 +196,10 @@ class _NewPasswordScreenState extends ConsumerState<NewPasswordScreen> {
           onChanged: (_) => setState(() {}),
           onSubmitted: (_) => _submit(),
         ),
-        PasswordRulesCard(password: _password.text),
         KzButton(
           label: l.newPasswordSubmit,
           loading: _loading,
-          onPressed: _rulesMet && _repeat.text.isNotEmpty ? _submit : null,
+          onPressed: _lengthOk && _repeat.text.isNotEmpty ? _submit : null,
         ),
       ],
     );

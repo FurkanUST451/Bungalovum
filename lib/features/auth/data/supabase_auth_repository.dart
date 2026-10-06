@@ -23,8 +23,8 @@ class SupabaseAuthRepository implements AuthRepository {
 
   /// Hatalı şifrede sunucu kalan hakkı bildirmez; tekrar denemeyi uygulama
   /// tarafında sınırlarız (sunucuda ayrıca IP başına hız sınırı vardır).
-  static const _maxAttempts = 5;
-  static const _lockDuration = Duration(minutes: 15);
+  static const _maxAttempts = 10;
+  static const _lockDuration = Duration(minutes: 5);
   int _attemptsLeft = _maxAttempts;
   DateTime? _lockedUntil;
 

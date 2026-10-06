@@ -298,7 +298,7 @@ Bir ekran ancak şunların hepsi sağlandığında tamamdır:
 
 ## 14. Backend (Supabase + Cloudflare R2)
 
-- Supabase projesi (dev): `kuncwgfudkgmubdaawok`. Şema yalnızca `supabase/migrations/` ile değişir; panelden elle tablo düzenleme yok. Her değişiklik yeni bir migration dosyasıdır, eskiler düzenlenmez (canlıya gittikten sonra).
+- Supabase projesi (dev, Frankfurt eu-central-1): `opsgxubtmxxowygmtyzn`. Şema yalnızca `supabase/migrations/` ile değişir; panelden elle tablo düzenleme yok. Her değişiklik yeni bir migration dosyasıdır, eskiler düzenlenmez (canlıya gittikten sonra).
 - `public` şeması: RLS'i açık tablolar ve RPC fonksiyonları. `private` şeması API'ye kapalıdır: TCKN, IBAN, kart token'ı, misafir kimlik numarası, iç fonksiyonlar.
 - Durum değiştiren işlemler (rezervasyon, ödeme, iptal, ilanı incelemeye gönderme, IBAN/kimlik) yalnızca RPC ile yapılır; uygulama bu tablolara doğrudan yazmaz. Korunan kolonları trigger'lar engeller.
 - RPC hataları sabit kodla döner (`dates_unavailable`, `min_nights`…); uygulama kodu ARB metnine eşler.
