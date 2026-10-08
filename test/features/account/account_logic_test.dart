@@ -1,7 +1,7 @@
-import 'package:bungapp/features/account/data/account_repository.dart';
-import 'package:bungapp/features/account/data/mock_account_repository.dart';
-import 'package:bungapp/features/account/domain/account_models.dart';
-import 'package:bungapp/features/account/presentation/controllers/account_controllers.dart';
+import 'package:bungalovum/features/account/data/account_repository.dart';
+import 'package:bungalovum/features/account/data/mock_account_repository.dart';
+import 'package:bungalovum/features/account/domain/account_models.dart';
+import 'package:bungalovum/features/account/presentation/controllers/account_controllers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 

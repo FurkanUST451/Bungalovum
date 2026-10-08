@@ -1,8 +1,8 @@
-import 'package:bungapp/features/booking/domain/booking.dart';
-import 'package:bungapp/features/booking/domain/payment.dart';
-import 'package:bungapp/features/search/domain/search_query.dart';
-import 'package:bungapp/features/wallet/data/mock_wallet_repository.dart';
-import 'package:bungapp/features/wallet/domain/wallet_models.dart';
+import 'package:bungalovum/features/booking/domain/booking.dart';
+import 'package:bungalovum/features/booking/domain/payment.dart';
+import 'package:bungalovum/features/search/domain/search_query.dart';
+import 'package:bungalovum/features/wallet/data/mock_wallet_repository.dart';
+import 'package:bungalovum/features/wallet/domain/wallet_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/test_app.dart';

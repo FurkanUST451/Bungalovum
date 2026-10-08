@@ -1,6 +1,6 @@
-import 'package:bungapp/features/host/data/mock_host_repository.dart';
-import 'package:bungapp/features/host/domain/listing_draft.dart';
-import 'package:bungapp/features/listing/domain/listing_detail.dart';
+import 'package:bungalovum/features/host/data/mock_host_repository.dart';
+import 'package:bungalovum/features/host/domain/listing_draft.dart';
+import 'package:bungalovum/features/listing/domain/listing_detail.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/test_app.dart';

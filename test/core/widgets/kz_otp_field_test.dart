@@ -1,4 +1,4 @@
-import 'package:bungapp/core/widgets/kz_otp_field.dart';
+import 'package:bungalovum/core/widgets/kz_otp_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

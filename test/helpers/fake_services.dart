@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:bungapp/core/services/connectivity.dart';
-import 'package:bungapp/core/services/permissions.dart';
+import 'package:bungalovum/core/services/connectivity.dart';
+import 'package:bungalovum/core/services/permissions.dart';
 
 /// Varsayılan: tüm izinler verilmiş (testlerde 80/81 kendiliğinden açılmaz).
 class FakePermissionService implements PermissionService {

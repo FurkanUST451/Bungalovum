@@ -1,8 +1,8 @@
-import 'package:bungapp/app/router.dart';
-import 'package:bungapp/core/utils/formatters.dart';
-import 'package:bungapp/core/widgets/kz_button.dart';
-import 'package:bungapp/core/widgets/kz_input.dart';
-import 'package:bungapp/features/host/presentation/screens/wizard_steps_a.dart';
+import 'package:bungalovum/app/router.dart';
+import 'package:bungalovum/core/utils/formatters.dart';
+import 'package:bungalovum/core/widgets/kz_button.dart';
+import 'package:bungalovum/core/widgets/kz_input.dart';
+import 'package:bungalovum/features/host/presentation/screens/wizard_steps_a.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';

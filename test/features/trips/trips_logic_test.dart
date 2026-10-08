@@ -1,8 +1,8 @@
-import 'package:bungapp/features/booking/data/mock_booking_repository.dart';
-import 'package:bungapp/features/booking/domain/booking.dart';
-import 'package:bungapp/features/search/domain/search_query.dart';
-import 'package:bungapp/features/trips/domain/trip_models.dart';
-import 'package:bungapp/features/trips/domain/trips_overview.dart';
+import 'package:bungalovum/features/booking/data/mock_booking_repository.dart';
+import 'package:bungalovum/features/booking/domain/booking.dart';
+import 'package:bungalovum/features/search/domain/search_query.dart';
+import 'package:bungalovum/features/trips/domain/trip_models.dart';
+import 'package:bungalovum/features/trips/domain/trips_overview.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/test_app.dart';
