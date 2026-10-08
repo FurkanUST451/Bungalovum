@@ -45,49 +45,96 @@ void main() {
   });
 
   group('Adım kuralları (§10)', () {
-    test('örnek taslakta kimlik eksikken yalnızca 10. adım eksik', () {
-      expect(
-        WizardStep.values.where((s) => !DraftValidator.isComplete(s, sample)),
-        [WizardStep.identityAndPayout],
-      );
-    });
+    test(
+      'örnek taslakta kimlik eksikken yalnızca 10. adım eksik',
+      () {
+        expect(
+          WizardStep.values.where((s) => !DraftValidator.isComplete(s, sample)),
+          [WizardStep.identityAndPayout],
+        );
+      },
+      skip: !DraftValidator.requireIdentityPayout,
+    );
 
     test('en az 8 fotoğraf olmadan 4. adım tamamlanmaz', () {
       final few = sample.copyWith(photos: sample.photos.take(7).toList());
       expect(DraftValidator.isComplete(WizardStep.photos, few), isFalse);
     });
 
-    test('izin belge numarası olmadan yasal adım tamamlanmaz', () {
-      expect(
-        DraftValidator.isComplete(
-          WizardStep.legal,
-          sample.copyWith(permitNo: ''),
-        ),
-        isFalse,
-      );
-    });
+    test(
+      'izin belge numarası olmadan yasal adım tamamlanmaz',
+      () {
+        expect(
+          DraftValidator.isComplete(
+            WizardStep.legal,
+            sample.copyWith(permitNo: ''),
+          ),
+          isFalse,
+        );
+      },
+      skip: !DraftValidator.requireLegal,
+    );
 
-    test('koşullu belgeler yalnızca koşul işaretlenince zorunlu', () {
-      final multi = sample.copyWith(multiUnitParcel: true);
-      expect(DraftValidator.isComplete(WizardStep.legal, multi), isFalse);
-      final withDoc = multi.copyWith(
-        documents: {
-          ...multi.documents,
-          HostDocKind.condoDecision: const HostDocument(id: 'x'),
-        },
-      );
-      expect(DraftValidator.isComplete(WizardStep.legal, withDoc), isTrue);
-    });
+    test(
+      'koşullu belgeler yalnızca koşul işaretlenince zorunlu',
+      () {
+        final multi = sample.copyWith(multiUnitParcel: true);
+        expect(DraftValidator.isComplete(WizardStep.legal, multi), isFalse);
+        final withDoc = multi.copyWith(
+          documents: {
+            ...multi.documents,
+            HostDocKind.condoDecision: const HostDocument(id: 'x'),
+          },
+        );
+        expect(DraftValidator.isComplete(WizardStep.legal, withDoc), isTrue);
+      },
+      skip: !DraftValidator.requireLegal || !DraftValidator.requireDocuments,
+    );
 
-    test('KBS beyanı işaretlenmeden yasal adım tamamlanmaz', () {
-      expect(
-        DraftValidator.isComplete(
-          WizardStep.legal,
-          sample.copyWith(kbsDeclaration: false),
-        ),
-        isFalse,
-      );
-    });
+    test(
+      'belge zorunluluğu kapalıyken belgesiz de devam edilir',
+      () {
+        final noDocs = sample.copyWith(documents: const {});
+        expect(DraftValidator.isComplete(WizardStep.legal, noDocs), isTrue);
+        // İzin belge numarası yine zorunlu.
+        expect(
+          DraftValidator.isComplete(
+            WizardStep.legal,
+            noDocs.copyWith(permitNo: ''),
+          ),
+          isFalse,
+        );
+      },
+      skip: !DraftValidator.requireLegal || DraftValidator.requireDocuments,
+    );
+
+    test(
+      'KBS beyanı işaretlenmeden yasal adım tamamlanmaz',
+      () {
+        expect(
+          DraftValidator.isComplete(
+            WizardStep.legal,
+            sample.copyWith(kbsDeclaration: false),
+          ),
+          isFalse,
+        );
+      },
+      skip: !DraftValidator.requireLegal,
+    );
+
+    test(
+      'yasal adım kapalıyken boş bilgilerle de devam edilir',
+      () {
+        expect(
+          DraftValidator.isComplete(
+            WizardStep.legal,
+            const ListingDraft(id: 'bos'),
+          ),
+          isTrue,
+        );
+      },
+      skip: DraftValidator.requireLegal,
+    );
 
     test('dış kamera varsa konumu zorunlu', () {
       final cam = sample.copyWith(
@@ -106,19 +153,23 @@ void main() {
       );
     });
 
-    test('IBAN sahibi doğrulanan adla eşleşmezse ödeme adımı eksik', () {
-      expect(
-        DraftValidator.isComplete(WizardStep.identityAndPayout, complete),
-        isTrue,
-      );
-      expect(
-        DraftValidator.isComplete(
-          WizardStep.identityAndPayout,
-          complete.copyWith(accountHolder: 'Başka Biri'),
-        ),
-        isFalse,
-      );
-    });
+    test(
+      'IBAN sahibi doğrulanan adla eşleşmezse ödeme adımı eksik',
+      () {
+        expect(
+          DraftValidator.isComplete(WizardStep.identityAndPayout, complete),
+          isTrue,
+        );
+        expect(
+          DraftValidator.isComplete(
+            WizardStep.identityAndPayout,
+            complete.copyWith(accountHolder: 'Başka Biri'),
+          ),
+          isFalse,
+        );
+      },
+      skip: !DraftValidator.requireIdentityPayout,
+    );
 
     test('onaylar olmadan incelemeye gönderilemez', () {
       expect(DraftValidator.canSubmit(complete), isFalse);

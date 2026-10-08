@@ -52,6 +52,12 @@ abstract final class KzFormat {
   /// Ondalıklı ölçü: 1.2 → "1,2", 4.0 → "4".
   static String decimal(double v) => NumberFormat('0.#', kzLocale).format(v);
 
+  /// Sabit basamaklı ölçü (seçici satırları): (1.2, 1) → "1,2", (45, 0) → "45".
+  static String fixed(double v, int decimals) => NumberFormat(
+    decimals == 0 ? '0' : '0.${'0' * decimals}',
+    kzLocale,
+  ).format(v);
+
   static final _time = DateFormat('HH:mm', kzLocale);
 
   /// "14:32"

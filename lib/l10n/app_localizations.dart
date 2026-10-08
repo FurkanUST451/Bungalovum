@@ -3274,6 +3274,36 @@ abstract class AppLocalizations {
   /// **'Olanaklar'**
   String get wizAmenities;
 
+  /// No description provided for @wheelHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydır ya da ortadaki değere dokunup yaz'**
+  String get wheelHint;
+
+  /// No description provided for @minCharsHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Devam etmek için en az {min} karakter yaz · {count} / {min}'**
+  String minCharsHint(int count, int min);
+
+  /// No description provided for @wheelUnitCelsius.
+  ///
+  /// In tr, this message translates to:
+  /// **'°C'**
+  String get wheelUnitCelsius;
+
+  /// No description provided for @wheelUnitPercent.
+  ///
+  /// In tr, this message translates to:
+  /// **'%'**
+  String get wheelUnitPercent;
+
+  /// No description provided for @wheelUnitNights.
+  ///
+  /// In tr, this message translates to:
+  /// **'gece'**
+  String get wheelUnitNights;
+
   /// No description provided for @poolHeatedShort.
   ///
   /// In tr, this message translates to:
@@ -4197,6 +4227,60 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Hesap sahibi, doğrulanan kimliğindeki adla aynı olmalı.'**
   String get errorIbanHolder;
+
+  /// No description provided for @identityRejected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kimliğini doğrulayamadık. Üç fotoğrafı iyi ışıkta yeniden çek.'**
+  String get identityRejected;
+
+  /// No description provided for @errorListingIncomplete.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bazı adımlarda eksik bilgi var. Önizlemedeki işaretli bölümleri tamamla.'**
+  String get errorListingIncomplete;
+
+  /// No description provided for @errorConsents.
+  ///
+  /// In tr, this message translates to:
+  /// **'Göndermeden önce üç onayı da işaretle.'**
+  String get errorConsents;
+
+  /// No description provided for @errorListingInReview.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlanın incelemede. İnceleme bitince düzenleyebilirsin.'**
+  String get errorListingInReview;
+
+  /// No description provided for @errorTaxId.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vergi bilgisini kontrol et; numara geçerli görünmüyor.'**
+  String get errorTaxId;
+
+  /// No description provided for @errorUnpublishBookings.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yaklaşan rezervasyonların var. Önce onları tamamla ya da iptal et.'**
+  String get errorUnpublishBookings;
+
+  /// No description provided for @errorSessionExpired.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oturumun sona ermiş. Tekrar giriş yapıp dene.'**
+  String get errorSessionExpired;
+
+  /// No description provided for @errorAddressNotFound.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adresi haritada bulamadık. İl ve ilçe adını kontrol edip tekrar dene.'**
+  String get errorAddressNotFound;
+
+  /// No description provided for @errorIbanRequired.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap sahibini değiştirmek için IBAN\'ı da yeniden gir.'**
+  String get errorIbanRequired;
 
   /// No description provided for @wizBillingContact.
   ///

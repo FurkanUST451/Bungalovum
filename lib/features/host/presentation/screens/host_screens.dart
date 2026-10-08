@@ -23,6 +23,7 @@ import '../../../../core/widgets/kz_switch.dart';
 import '../../../../core/widgets/kz_tip.dart';
 import '../../../../core/widgets/kz_toast.dart';
 import '../../../../l10n/l10n.dart';
+import '../host_errors.dart';
 import '../../../booking/presentation/widgets/booking_parts.dart';
 import '../../domain/listing_draft.dart';
 import '../controllers/host_controllers.dart';
@@ -63,8 +64,8 @@ class _BecomeHostScreenState extends ConsumerState<BecomeHostScreen> {
             ? AppRoutes.hostListings
             : AppRoutes.hostWizard(d.resumeStep.number),
       );
-    } on Object {
-      if (mounted) showKzToast(context, context.l10n.errorNetwork);
+    } on Object catch (e) {
+      if (mounted) showKzToast(context, hostErrorMessage(context.l10n, e));
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -334,8 +335,8 @@ class _HostPreviewScreenState extends ConsumerState<HostPreviewScreen> {
     try {
       await ref.read(hostDraftProvider.notifier).submit();
       if (mounted) context.go(AppRoutes.hostInReview);
-    } on Object {
-      if (mounted) showKzToast(context, context.l10n.errorNetwork);
+    } on Object catch (e) {
+      if (mounted) showKzToast(context, hostErrorMessage(context.l10n, e));
     } finally {
       if (mounted) setState(() => _sending = false);
     }
@@ -700,8 +701,26 @@ class _TimelineRow extends StatelessWidget {
 }
 
 /// 95 · İlan Yönetimi.
-class HostListingsScreen extends ConsumerWidget {
+class HostListingsScreen extends ConsumerStatefulWidget {
   const HostListingsScreen({super.key});
+
+  @override
+  ConsumerState<HostListingsScreen> createState() => _HostListingsScreenState();
+}
+
+class _HostListingsScreenState extends ConsumerState<HostListingsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // İnceleme sonucu (onay/ret) sunucuda değişmiş olabilir.
+    Future.microtask(() async {
+      try {
+        await ref.read(hostDraftProvider.notifier).refresh();
+      } on Object {
+        // Eldeki hali göstermeye devam et.
+      }
+    });
+  }
 
   Future<void> _confirmUnpublish(BuildContext context, WidgetRef ref) async {
     final l = context.l10n;
@@ -733,12 +752,30 @@ class HostListingsScreen extends ConsumerWidget {
       ),
     );
     if (ok != true) return;
-    await ref.read(hostDraftProvider.notifier).unpublish();
-    if (context.mounted) showKzToast(context, l.unpublished);
+    try {
+      await ref.read(hostDraftProvider.notifier).unpublish();
+      if (context.mounted) showKzToast(context, l.unpublished);
+    } on Object catch (e) {
+      if (context.mounted) showKzToast(context, hostErrorMessage(l, e));
+    }
+  }
+
+  Future<void> _setPaused(
+    BuildContext context,
+    WidgetRef ref,
+    bool paused,
+  ) async {
+    try {
+      await ref.read(hostDraftProvider.notifier).setPaused(paused);
+    } on Object catch (e) {
+      if (context.mounted) {
+        showKzToast(context, hostErrorMessage(context.l10n, e));
+      }
+    }
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final kz = context.kz;
     final l = context.l10n;
     final async = ref.watch(hostDraftProvider);
@@ -748,7 +785,6 @@ class HostListingsScreen extends ConsumerWidget {
           ? const BookingLoading(cards: 2)
           : BookingError(onRetry: () => context.go(AppRoutes.becomeHost));
     }
-    final n = ref.read(hostDraftProvider.notifier);
 
     KzRow row(WizardStep s, {String? title, String? subtitle, KzIcons? icon}) {
       final inReview = d.sectionsInReview.contains(s);
@@ -800,7 +836,7 @@ class HostListingsScreen extends ConsumerWidget {
                     KzSwitch(
                       value: d.status == ListingStatus.published,
                       semanticLabel: l.openForBooking,
-                      onChanged: (v) => n.setPaused(!v),
+                      onChanged: (v) => _setPaused(context, ref, !v),
                     ),
                   ],
                 ),

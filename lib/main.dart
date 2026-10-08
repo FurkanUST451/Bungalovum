@@ -13,6 +13,8 @@ import 'features/account/data/supabase_account_repository.dart';
 import 'features/auth/data/auth_repository.dart';
 import 'features/auth/data/remembering_session_storage.dart';
 import 'features/auth/data/supabase_auth_repository.dart';
+import 'features/host/data/host_repository.dart';
+import 'features/host/data/supabase_host_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +40,9 @@ Future<void> main() async {
             Supabase.instance.client,
             MockAccountRepository(),
           ),
+        ),
+        hostRepositoryProvider.overrideWithValue(
+          SupabaseHostRepository(Supabase.instance.client),
         ),
       ],
       child: BungalovumApp(

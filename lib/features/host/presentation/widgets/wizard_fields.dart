@@ -9,7 +9,9 @@ import '../../../../core/widgets/kz_chip.dart';
 import '../../../../core/widgets/kz_input.dart';
 import '../../../../core/widgets/kz_sheet.dart';
 import '../../../../core/widgets/kz_text_area.dart';
+import '../../../../core/widgets/kz_wheel_picker.dart';
 import '../../../../l10n/l10n.dart';
+import '../../domain/listing_draft.dart';
 
 /// Taslak alanına bağlı metin kutusu: ilk değeri taslaktan alır, her
 /// değişikliği [onChanged] ile taslağa yazar.
@@ -184,38 +186,154 @@ class _ValueBoxFieldState extends State<_ValueBoxField> {
   );
 }
 
-/// Sayı(lar) girme sheet'i: "Boyut" (en × boy), "Gecelik fiyat"…
-/// Dönen liste [labels] sırasındadır; ondalık değerler virgülle girilir.
+/// Kaydırmalı seçicideki tek bir sayı alanı.
+class WheelField {
+  const WheelField({
+    required this.label,
+    required this.range,
+    this.value,
+    this.unit,
+  });
+
+  final String label;
+  final NumberRange range;
+
+  /// Taslaktaki değer; null ise seçici [NumberRange.start]'tan açılır.
+  final num? value;
+  final String? unit;
+}
+
+/// iPhone tarzı kaydırmalı sayı sheet'i: "Kapalı alan", "Derinlik" (en az ×
+/// en çok)… Dönen liste [fields] sırasındadır. [ordered] ise ilk değer
+/// ikinciyi geçemez; biri öbürünü aşarsa diğeri onu izler.
+Future<List<double>?> showWheelSheet(
+  BuildContext context, {
+  required String title,
+  required List<WheelField> fields,
+  bool ordered = false,
+}) => showKzSheet<List<double>>(
+  context: context,
+  title: title,
+  closeLabel: context.l10n.close,
+  builder: (_) => _WheelForm(fields: fields, ordered: ordered),
+);
+
+class _WheelForm extends StatefulWidget {
+  const _WheelForm({required this.fields, required this.ordered});
+
+  final List<WheelField> fields;
+  final bool ordered;
+
+  @override
+  State<_WheelForm> createState() => _WheelFormState();
+}
+
+class _WheelFormState extends State<_WheelForm> {
+  late final _index = [
+    for (final f in widget.fields) f.range.indexOf(f.value ?? f.range.start),
+  ];
+
+  double _value(int i) => widget.fields[i].range.valueAt(_index[i]);
+
+  void _set(int i, int index) => setState(() {
+    _index[i] = index;
+    if (!widget.ordered || _index.length != 2) return;
+    final (low, high) = (_value(0), _value(1));
+    if (low <= high) return;
+    final other = 1 - i;
+    _index[other] = widget.fields[other].range.indexOf(_value(i));
+  });
+
+  int? _parse(NumberRange r, String s) {
+    final v = double.tryParse(s.trim().replaceAll(',', '.'));
+    return v == null ? null : r.indexOf(v);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final kz = context.kz;
+    final l = context.l10n;
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (final (i, f) in widget.fields.indexed) ...[
+                if (i > 0) const SizedBox(width: KzSpace.s10),
+                Expanded(
+                  child: Column(
+                    children: [
+                      if (widget.fields.length > 1) ...[
+                        Text(
+                          f.label,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: KzText.captionSemi.copyWith(color: kz.ink2),
+                        ),
+                        const SizedBox(height: KzSpace.s8),
+                      ],
+                      KzWheelPicker(
+                        itemCount: f.range.count,
+                        selected: _index[i],
+                        itemLabel: (n) => KzFormat.fixed(
+                          f.range.valueAt(n),
+                          f.range.decimals,
+                        ),
+                        unit: f.unit,
+                        semanticLabel: f.label,
+                        decimal: f.range.decimals > 0,
+                        parse: (s) => _parse(f.range, s),
+                        onChanged: (n) => _set(i, n),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ],
+          ),
+          const SizedBox(height: KzSpace.s12),
+          Text(
+            l.wheelHint,
+            textAlign: TextAlign.center,
+            style: KzText.caption.copyWith(color: kz.ink2),
+          ),
+          const SizedBox(height: KzSpace.s16),
+          KzButton(
+            label: l.save,
+            onPressed: () => Navigator.of(
+              context,
+            ).pop([for (var i = 0; i < _index.length; i++) _value(i)]),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Tutar girme sheet'i ("Gecelik fiyat"): klavyeyle tam lira girilir.
+/// Dönen liste [labels] sırasındadır.
 Future<List<num>?> showNumberSheet(
   BuildContext context, {
   required String title,
   required List<String> labels,
   required List<num?> initial,
-  bool decimal = false,
   String? suffix,
 }) => showKzSheet<List<num>>(
   context: context,
   title: title,
   closeLabel: context.l10n.close,
-  builder: (_) => _NumberForm(
-    labels: labels,
-    initial: initial,
-    decimal: decimal,
-    suffix: suffix,
-  ),
+  builder: (_) => _NumberForm(labels: labels, initial: initial, suffix: suffix),
 );
 
 class _NumberForm extends StatefulWidget {
-  const _NumberForm({
-    required this.labels,
-    required this.initial,
-    required this.decimal,
-    this.suffix,
-  });
+  const _NumberForm({required this.labels, required this.initial, this.suffix});
 
   final List<String> labels;
   final List<num?> initial;
-  final bool decimal;
   final String? suffix;
 
   @override
@@ -238,10 +356,7 @@ class _NumberFormState extends State<_NumberForm> {
     super.dispose();
   }
 
-  num? _parse(String s) {
-    final t = s.trim().replaceAll('.', '').replaceAll(',', '.');
-    return widget.decimal ? double.tryParse(t) : int.tryParse(t);
-  }
+  num? _parse(String s) => int.tryParse(s.trim().replaceAll('.', ''));
 
   List<num>? get _values {
     final out = <num>[];
@@ -274,13 +389,9 @@ class _NumberFormState extends State<_NumberForm> {
                     label: label,
                     controller: _cs[i],
                     hint: widget.suffix,
-                    keyboardType: TextInputType.numberWithOptions(
-                      decimal: widget.decimal,
-                    ),
+                    keyboardType: TextInputType.number,
                     inputFormatters: [
-                      FilteringTextInputFormatter.allow(
-                        RegExp(widget.decimal ? r'[\d,]' : r'[\d.]'),
-                      ),
+                      FilteringTextInputFormatter.allow(RegExp(r'[\d.]')),
                     ],
                     onChanged: (_) => setState(() {}),
                   ),

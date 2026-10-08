@@ -355,17 +355,22 @@ class BasicsStep extends ConsumerWidget {
     final l = context.l10n;
     final d = ref.read(hostDraftProvider).value!;
     final label = indoor ? l.wizIndoorM2 : l.wizGardenM2;
-    final r = await showNumberSheet(
+    final r = await showWheelSheet(
       context,
       title: label,
-      labels: [label],
-      initial: [indoor ? d.indoorM2 : d.gardenM2],
+      fields: [
+        WheelField(
+          label: label,
+          range: indoor ? ListingRules.indoorM2 : ListingRules.gardenM2,
+          value: indoor ? d.indoorM2 : d.gardenM2,
+        ),
+      ],
     );
     if (r == null) return;
     _editor(ref)(
       (d) => indoor
-          ? d.copyWith(indoorM2: r.first.toInt())
-          : d.copyWith(gardenM2: r.first.toInt()),
+          ? d.copyWith(indoorM2: r.first.round())
+          : d.copyWith(gardenM2: r.first.round()),
     );
   }
 }
@@ -385,17 +390,15 @@ class PoolAmenitiesStep extends ConsumerWidget {
 
     Future<void> pick({
       required String title,
-      required List<String> labels,
-      required List<num?> initial,
-      required bool decimal,
-      required ListingDraft Function(ListingDraft, List<num>) set,
+      required List<WheelField> fields,
+      required ListingDraft Function(ListingDraft, List<double>) set,
+      bool ordered = false,
     }) async {
-      final r = await showNumberSheet(
+      final r = await showWheelSheet(
         context,
         title: title,
-        labels: labels,
-        initial: initial,
-        decimal: decimal,
+        fields: fields,
+        ordered: ordered,
       );
       if (r != null) edit((d) => set(d, r));
     }
@@ -451,11 +454,16 @@ class PoolAmenitiesStep extends ConsumerWidget {
                               : l.celsius(d.poolTempC!),
                           onPressed: () => pick(
                             title: l.wizPoolTemp,
-                            labels: [l.wizPoolTemp],
-                            initial: [d.poolTempC],
-                            decimal: false,
+                            fields: [
+                              WheelField(
+                                label: l.wizPoolTemp,
+                                range: ListingRules.poolTempC,
+                                value: d.poolTempC,
+                                unit: l.wheelUnitCelsius,
+                              ),
+                            ],
                             set: (d, r) =>
-                                d.copyWith(poolTempC: r.first.toInt()),
+                                d.copyWith(poolTempC: r.first.round()),
                           ),
                         ),
                       ValueBox(
@@ -469,12 +477,22 @@ class PoolAmenitiesStep extends ConsumerWidget {
                               ),
                         onPressed: () => pick(
                           title: l.wizPoolDepth,
-                          labels: [l.wizMin, l.wizMax],
-                          initial: [d.poolDepthMinM, d.poolDepthMaxM],
-                          decimal: true,
+                          ordered: true,
+                          fields: [
+                            WheelField(
+                              label: l.wizMin,
+                              range: ListingRules.poolDepthMinM,
+                              value: d.poolDepthMinM,
+                            ),
+                            WheelField(
+                              label: l.wizMax,
+                              range: ListingRules.poolDepthMaxM,
+                              value: d.poolDepthMaxM,
+                            ),
+                          ],
                           set: (d, r) => d.copyWith(
-                            poolDepthMinM: r[0].toDouble(),
-                            poolDepthMaxM: r[1].toDouble(),
+                            poolDepthMinM: r[0],
+                            poolDepthMaxM: r[1],
                           ),
                         ),
                       ),
@@ -488,13 +506,20 @@ class PoolAmenitiesStep extends ConsumerWidget {
                               ),
                         onPressed: () => pick(
                           title: l.wizPoolSize,
-                          labels: [l.wizWidth, l.wizLength],
-                          initial: [d.poolWidthM, d.poolLengthM],
-                          decimal: true,
-                          set: (d, r) => d.copyWith(
-                            poolWidthM: r[0].toDouble(),
-                            poolLengthM: r[1].toDouble(),
-                          ),
+                          fields: [
+                            WheelField(
+                              label: l.wizWidth,
+                              range: ListingRules.poolWidthM,
+                              value: d.poolWidthM,
+                            ),
+                            WheelField(
+                              label: l.wizLength,
+                              range: ListingRules.poolLengthM,
+                              value: d.poolLengthM,
+                            ),
+                          ],
+                          set: (d, r) =>
+                              d.copyWith(poolWidthM: r[0], poolLengthM: r[1]),
                         ),
                       ),
                       ValueBox(

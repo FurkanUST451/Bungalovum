@@ -1,5 +1,7 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../auth/presentation/controllers/auth_controller.dart';
 import '../../../listing/domain/listing_detail.dart';
 import '../../data/host_repository.dart';
 import '../../domain/listing_draft.dart';
@@ -11,7 +13,17 @@ part 'host_controllers.g.dart';
 @Riverpod(keepAlive: true)
 class HostDraft extends _$HostDraft {
   @override
-  Future<ListingDraft?> build() => _repo.current();
+  Future<ListingDraft?> build() {
+    // Hesap değişince (çıkış/başka hesapla giriş) taslak yeniden okunur.
+    ref.watch(authSessionProvider.select((u) => u?.id));
+    return _repo.current();
+  }
+
+  /// Sunucudaki son hali okur (ör. inceleme sonucu, İlan Yönetimi açılınca).
+  Future<void> refresh() async {
+    final d = await _repo.current();
+    if (ref.mounted) state = AsyncData(d);
+  }
 
   HostRepository get _repo => ref.read(hostRepositoryProvider);
 
@@ -89,6 +101,7 @@ class HostDraft extends _$HostDraft {
     edit(
       (d) => d.copyWith(
         identityDone: server.identityDone,
+        identityStatus: server.identityStatus,
         verifiedName: server.verifiedName,
         accountHolder: d.accountHolder.isEmpty && server.verifiedName != null
             ? server.verifiedName!

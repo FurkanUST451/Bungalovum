@@ -1857,6 +1857,23 @@ class AppLocalizationsTr extends AppLocalizations {
   String get wizAmenities => 'Olanaklar';
 
   @override
+  String get wheelHint => 'Kaydır ya da ortadaki değere dokunup yaz';
+
+  @override
+  String minCharsHint(int count, int min) {
+    return 'Devam etmek için en az $min karakter yaz · $count / $min';
+  }
+
+  @override
+  String get wheelUnitCelsius => '°C';
+
+  @override
+  String get wheelUnitPercent => '%';
+
+  @override
+  String get wheelUnitNights => 'gece';
+
+  @override
   String get poolHeatedShort => 'Isıtmalı';
 
   @override
@@ -2348,6 +2365,41 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get errorIbanHolder =>
       'Hesap sahibi, doğrulanan kimliğindeki adla aynı olmalı.';
+
+  @override
+  String get identityRejected =>
+      'Kimliğini doğrulayamadık. Üç fotoğrafı iyi ışıkta yeniden çek.';
+
+  @override
+  String get errorListingIncomplete =>
+      'Bazı adımlarda eksik bilgi var. Önizlemedeki işaretli bölümleri tamamla.';
+
+  @override
+  String get errorConsents => 'Göndermeden önce üç onayı da işaretle.';
+
+  @override
+  String get errorListingInReview =>
+      'İlanın incelemede. İnceleme bitince düzenleyebilirsin.';
+
+  @override
+  String get errorTaxId =>
+      'Vergi bilgisini kontrol et; numara geçerli görünmüyor.';
+
+  @override
+  String get errorUnpublishBookings =>
+      'Yaklaşan rezervasyonların var. Önce onları tamamla ya da iptal et.';
+
+  @override
+  String get errorSessionExpired =>
+      'Oturumun sona ermiş. Tekrar giriş yapıp dene.';
+
+  @override
+  String get errorAddressNotFound =>
+      'Adresi haritada bulamadık. İl ve ilçe adını kontrol edip tekrar dene.';
+
+  @override
+  String get errorIbanRequired =>
+      'Hesap sahibini değiştirmek için IBAN\'ı da yeniden gir.';
 
   @override
   String get wizBillingContact => 'Fatura ve iletişim';
