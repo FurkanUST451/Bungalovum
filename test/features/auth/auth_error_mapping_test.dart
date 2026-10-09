@@ -18,7 +18,10 @@ void main() {
     });
 
     test('doğrulanmamış e-posta, hesap sızdırmamak için aynı hata', () {
-      expect(mapAuthError(api('email_not_confirmed')), isA<InvalidCredentials>());
+      expect(
+        mapAuthError(api('email_not_confirmed')),
+        isA<InvalidCredentials>(),
+      );
     });
 
     test('hız sınırı kilitli giriş sayılır', () {

@@ -55,7 +55,6 @@ void main() {
   EditableText editable(WidgetTester tester) =>
       tester.widget<EditableText>(find.byType(EditableText));
 
-
   group('codeFromText', () {
     String? code(String? t) => KzOtpField.codeFromText(t, 6);
 

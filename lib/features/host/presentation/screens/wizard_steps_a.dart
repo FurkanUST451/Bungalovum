@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../../core/data/tr_districts.dart';
 import '../../../../core/icons/kz_icons.dart';
 import '../../../../core/theme/tokens.dart';
 import '../../../../core/utils/formatters.dart';
@@ -101,20 +102,18 @@ class TypeLocationStep extends ConsumerWidget {
         Row(
           children: [
             Expanded(
-              child: DraftInput(
+              child: ValueBox(
                 label: l.wizCity,
-                value: d.city,
-                capitalization: TextCapitalization.words,
-                onChanged: (v) => edit((d) => d.copyWith(city: v)),
+                value: d.city.isEmpty ? null : d.city,
+                onPressed: () => _pickCity(context, ref),
               ),
             ),
             const SizedBox(width: KzSpace.s10),
             Expanded(
-              child: DraftInput(
+              child: ValueBox(
                 label: l.wizDistrict,
-                value: d.district,
-                capitalization: TextCapitalization.words,
-                onChanged: (v) => edit((d) => d.copyWith(district: v)),
+                value: d.district.isEmpty ? null : d.district,
+                onPressed: () => _pickDistrict(context, ref),
               ),
             ),
           ],
@@ -168,6 +167,48 @@ class TypeLocationStep extends ConsumerWidget {
   }
 
   static const double _mapAspect = 350 / 150;
+
+  Future<void> _pickCity(BuildContext context, WidgetRef ref) async {
+    final l = context.l10n;
+    final d = ref.read(hostDraftProvider).value!;
+    final city = await showSearchPickerSheet(
+      context,
+      title: l.wizCity,
+      searchLabel: l.wizCitySearch,
+      items: trDistricts.keys.toList(),
+      selected: d.city,
+    );
+    if (city == null || city == d.city) return;
+    // İl değişince eski ilçe yeni ile ait değilse temizlenir.
+    _editor(ref)(
+      (d) => d.copyWith(
+        city: city,
+        district: (trDistricts[city] ?? const []).contains(d.district)
+            ? d.district
+            : '',
+      ),
+    );
+  }
+
+  Future<void> _pickDistrict(BuildContext context, WidgetRef ref) async {
+    final l = context.l10n;
+    final d = ref.read(hostDraftProvider).value!;
+    final districts = trDistricts[d.city];
+    if (districts == null) {
+      showKzToast(context, l.wizCityFirst);
+      return;
+    }
+    final district = await showSearchPickerSheet(
+      context,
+      title: l.wizDistrict,
+      searchLabel: l.wizDistrictSearch,
+      items: districts,
+      selected: d.district,
+    );
+    if (district != null) {
+      _editor(ref)((d) => d.copyWith(district: district));
+    }
+  }
 }
 
 /// 84 · İlan 2 — Temel Bilgiler.

@@ -30,6 +30,15 @@ Future<void> _enter(WidgetTester tester, String label, String text) async {
   await tester.pump();
 }
 
+/// Etiketli seçim kutusuna (il/ilçe) dokunup listeyi açar.
+Future<void> _openPicker(WidgetTester tester, String label) async {
+  final box = find.byWidgetPredicate((w) => w is KzInput && w.label == label);
+  await tester.ensureVisible(box);
+  await tester.pump();
+  await tester.tap(box);
+  await _settle(tester);
+}
+
 void main() {
   setUpAll(() => initializeDateFormatting(kzLocale));
 
@@ -56,8 +65,24 @@ void main() {
       await tester.tap(find.text('Orman içi'));
       await tester.pump();
       await _enter(tester, 'Açık adres', 'Göl Sk. No: 3');
-      await _enter(tester, 'İl', 'Sakarya');
-      await _enter(tester, 'İlçe', 'Sapanca');
+      expect(_button(tester, 'Devam').onPressed, isNull);
+
+      // İl: listeden arayarak seç ("sak" → Sakarya).
+      await _openPicker(tester, 'İl');
+      expect(find.text('Adana'), findsOneWidget);
+      await _enter(tester, 'İl ara', 'sak');
+      expect(find.text('Adana'), findsNothing);
+      await tester.tap(find.text('Sakarya'));
+      await _settle(tester);
+
+      // İlçe: yalnızca seçilen ilin ilçeleri listelenir.
+      await _openPicker(tester, 'İlçe');
+      expect(find.text('Adapazarı'), findsOneWidget);
+      await _enter(tester, 'İlçe ara', 'kadık');
+      expect(find.text('Kadıköy'), findsNothing);
+      await _enter(tester, 'İlçe ara', 'sap');
+      await tester.tap(find.text('Sapanca'));
+      await _settle(tester);
       expect(_button(tester, 'Devam').onPressed, isNotNull);
 
       _button(tester, 'Devam').onPressed!();

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../../../../core/icons/kz_icons.dart';
 import '../../../../core/theme/tokens.dart';
 import '../../../../core/utils/formatters.dart';
+import '../../../../core/utils/tr_search.dart';
 import '../../../../core/widgets/kz_button.dart';
 import '../../../../core/widgets/kz_chip.dart';
 import '../../../../core/widgets/kz_input.dart';
@@ -184,6 +185,101 @@ class _ValueBoxFieldState extends State<_ValueBoxField> {
       onTap: widget.onPressed,
     ),
   );
+}
+
+/// Aranabilir liste sheet'i (il, ilçe). Tüm seçenekler görünür; yazdıkça
+/// Türkçe kurallarla süzülür ("i" → İstanbul, Iğdır…). Seçileni döner.
+Future<String?> showSearchPickerSheet(
+  BuildContext context, {
+  required String title,
+  required String searchLabel,
+  required List<String> items,
+  String? selected,
+}) => showKzSheet<String>(
+  context: context,
+  title: title,
+  closeLabel: context.l10n.close,
+  builder: (_) =>
+      _SearchPicker(searchLabel: searchLabel, items: items, selected: selected),
+);
+
+class _SearchPicker extends StatefulWidget {
+  const _SearchPicker({
+    required this.searchLabel,
+    required this.items,
+    this.selected,
+  });
+
+  final String searchLabel;
+  final List<String> items;
+  final String? selected;
+
+  /// Liste, klavye dışında kalan yüksekliğin bu kadarını kaplar.
+  static const double _listFraction = 0.5;
+
+  @override
+  State<_SearchPicker> createState() => _SearchPickerState();
+}
+
+class _SearchPickerState extends State<_SearchPicker> {
+  final _query = TextEditingController();
+
+  @override
+  void dispose() {
+    _query.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final kz = context.kz;
+    final l = context.l10n;
+    final mq = MediaQuery.of(context);
+    final inset = mq.viewInsets.bottom;
+    final results = TrSearch.filter(widget.items, _query.text);
+    return Padding(
+      padding: EdgeInsets.only(bottom: inset),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          KzInput(
+            label: widget.searchLabel,
+            controller: _query,
+            icon: KzIcons.search,
+            textCapitalization: TextCapitalization.words,
+            textInputAction: TextInputAction.done,
+            onChanged: (_) => setState(() {}),
+            // Tek sonuç kaldıysa klavyedeki "Bitti" onu seçer.
+            onSubmitted: (_) {
+              if (results.length == 1) Navigator.of(context).pop(results.first);
+            },
+          ),
+          const SizedBox(height: KzSpace.s8),
+          SizedBox(
+            height: (mq.size.height - inset) * _SearchPicker._listFraction,
+            child: results.isEmpty
+                ? Center(
+                    child: Text(
+                      l.pickerNoMatch,
+                      style: KzText.bodySm.copyWith(color: kz.ink2),
+                    ),
+                  )
+                : ListView.separated(
+                    itemCount: results.length,
+                    separatorBuilder: (_, _) =>
+                        Container(height: KzSize.border, color: kz.line),
+                    itemBuilder: (_, i) => KzOptionRow(
+                      label: results[i],
+                      selected: results[i] == widget.selected,
+                      onPressed: () => Navigator.of(context).pop(results[i]),
+                    ),
+                  ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 /// Kaydırmalı seçicideki tek bir sayı alanı.

@@ -268,7 +268,9 @@ class SupabaseHostRepository implements HostRepository {
         d.city.trim() != before.city.trim() ||
         d.district.trim() != before.district.trim();
     final canLocate = d.city.trim().isNotEmpty && d.district.trim().isNotEmpty;
-    if (_geocodeEnabled && canLocate && (addressChanged || d.latitude == null)) {
+    if (_geocodeEnabled &&
+        canLocate &&
+        (addressChanged || d.latitude == null)) {
       final at = await _geocode(d);
       next = next.copyWith(latitude: at?.$1, longitude: at?.$2);
       if (at == null && d.address.trim().isNotEmpty) {

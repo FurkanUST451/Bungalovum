@@ -1764,6 +1764,18 @@ class AppLocalizationsTr extends AppLocalizations {
   String get wizDistrict => 'İlçe';
 
   @override
+  String get wizCitySearch => 'İl ara';
+
+  @override
+  String get wizDistrictSearch => 'İlçe ara';
+
+  @override
+  String get wizCityFirst => 'Önce ili seç';
+
+  @override
+  String get pickerNoMatch => 'Eşleşen sonuç yok. Yazımı kontrol et.';
+
+  @override
   String get wizPinHint => 'Pini sürükleyerek konumu düzelt';
 
   @override
@@ -2373,6 +2385,11 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get errorListingIncomplete =>
       'Bazı adımlarda eksik bilgi var. Önizlemedeki işaretli bölümleri tamamla.';
+
+  @override
+  String errorListingIncompleteSteps(String steps) {
+    return 'Şu adımlarda eksik bilgi var: $steps. Tamamlayıp tekrar gönder.';
+  }
 
   @override
   String get errorConsents => 'Göndermeden önce üç onayı da işaretle.';

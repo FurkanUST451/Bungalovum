@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../core/data/tr_districts.dart';
 import '../../booking/domain/booking.dart';
 import '../../listing/domain/listing.dart';
 import '../../listing/domain/listing_detail.dart';
@@ -408,8 +409,8 @@ abstract final class DraftValidator {
       d.propertyType != null &&
           d.settings.isNotEmpty &&
           d.address.trim().isNotEmpty &&
-          d.city.trim().isNotEmpty &&
-          d.district.trim().isNotEmpty,
+          // İl ve ilçe hazır listeden seçilir.
+          (trDistricts[d.city]?.contains(d.district) ?? false),
     WizardStep.basics =>
       d.maxGuests >= 1 &&
           d.beds >= 1 &&
@@ -447,14 +448,14 @@ abstract final class DraftValidator {
     WizardStep.identityAndPayout =>
       !requireIdentityPayout ||
           d.identityDone.length == IdentityStep.values.length &&
-          d.identityStatus != VerificationStatus.rejected &&
-          (IbanValidator.isValidTr(d.iban) ||
-              (d.iban.isEmpty && d.ibanMasked != null)) &&
-          d.accountHolder.trim().isNotEmpty &&
-          (d.verifiedName == null ||
-              NameMatcher.same(d.accountHolder, d.verifiedName!)) &&
-          d.billingAddress.trim().isNotEmpty &&
-          d.emergencyPhone.replaceAll(RegExp(r'\D'), '').length >= 10,
+              d.identityStatus != VerificationStatus.rejected &&
+              (IbanValidator.isValidTr(d.iban) ||
+                  (d.iban.isEmpty && d.ibanMasked != null)) &&
+              d.accountHolder.trim().isNotEmpty &&
+              (d.verifiedName == null ||
+                  NameMatcher.same(d.accountHolder, d.verifiedName!)) &&
+              d.billingAddress.trim().isNotEmpty &&
+              d.emergencyPhone.replaceAll(RegExp(r'\D'), '').length >= 10,
   };
 
   /// Belge dosyaları şimdilik zorunlu değil; geri açınca backend'deki

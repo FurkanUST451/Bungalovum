@@ -77,7 +77,16 @@ void main() {
         l.errorIbanHolder,
       );
       expect(
-        hostErrorMessage(l, const HostFailure('listing_incomplete', 'photos')),
+        hostErrorMessage(
+          l,
+          const HostFailure('listing_incomplete', 'legal,identity_and_payout'),
+        ),
+        l.errorListingIncompleteSteps(
+          '${l.stepLegal}, ${l.stepIdentityPayout}',
+        ),
+      );
+      expect(
+        hostErrorMessage(l, const HostFailure('listing_incomplete')),
         l.errorListingIncomplete,
       );
       expect(

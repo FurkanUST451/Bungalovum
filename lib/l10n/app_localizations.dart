@@ -3094,6 +3094,30 @@ abstract class AppLocalizations {
   /// **'İlçe'**
   String get wizDistrict;
 
+  /// No description provided for @wizCitySearch.
+  ///
+  /// In tr, this message translates to:
+  /// **'İl ara'**
+  String get wizCitySearch;
+
+  /// No description provided for @wizDistrictSearch.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlçe ara'**
+  String get wizDistrictSearch;
+
+  /// No description provided for @wizCityFirst.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önce ili seç'**
+  String get wizCityFirst;
+
+  /// No description provided for @pickerNoMatch.
+  ///
+  /// In tr, this message translates to:
+  /// **'Eşleşen sonuç yok. Yazımı kontrol et.'**
+  String get pickerNoMatch;
+
   /// No description provided for @wizPinHint.
   ///
   /// In tr, this message translates to:
@@ -4239,6 +4263,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Bazı adımlarda eksik bilgi var. Önizlemedeki işaretli bölümleri tamamla.'**
   String get errorListingIncomplete;
+
+  /// No description provided for @errorListingIncompleteSteps.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şu adımlarda eksik bilgi var: {steps}. Tamamlayıp tekrar gönder.'**
+  String errorListingIncompleteSteps(String steps);
 
   /// No description provided for @errorConsents.
   ///
