@@ -30,17 +30,41 @@ const _$WeatherConditionEnumMap = {
   WeatherCondition.snowy: 'snowy',
 };
 
+_ExploreSection _$ExploreSectionFromJson(Map<String, dynamic> json) =>
+    _ExploreSection(
+      kind: $enumDecode(_$ExploreSectionKindEnumMap, json['kind']),
+      regionLocative: json['regionLocative'] as String,
+      location: json['location'] as String,
+      listings:
+          (json['listings'] as List<dynamic>?)
+              ?.map((e) => Listing.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <Listing>[],
+    );
+
+Map<String, dynamic> _$ExploreSectionToJson(_ExploreSection instance) =>
+    <String, dynamic>{
+      'kind': _$ExploreSectionKindEnumMap[instance.kind]!,
+      'regionLocative': instance.regionLocative,
+      'location': instance.location,
+      'listings': instance.listings.map((e) => e.toJson()).toList(),
+    };
+
+const _$ExploreSectionKindEnumMap = {
+  ExploreSectionKind.loved: 'loved',
+  ExploreSectionKind.favorites: 'favorites',
+};
+
 _ExploreFeed _$ExploreFeedFromJson(Map<String, dynamic> json) => _ExploreFeed(
   locationLabel: json['locationLabel'] as String,
-  regionLocative: json['regionLocative'] as String,
   weather: json['weather'] == null
       ? null
       : WeatherSummary.fromJson(json['weather'] as Map<String, dynamic>),
-  popular:
-      (json['popular'] as List<dynamic>?)
-          ?.map((e) => Listing.fromJson(e as Map<String, dynamic>))
+  sections:
+      (json['sections'] as List<dynamic>?)
+          ?.map((e) => ExploreSection.fromJson(e as Map<String, dynamic>))
           .toList() ??
-      const <Listing>[],
+      const <ExploreSection>[],
   weekendStart: DateTime.parse(json['weekendStart'] as String),
   weekendEnd: DateTime.parse(json['weekendEnd'] as String),
   weekendDeals:
@@ -53,9 +77,8 @@ _ExploreFeed _$ExploreFeedFromJson(Map<String, dynamic> json) => _ExploreFeed(
 Map<String, dynamic> _$ExploreFeedToJson(_ExploreFeed instance) =>
     <String, dynamic>{
       'locationLabel': instance.locationLabel,
-      'regionLocative': instance.regionLocative,
       'weather': instance.weather?.toJson(),
-      'popular': instance.popular.map((e) => e.toJson()).toList(),
+      'sections': instance.sections.map((e) => e.toJson()).toList(),
       'weekendStart': instance.weekendStart.toIso8601String(),
       'weekendEnd': instance.weekendEnd.toIso8601String(),
       'weekendDeals': instance.weekendDeals.map((e) => e.toJson()).toList(),

@@ -13,7 +13,14 @@ import 'features/auth/data/auth_repository.dart';
 import 'features/auth/data/remembering_session_storage.dart';
 import 'features/auth/data/supabase_auth_repository.dart';
 import 'features/host/data/host_repository.dart';
+import 'features/explore/data/explore_repository.dart';
+import 'features/explore/data/supabase_explore_repository.dart';
 import 'features/host/data/supabase_host_repository.dart';
+import 'features/listing/data/listing_repository.dart';
+import 'features/listing/data/supabase_listing_repository.dart';
+import 'features/search/data/mock_search_repository.dart';
+import 'features/search/data/search_repository.dart';
+import 'features/search/data/supabase_search_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,6 +49,19 @@ Future<void> main() async {
         ),
         hostRepositoryProvider.overrideWithValue(
           SupabaseHostRepository(Supabase.instance.client),
+        ),
+        // Misafir tarafı: gerçek ilanlarla gözatma.
+        exploreRepositoryProvider.overrideWithValue(
+          SupabaseExploreRepository(Supabase.instance.client),
+        ),
+        searchRepositoryProvider.overrideWithValue(
+          SupabaseSearchRepository(
+            Supabase.instance.client,
+            MockSearchRepository(),
+          ),
+        ),
+        listingRepositoryProvider.overrideWithValue(
+          SupabaseListingRepository(Supabase.instance.client),
         ),
       ],
       child: BungalovumApp(

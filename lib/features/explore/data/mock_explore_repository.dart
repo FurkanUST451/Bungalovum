@@ -44,14 +44,20 @@ class MockExploreRepository implements ExploreRepository {
 
     return ExploreFeed(
       locationLabel: 'Sapanca, Sakarya',
-      regionLocative: "Sapanca'da",
       weather: WeatherSummary(
         date: saturday,
         temperatureC: 24,
         condition: WeatherCondition.sunny,
         availableCount: 38,
       ),
-      popular: popular,
+      sections: [
+        ExploreSection(
+          kind: ExploreSectionKind.loved,
+          regionLocative: "Sapanca'da",
+          location: 'Sapanca',
+          listings: popular,
+        ),
+      ],
       weekendStart: friday,
       weekendEnd: sunday,
       weekendDeals: weekend,

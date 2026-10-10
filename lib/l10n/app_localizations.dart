@@ -220,6 +220,12 @@ abstract class AppLocalizations {
   /// **'{region} en sevilenler'**
   String explorePopularTitle(String region);
 
+  /// region, bulunma ekiyle gelir: Samsun'da
+  ///
+  /// In tr, this message translates to:
+  /// **'{region} favori mekanlar'**
+  String exploreFavoritesTitle(String region);
+
   /// No description provided for @explorePopularSubtitle.
   ///
   /// In tr, this message translates to:
@@ -3118,16 +3124,10 @@ abstract class AppLocalizations {
   /// **'Eşleşen sonuç yok. Yazımı kontrol et.'**
   String get pickerNoMatch;
 
-  /// No description provided for @wizPinHint.
-  ///
-  /// In tr, this message translates to:
-  /// **'Pini sürükleyerek konumu düzelt'**
-  String get wizPinHint;
-
   /// No description provided for @wizAddressPrivacy.
   ///
   /// In tr, this message translates to:
-  /// **'Tam adres yalnızca rezervasyonu onaylanan misafirle paylaşılır.'**
+  /// **'Tam konumu ilanını incelerken biz doğrularız. Tam adres yalnızca rezervasyonu onaylanan misafirle paylaşılır.'**
   String get wizAddressPrivacy;
 
   /// No description provided for @wizBasicsTitle.

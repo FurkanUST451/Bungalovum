@@ -75,6 +75,11 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String exploreFavoritesTitle(String region) {
+    return '$region favori mekanlar';
+  }
+
+  @override
   String get explorePopularSubtitle => 'Gecelik fiyat · tüm ücretler dahil';
 
   @override
@@ -1776,11 +1781,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get pickerNoMatch => 'Eşleşen sonuç yok. Yazımı kontrol et.';
 
   @override
-  String get wizPinHint => 'Pini sürükleyerek konumu düzelt';
-
-  @override
   String get wizAddressPrivacy =>
-      'Tam adres yalnızca rezervasyonu onaylanan misafirle paylaşılır.';
+      'Tam konumu ilanını incelerken biz doğrularız. Tam adres yalnızca rezervasyonu onaylanan misafirle paylaşılır.';
 
   @override
   String get wizBasicsTitle => 'Kaç kişi ağırlayabilirsin?';

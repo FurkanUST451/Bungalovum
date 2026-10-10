@@ -26,7 +26,8 @@ class _Sections extends ConsumerWidget {
       ),
       _TitleBlock(detail: detail),
       _Stats(detail: detail),
-      _RatingStrip(detail: detail),
+      // Yeni ilanda henüz değerlendirme yok: "0,0" puan gösterilmez.
+      if (detail.reviewCount > 0) _RatingStrip(detail: detail),
       _HostRow(detail: detail),
       if (detail.highlights.isNotEmpty) _Highlights(items: detail.highlights),
       if (detail.pool != null) _PoolCard(pool: detail.pool!),
@@ -46,7 +47,7 @@ class _Sections extends ConsumerWidget {
           ),
         ],
       ),
-      _ReviewsPreview(detail: detail),
+      if (detail.reviewCount > 0) _ReviewsPreview(detail: detail),
       divider(),
       _AmenitiesPreview(detail: detail),
       divider(),

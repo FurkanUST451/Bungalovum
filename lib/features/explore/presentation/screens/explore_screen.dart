@@ -15,6 +15,7 @@ import '../../../../l10n/l10n.dart';
 import '../../../chat/presentation/controllers/chat_controllers.dart';
 import '../../../listing/domain/listing.dart';
 import '../../domain/explore_feed.dart';
+import '../../../search/presentation/controllers/search_controller.dart';
 import '../controllers/explore_controller.dart';
 import '../widgets/category_strip.dart';
 import '../widgets/explore_header.dart';
@@ -37,6 +38,12 @@ class ExploreScreen extends ConsumerWidget {
   void _openResults(BuildContext c) => c.push(AppRoutes.results);
   void _openListing(BuildContext c, Listing l) =>
       c.push(AppRoutes.listing(l.id));
+
+  /// Bölge şeridinin "Tümünü gör"ü: o bölgenin arama sonuçları.
+  void _openRegion(BuildContext c, WidgetRef ref, String location) {
+    ref.read(searchQueryControllerProvider.notifier).setLocation(location);
+    _openResults(c);
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -115,7 +122,7 @@ class ExploreScreen extends ConsumerWidget {
                 else if (loading)
                   ..._loadingSlivers(inset, padded)
                 else if (feed != null)
-                  ..._feedSlivers(context, feed, size, inset, padded),
+                  ..._feedSlivers(context, ref, feed, size, inset, padded),
                 SliverToBoxAdapter(child: SizedBox(height: bottomSpace)),
               ],
             );
@@ -158,13 +165,18 @@ class ExploreScreen extends ConsumerWidget {
 
   List<Widget> _feedSlivers(
     BuildContext context,
+    WidgetRef ref,
     ExploreFeed feed,
     KzWindowSize size,
     double inset,
     Widget Function(Widget) padded,
   ) {
     final l = context.l10n;
-    if (feed.popular.isEmpty && feed.weekendDeals.isEmpty) {
+    final sections = [
+      for (final s in feed.sections)
+        if (s.listings.isNotEmpty) s,
+    ];
+    if (sections.isEmpty && feed.weekendDeals.isEmpty) {
       return [
         SliverToBoxAdapter(
           child: padded(
@@ -182,19 +194,28 @@ class ExploreScreen extends ConsumerWidget {
         : feed.weekendDeals.first.price.nights;
 
     return [
-      if (feed.popular.isNotEmpty) ...[
+      for (final (i, section) in sections.indexed) ...[
+        if (i > 0)
+          const SliverToBoxAdapter(child: SizedBox(height: KzSpace.s18)),
         SliverToBoxAdapter(
           child: padded(
             ExploreSectionHeader(
-              title: l.explorePopularTitle(feed.regionLocative),
+              title: switch (section.kind) {
+                ExploreSectionKind.loved => l.explorePopularTitle(
+                  section.regionLocative,
+                ),
+                ExploreSectionKind.favorites => l.exploreFavoritesTitle(
+                  section.regionLocative,
+                ),
+              },
               subtitle: l.explorePopularSubtitle,
-              onSeeAll: () => _openResults(context),
+              onSeeAll: () => _openRegion(context, ref, section.location),
             ),
           ),
         ),
         SliverToBoxAdapter(
           child: PopularCarousel(
-            listings: feed.popular,
+            listings: section.listings,
             inset: inset,
             onOpen: (l) => _openListing(context, l),
           ),

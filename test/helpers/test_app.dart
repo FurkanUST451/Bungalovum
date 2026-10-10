@@ -49,9 +49,10 @@ EdgeInsets devicePadding(Size size) => size.width < 600
 List<Override> _overrides({
   PermissionService? permissions,
   ConnectivityService? connectivity,
+  ExploreRepository? explore,
 }) => [
   exploreRepositoryProvider.overrideWithValue(
-    MockExploreRepository(clock: fixedClock, latency: Duration.zero),
+    explore ?? MockExploreRepository(clock: fixedClock, latency: Duration.zero),
   ),
   authRepositoryProvider.overrideWithValue(
     MockAuthRepository(latency: Duration.zero),
@@ -95,8 +96,13 @@ Widget _device({
   required Widget child,
   PermissionService? permissions,
   ConnectivityService? connectivity,
+  ExploreRepository? explore,
 }) => ProviderScope(
-  overrides: _overrides(permissions: permissions, connectivity: connectivity),
+  overrides: _overrides(
+    permissions: permissions,
+    connectivity: connectivity,
+    explore: explore,
+  ),
   child: MediaQuery(
     data: MediaQueryData(
       size: size,
@@ -132,11 +138,13 @@ Widget testScreen(
   double textScale = 1,
   PermissionService? permissions,
   ConnectivityService? connectivity,
+  ExploreRepository? explore,
 }) => _device(
   size: size,
   textScale: textScale,
   permissions: permissions,
   connectivity: connectivity,
+  explore: explore,
   child: BungalovumApp(
     router: GoRouter(
       routes: [GoRoute(path: '/', builder: (_, _) => screen)],

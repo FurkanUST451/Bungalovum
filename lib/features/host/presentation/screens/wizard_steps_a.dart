@@ -13,7 +13,6 @@ import '../../../../core/widgets/kz_counter.dart';
 import '../../../../core/widgets/kz_dashed_border.dart';
 import '../../../../core/widgets/kz_group.dart';
 import '../../../../core/widgets/kz_icon.dart';
-import '../../../../core/widgets/kz_map_backdrop.dart';
 import '../../../../core/widgets/kz_photo.dart';
 import '../../../../core/widgets/kz_photo_picker.dart';
 import '../../../../core/widgets/kz_pressable.dart';
@@ -91,14 +90,6 @@ class TypeLocationStep extends ConsumerWidget {
           ],
         ),
         WizardSection(l.wizAddressSection),
-        DraftInput(
-          label: l.wizAddressLabel,
-          icon: KzIcons.pin,
-          value: d.address,
-          capitalization: TextCapitalization.words,
-          onChanged: (v) => edit((d) => d.copyWith(address: v)),
-        ),
-        const SizedBox(height: KzSpace.s10),
         Row(
           children: [
             Expanded(
@@ -119,45 +110,15 @@ class TypeLocationStep extends ConsumerWidget {
           ],
         ),
         const SizedBox(height: KzSpace.s10),
-        ClipRRect(
-          borderRadius: KzRadii.all(KzRadii.lg),
-          child: AspectRatio(
-            aspectRatio: _mapAspect,
-            child: Stack(
-              children: [
-                const Positioned.fill(child: KzMapBackdrop()),
-                Center(
-                  child: Container(
-                    width: KzSize.circleMd,
-                    height: KzSize.circleMd,
-                    decoration: BoxDecoration(
-                      color: kz.forest,
-                      shape: BoxShape.circle,
-                      boxShadow: KzShadows.strong,
-                    ),
-                    child: Center(
-                      child: KzIcon(
-                        KzIcons.home,
-                        size: KzSize.iconMd,
-                        color: kz.onForest,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: KzSpace.s12,
-                  bottom: KzSpace.s12,
-                  child: KzChip(
-                    label: l.wizPinHint,
-                    variant: KzChipVariant.soft,
-                    size: KzChipSize.small,
-                  ),
-                ),
-              ],
-            ),
-          ),
+        DraftInput(
+          label: l.wizAddressLabel,
+          icon: KzIcons.pin,
+          value: d.address,
+          capitalization: TextCapitalization.words,
+          onChanged: (v) => edit((d) => d.copyWith(address: v)),
         ),
         const SizedBox(height: KzSpace.s10),
+        // Harita pini yok: tam konumu ilan incelemesinde yönetici girer.
         Text(
           l.wizAddressPrivacy,
           style: KzText.caption.copyWith(color: kz.ink2),
@@ -165,8 +126,6 @@ class TypeLocationStep extends ConsumerWidget {
       ],
     );
   }
-
-  static const double _mapAspect = 350 / 150;
 
   Future<void> _pickCity(BuildContext context, WidgetRef ref) async {
     final l = context.l10n;

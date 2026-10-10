@@ -288,12 +288,293 @@ as int,
 
 
 /// @nodoc
+mixin _$ExploreSection {
+
+ ExploreSectionKind get kind;/// Bölge adı, Türkçe bulunma ekiyle: "Sapanca'da".
+ String get regionLocative;/// "Tümünü gör"de aranacak konum: "Sapanca".
+ String get location; List<Listing> get listings;
+/// Create a copy of ExploreSection
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ExploreSectionCopyWith<ExploreSection> get copyWith => _$ExploreSectionCopyWithImpl<ExploreSection>(this as ExploreSection, _$identity);
+
+  /// Serializes this ExploreSection to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExploreSection&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.regionLocative, regionLocative) || other.regionLocative == regionLocative)&&(identical(other.location, location) || other.location == location)&&const DeepCollectionEquality().equals(other.listings, listings));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,kind,regionLocative,location,const DeepCollectionEquality().hash(listings));
+
+@override
+String toString() {
+  return 'ExploreSection(kind: $kind, regionLocative: $regionLocative, location: $location, listings: $listings)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ExploreSectionCopyWith<$Res>  {
+  factory $ExploreSectionCopyWith(ExploreSection value, $Res Function(ExploreSection) _then) = _$ExploreSectionCopyWithImpl;
+@useResult
+$Res call({
+ ExploreSectionKind kind, String regionLocative, String location, List<Listing> listings
+});
+
+
+
+
+}
+/// @nodoc
+class _$ExploreSectionCopyWithImpl<$Res>
+    implements $ExploreSectionCopyWith<$Res> {
+  _$ExploreSectionCopyWithImpl(this._self, this._then);
+
+  final ExploreSection _self;
+  final $Res Function(ExploreSection) _then;
+
+/// Create a copy of ExploreSection
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? kind = null,Object? regionLocative = null,Object? location = null,Object? listings = null,}) {
+  return _then(ExploreSection(
+kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
+as ExploreSectionKind,regionLocative: null == regionLocative ? _self.regionLocative : regionLocative // ignore: cast_nullable_to_non_nullable
+as String,location: null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
+as String,listings: null == listings ? _self.listings : listings // ignore: cast_nullable_to_non_nullable
+as List<Listing>,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [ExploreSection].
+extension ExploreSectionPatterns on ExploreSection {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ExploreSection value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ExploreSection() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ExploreSection value)  $default,){
+final _that = this;
+switch (_that) {
+case _ExploreSection():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ExploreSection value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ExploreSection() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ExploreSectionKind kind,  String regionLocative,  String location,  List<Listing> listings)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ExploreSection() when $default != null:
+return $default(_that.kind,_that.regionLocative,_that.location,_that.listings);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ExploreSectionKind kind,  String regionLocative,  String location,  List<Listing> listings)  $default,) {final _that = this;
+switch (_that) {
+case _ExploreSection():
+return $default(_that.kind,_that.regionLocative,_that.location,_that.listings);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ExploreSectionKind kind,  String regionLocative,  String location,  List<Listing> listings)?  $default,) {final _that = this;
+switch (_that) {
+case _ExploreSection() when $default != null:
+return $default(_that.kind,_that.regionLocative,_that.location,_that.listings);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ExploreSection implements ExploreSection {
+  const _ExploreSection({required this.kind, required this.regionLocative, required this.location,  List<Listing> listings = const <Listing>[]}): _listings = listings;
+  factory _ExploreSection.fromJson(Map<String, dynamic> json) => _$ExploreSectionFromJson(json);
+
+@override final  ExploreSectionKind kind;
+/// Bölge adı, Türkçe bulunma ekiyle: "Sapanca'da".
+@override final  String regionLocative;
+/// "Tümünü gör"de aranacak konum: "Sapanca".
+@override final  String location;
+ final  List<Listing> _listings;
+@override@JsonKey() List<Listing> get listings {
+  if (_listings is EqualUnmodifiableListView) return _listings;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_listings);
+}
+
+
+/// Create a copy of ExploreSection
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ExploreSectionCopyWith<_ExploreSection> get copyWith => __$ExploreSectionCopyWithImpl<_ExploreSection>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ExploreSectionToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ExploreSection&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.regionLocative, regionLocative) || other.regionLocative == regionLocative)&&(identical(other.location, location) || other.location == location)&&const DeepCollectionEquality().equals(other._listings, _listings));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,kind,regionLocative,location,const DeepCollectionEquality().hash(_listings));
+
+@override
+String toString() {
+  return 'ExploreSection(kind: $kind, regionLocative: $regionLocative, location: $location, listings: $listings)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ExploreSectionCopyWith<$Res> implements $ExploreSectionCopyWith<$Res> {
+  factory _$ExploreSectionCopyWith(_ExploreSection value, $Res Function(_ExploreSection) _then) = __$ExploreSectionCopyWithImpl;
+@override @useResult
+$Res call({
+ ExploreSectionKind kind, String regionLocative, String location, List<Listing> listings
+});
+
+
+
+
+}
+/// @nodoc
+class __$ExploreSectionCopyWithImpl<$Res>
+    implements _$ExploreSectionCopyWith<$Res> {
+  __$ExploreSectionCopyWithImpl(this._self, this._then);
+
+  final _ExploreSection _self;
+  final $Res Function(_ExploreSection) _then;
+
+/// Create a copy of ExploreSection
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? kind = null,Object? regionLocative = null,Object? location = null,Object? listings = null,}) {
+  return _then(_ExploreSection(
+kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
+as ExploreSectionKind,regionLocative: null == regionLocative ? _self.regionLocative : regionLocative // ignore: cast_nullable_to_non_nullable
+as String,location: null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
+as String,listings: null == listings ? _self._listings : listings // ignore: cast_nullable_to_non_nullable
+as List<Listing>,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
 mixin _$ExploreFeed {
 
 /// "Sapanca, Sakarya"
- String get locationLabel;/// Bölge adı, Türkçe bulunma ekiyle: "Sapanca'da". Ek, backend'de
-/// ünlü uyumuna göre üretilir.
- String get regionLocative; WeatherSummary? get weather; List<Listing> get popular; DateTime get weekendStart; DateTime get weekendEnd; List<ListingOffer> get weekendDeals;
+ String get locationLabel; WeatherSummary? get weather;/// Bölge şeritleri; ilanı olmayan bölüm gösterilmez.
+ List<ExploreSection> get sections; DateTime get weekendStart; DateTime get weekendEnd; List<ListingOffer> get weekendDeals;
 /// Create a copy of ExploreFeed
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -306,16 +587,16 @@ $ExploreFeedCopyWith<ExploreFeed> get copyWith => _$ExploreFeedCopyWithImpl<Expl
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExploreFeed&&(identical(other.locationLabel, locationLabel) || other.locationLabel == locationLabel)&&(identical(other.regionLocative, regionLocative) || other.regionLocative == regionLocative)&&(identical(other.weather, weather) || other.weather == weather)&&const DeepCollectionEquality().equals(other.popular, popular)&&(identical(other.weekendStart, weekendStart) || other.weekendStart == weekendStart)&&(identical(other.weekendEnd, weekendEnd) || other.weekendEnd == weekendEnd)&&const DeepCollectionEquality().equals(other.weekendDeals, weekendDeals));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExploreFeed&&(identical(other.locationLabel, locationLabel) || other.locationLabel == locationLabel)&&(identical(other.weather, weather) || other.weather == weather)&&const DeepCollectionEquality().equals(other.sections, sections)&&(identical(other.weekendStart, weekendStart) || other.weekendStart == weekendStart)&&(identical(other.weekendEnd, weekendEnd) || other.weekendEnd == weekendEnd)&&const DeepCollectionEquality().equals(other.weekendDeals, weekendDeals));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,locationLabel,regionLocative,weather,const DeepCollectionEquality().hash(popular),weekendStart,weekendEnd,const DeepCollectionEquality().hash(weekendDeals));
+int get hashCode => Object.hash(runtimeType,locationLabel,weather,const DeepCollectionEquality().hash(sections),weekendStart,weekendEnd,const DeepCollectionEquality().hash(weekendDeals));
 
 @override
 String toString() {
-  return 'ExploreFeed(locationLabel: $locationLabel, regionLocative: $regionLocative, weather: $weather, popular: $popular, weekendStart: $weekendStart, weekendEnd: $weekendEnd, weekendDeals: $weekendDeals)';
+  return 'ExploreFeed(locationLabel: $locationLabel, weather: $weather, sections: $sections, weekendStart: $weekendStart, weekendEnd: $weekendEnd, weekendDeals: $weekendDeals)';
 }
 
 
@@ -326,7 +607,7 @@ abstract mixin class $ExploreFeedCopyWith<$Res>  {
   factory $ExploreFeedCopyWith(ExploreFeed value, $Res Function(ExploreFeed) _then) = _$ExploreFeedCopyWithImpl;
 @useResult
 $Res call({
- String locationLabel, String regionLocative, WeatherSummary? weather, List<Listing> popular, DateTime weekendStart, DateTime weekendEnd, List<ListingOffer> weekendDeals
+ String locationLabel, WeatherSummary? weather, List<ExploreSection> sections, DateTime weekendStart, DateTime weekendEnd, List<ListingOffer> weekendDeals
 });
 
 
@@ -343,13 +624,12 @@ class _$ExploreFeedCopyWithImpl<$Res>
 
 /// Create a copy of ExploreFeed
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? locationLabel = null,Object? regionLocative = null,Object? weather = freezed,Object? popular = null,Object? weekendStart = null,Object? weekendEnd = null,Object? weekendDeals = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? locationLabel = null,Object? weather = freezed,Object? sections = null,Object? weekendStart = null,Object? weekendEnd = null,Object? weekendDeals = null,}) {
   return _then(ExploreFeed(
 locationLabel: null == locationLabel ? _self.locationLabel : locationLabel // ignore: cast_nullable_to_non_nullable
-as String,regionLocative: null == regionLocative ? _self.regionLocative : regionLocative // ignore: cast_nullable_to_non_nullable
 as String,weather: freezed == weather ? _self.weather : weather // ignore: cast_nullable_to_non_nullable
-as WeatherSummary?,popular: null == popular ? _self.popular : popular // ignore: cast_nullable_to_non_nullable
-as List<Listing>,weekendStart: null == weekendStart ? _self.weekendStart : weekendStart // ignore: cast_nullable_to_non_nullable
+as WeatherSummary?,sections: null == sections ? _self.sections : sections // ignore: cast_nullable_to_non_nullable
+as List<ExploreSection>,weekendStart: null == weekendStart ? _self.weekendStart : weekendStart // ignore: cast_nullable_to_non_nullable
 as DateTime,weekendEnd: null == weekendEnd ? _self.weekendEnd : weekendEnd // ignore: cast_nullable_to_non_nullable
 as DateTime,weekendDeals: null == weekendDeals ? _self.weekendDeals : weekendDeals // ignore: cast_nullable_to_non_nullable
 as List<ListingOffer>,
@@ -449,10 +729,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String locationLabel,  String regionLocative,  WeatherSummary? weather,  List<Listing> popular,  DateTime weekendStart,  DateTime weekendEnd,  List<ListingOffer> weekendDeals)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String locationLabel,  WeatherSummary? weather,  List<ExploreSection> sections,  DateTime weekendStart,  DateTime weekendEnd,  List<ListingOffer> weekendDeals)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ExploreFeed() when $default != null:
-return $default(_that.locationLabel,_that.regionLocative,_that.weather,_that.popular,_that.weekendStart,_that.weekendEnd,_that.weekendDeals);case _:
+return $default(_that.locationLabel,_that.weather,_that.sections,_that.weekendStart,_that.weekendEnd,_that.weekendDeals);case _:
   return orElse();
 
 }
@@ -470,10 +750,10 @@ return $default(_that.locationLabel,_that.regionLocative,_that.weather,_that.pop
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String locationLabel,  String regionLocative,  WeatherSummary? weather,  List<Listing> popular,  DateTime weekendStart,  DateTime weekendEnd,  List<ListingOffer> weekendDeals)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String locationLabel,  WeatherSummary? weather,  List<ExploreSection> sections,  DateTime weekendStart,  DateTime weekendEnd,  List<ListingOffer> weekendDeals)  $default,) {final _that = this;
 switch (_that) {
 case _ExploreFeed():
-return $default(_that.locationLabel,_that.regionLocative,_that.weather,_that.popular,_that.weekendStart,_that.weekendEnd,_that.weekendDeals);case _:
+return $default(_that.locationLabel,_that.weather,_that.sections,_that.weekendStart,_that.weekendEnd,_that.weekendDeals);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -490,10 +770,10 @@ return $default(_that.locationLabel,_that.regionLocative,_that.weather,_that.pop
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String locationLabel,  String regionLocative,  WeatherSummary? weather,  List<Listing> popular,  DateTime weekendStart,  DateTime weekendEnd,  List<ListingOffer> weekendDeals)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String locationLabel,  WeatherSummary? weather,  List<ExploreSection> sections,  DateTime weekendStart,  DateTime weekendEnd,  List<ListingOffer> weekendDeals)?  $default,) {final _that = this;
 switch (_that) {
 case _ExploreFeed() when $default != null:
-return $default(_that.locationLabel,_that.regionLocative,_that.weather,_that.popular,_that.weekendStart,_that.weekendEnd,_that.weekendDeals);case _:
+return $default(_that.locationLabel,_that.weather,_that.sections,_that.weekendStart,_that.weekendEnd,_that.weekendDeals);case _:
   return null;
 
 }
@@ -505,20 +785,19 @@ return $default(_that.locationLabel,_that.regionLocative,_that.weather,_that.pop
 @JsonSerializable()
 
 class _ExploreFeed implements ExploreFeed {
-  const _ExploreFeed({required this.locationLabel, required this.regionLocative, this.weather,  List<Listing> popular = const <Listing>[], required this.weekendStart, required this.weekendEnd,  List<ListingOffer> weekendDeals = const <ListingOffer>[]}): _popular = popular,_weekendDeals = weekendDeals;
+  const _ExploreFeed({required this.locationLabel, this.weather,  List<ExploreSection> sections = const <ExploreSection>[], required this.weekendStart, required this.weekendEnd,  List<ListingOffer> weekendDeals = const <ListingOffer>[]}): _sections = sections,_weekendDeals = weekendDeals;
   factory _ExploreFeed.fromJson(Map<String, dynamic> json) => _$ExploreFeedFromJson(json);
 
 /// "Sapanca, Sakarya"
 @override final  String locationLabel;
-/// Bölge adı, Türkçe bulunma ekiyle: "Sapanca'da". Ek, backend'de
-/// ünlü uyumuna göre üretilir.
-@override final  String regionLocative;
 @override final  WeatherSummary? weather;
- final  List<Listing> _popular;
-@override@JsonKey() List<Listing> get popular {
-  if (_popular is EqualUnmodifiableListView) return _popular;
+/// Bölge şeritleri; ilanı olmayan bölüm gösterilmez.
+ final  List<ExploreSection> _sections;
+/// Bölge şeritleri; ilanı olmayan bölüm gösterilmez.
+@override@JsonKey() List<ExploreSection> get sections {
+  if (_sections is EqualUnmodifiableListView) return _sections;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_popular);
+  return EqualUnmodifiableListView(_sections);
 }
 
 @override final  DateTime weekendStart;
@@ -544,16 +823,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ExploreFeed&&(identical(other.locationLabel, locationLabel) || other.locationLabel == locationLabel)&&(identical(other.regionLocative, regionLocative) || other.regionLocative == regionLocative)&&(identical(other.weather, weather) || other.weather == weather)&&const DeepCollectionEquality().equals(other._popular, _popular)&&(identical(other.weekendStart, weekendStart) || other.weekendStart == weekendStart)&&(identical(other.weekendEnd, weekendEnd) || other.weekendEnd == weekendEnd)&&const DeepCollectionEquality().equals(other._weekendDeals, _weekendDeals));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ExploreFeed&&(identical(other.locationLabel, locationLabel) || other.locationLabel == locationLabel)&&(identical(other.weather, weather) || other.weather == weather)&&const DeepCollectionEquality().equals(other._sections, _sections)&&(identical(other.weekendStart, weekendStart) || other.weekendStart == weekendStart)&&(identical(other.weekendEnd, weekendEnd) || other.weekendEnd == weekendEnd)&&const DeepCollectionEquality().equals(other._weekendDeals, _weekendDeals));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,locationLabel,regionLocative,weather,const DeepCollectionEquality().hash(_popular),weekendStart,weekendEnd,const DeepCollectionEquality().hash(_weekendDeals));
+int get hashCode => Object.hash(runtimeType,locationLabel,weather,const DeepCollectionEquality().hash(_sections),weekendStart,weekendEnd,const DeepCollectionEquality().hash(_weekendDeals));
 
 @override
 String toString() {
-  return 'ExploreFeed(locationLabel: $locationLabel, regionLocative: $regionLocative, weather: $weather, popular: $popular, weekendStart: $weekendStart, weekendEnd: $weekendEnd, weekendDeals: $weekendDeals)';
+  return 'ExploreFeed(locationLabel: $locationLabel, weather: $weather, sections: $sections, weekendStart: $weekendStart, weekendEnd: $weekendEnd, weekendDeals: $weekendDeals)';
 }
 
 
@@ -564,7 +843,7 @@ abstract mixin class _$ExploreFeedCopyWith<$Res> implements $ExploreFeedCopyWith
   factory _$ExploreFeedCopyWith(_ExploreFeed value, $Res Function(_ExploreFeed) _then) = __$ExploreFeedCopyWithImpl;
 @override @useResult
 $Res call({
- String locationLabel, String regionLocative, WeatherSummary? weather, List<Listing> popular, DateTime weekendStart, DateTime weekendEnd, List<ListingOffer> weekendDeals
+ String locationLabel, WeatherSummary? weather, List<ExploreSection> sections, DateTime weekendStart, DateTime weekendEnd, List<ListingOffer> weekendDeals
 });
 
 
@@ -581,13 +860,12 @@ class __$ExploreFeedCopyWithImpl<$Res>
 
 /// Create a copy of ExploreFeed
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? locationLabel = null,Object? regionLocative = null,Object? weather = freezed,Object? popular = null,Object? weekendStart = null,Object? weekendEnd = null,Object? weekendDeals = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? locationLabel = null,Object? weather = freezed,Object? sections = null,Object? weekendStart = null,Object? weekendEnd = null,Object? weekendDeals = null,}) {
   return _then(_ExploreFeed(
 locationLabel: null == locationLabel ? _self.locationLabel : locationLabel // ignore: cast_nullable_to_non_nullable
-as String,regionLocative: null == regionLocative ? _self.regionLocative : regionLocative // ignore: cast_nullable_to_non_nullable
 as String,weather: freezed == weather ? _self.weather : weather // ignore: cast_nullable_to_non_nullable
-as WeatherSummary?,popular: null == popular ? _self._popular : popular // ignore: cast_nullable_to_non_nullable
-as List<Listing>,weekendStart: null == weekendStart ? _self.weekendStart : weekendStart // ignore: cast_nullable_to_non_nullable
+as WeatherSummary?,sections: null == sections ? _self._sections : sections // ignore: cast_nullable_to_non_nullable
+as List<ExploreSection>,weekendStart: null == weekendStart ? _self.weekendStart : weekendStart // ignore: cast_nullable_to_non_nullable
 as DateTime,weekendEnd: null == weekendEnd ? _self.weekendEnd : weekendEnd // ignore: cast_nullable_to_non_nullable
 as DateTime,weekendDeals: null == weekendDeals ? _self._weekendDeals : weekendDeals // ignore: cast_nullable_to_non_nullable
 as List<ListingOffer>,

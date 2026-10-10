@@ -23,17 +23,37 @@ abstract class WeatherSummary with _$WeatherSummary {
       _$WeatherSummaryFromJson(json);
 }
 
+/// Bölüm başlığının kalıbı: "Sapanca'da en sevilenler", "Samsun'da favori
+/// mekanlar".
+enum ExploreSectionKind { loved, favorites }
+
+/// Keşfet'te bir bölgenin yatay ilan şeridi.
+@freezed
+abstract class ExploreSection with _$ExploreSection {
+  const factory ExploreSection({
+    required ExploreSectionKind kind,
+
+    /// Bölge adı, Türkçe bulunma ekiyle: "Sapanca'da".
+    required String regionLocative,
+
+    /// "Tümünü gör"de aranacak konum: "Sapanca".
+    required String location,
+    @Default(<Listing>[]) List<Listing> listings,
+  }) = _ExploreSection;
+
+  factory ExploreSection.fromJson(Map<String, dynamic> json) =>
+      _$ExploreSectionFromJson(json);
+}
+
 @freezed
 abstract class ExploreFeed with _$ExploreFeed {
   const factory ExploreFeed({
     /// "Sapanca, Sakarya"
     required String locationLabel,
-
-    /// Bölge adı, Türkçe bulunma ekiyle: "Sapanca'da". Ek, backend'de
-    /// ünlü uyumuna göre üretilir.
-    required String regionLocative,
     WeatherSummary? weather,
-    @Default(<Listing>[]) List<Listing> popular,
+
+    /// Bölge şeritleri; ilanı olmayan bölüm gösterilmez.
+    @Default(<ExploreSection>[]) List<ExploreSection> sections,
     required DateTime weekendStart,
     required DateTime weekendEnd,
     @Default(<ListingOffer>[]) List<ListingOffer> weekendDeals,

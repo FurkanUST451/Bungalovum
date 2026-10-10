@@ -30,6 +30,11 @@
     "description": "region, bulunma ekiyle gelir: Sapanca'da",
     "placeholders": { "region": { "type": "String" } }
   },
+  "exploreFavoritesTitle": "{region} favori mekanlar",
+  "@exploreFavoritesTitle": {
+    "description": "region, bulunma ekiyle gelir: Samsun'da",
+    "placeholders": { "region": { "type": "String" } }
+  },
   "explorePopularSubtitle": "Gecelik fiyat · tüm ücretler dahil",
 
   "exploreWeekendTitle": "Bu hafta sonu boş olanlar",
@@ -830,8 +835,7 @@
   "wizDistrictSearch": "İlçe ara",
   "wizCityFirst": "Önce ili seç",
   "pickerNoMatch": "Eşleşen sonuç yok. Yazımı kontrol et.",
-  "wizPinHint": "Pini sürükleyerek konumu düzelt",
-  "wizAddressPrivacy": "Tam adres yalnızca rezervasyonu onaylanan misafirle paylaşılır.",
+  "wizAddressPrivacy": "Tam konumu ilanını incelerken biz doğrularız. Tam adres yalnızca rezervasyonu onaylanan misafirle paylaşılır.",
   "wizBasicsTitle": "Kaç kişi ağırlayabilirsin?",
   "wizBasicsSubtitle": "Bu bilgiler ilan detayındaki özellik kutucuklarında görünür.",
   "wizGuests": "Misafir",
