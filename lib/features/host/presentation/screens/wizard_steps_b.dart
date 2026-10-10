@@ -8,6 +8,7 @@ import '../../../../core/widgets/kz_checkbox.dart';
 import '../../../../core/widgets/kz_chip.dart';
 import '../../../../core/widgets/kz_choice_card.dart';
 import '../../../../core/widgets/kz_group.dart';
+import '../../../../core/widgets/kz_input.dart';
 import '../../../../core/widgets/kz_pressable.dart';
 import '../../../../core/widgets/kz_switch.dart';
 import '../../../../core/widgets/kz_toast.dart';
@@ -42,6 +43,8 @@ class TitleDescriptionStep extends ConsumerWidget {
       subtitle: l.wizTitleSubtitle,
       builder: (d) {
         final full = d.highlights.length >= ListingRules.maxHighlights;
+        final titleLen = d.title.trim().length;
+        final spaceLen = d.space.trim().length;
         return [
           WizardSection(l.wizListingTitle, top: false),
           DraftInput(
@@ -53,6 +56,12 @@ class TitleDescriptionStep extends ConsumerWidget {
           ),
           const SizedBox(height: KzSpace.s8),
           Text(l.wizTitleHint, style: KzText.caption.copyWith(color: kz.ink2)),
+          if (titleLen < ListingRules.minTitle) ...[
+            const SizedBox(height: KzSpace.s6),
+            KzFieldMessage(
+              text: l.minCharsHint(titleLen, ListingRules.minTitle),
+            ),
+          ],
           WizardSection(
             l.wizHighlights(ListingRules.maxHighlights),
             trailing: l.countOf(
@@ -100,6 +109,12 @@ class TitleDescriptionStep extends ConsumerWidget {
             minLines: 3,
             onChanged: (v) => edit((d) => d.copyWith(space: v)),
           ),
+          if (spaceLen < ListingRules.minSpace) ...[
+            const SizedBox(height: KzSpace.s7),
+            KzFieldMessage(
+              text: l.minCharsHint(spaceLen, ListingRules.minSpace),
+            ),
+          ],
           const SizedBox(height: KzSpace.s10),
           DraftTextArea(
             label: l.wizGuestAccess,
@@ -355,6 +370,23 @@ class PricingStep extends ConsumerWidget {
       if (r != null) edit((d) => set(d, r.first.toInt()));
     }
 
+    Future<void> pickWheel(
+      String title,
+      NumberRange range,
+      int current,
+      String unit,
+      ListingDraft Function(ListingDraft, int) set,
+    ) async {
+      final r = await showWheelSheet(
+        context,
+        title: title,
+        fields: [
+          WheelField(label: title, range: range, value: current, unit: unit),
+        ],
+      );
+      if (r != null) edit((d) => set(d, r.first.round()));
+    }
+
     return WizardScaffold(
       step: WizardStep.pricing,
       editing: editing,
@@ -403,12 +435,13 @@ class PricingStep extends ConsumerWidget {
                       style: KzText.display.copyWith(color: kz.ink),
                     ),
                   ),
-                  if (earnings != null) ...[
+                  if (earnings?.similarMin case final lo?
+                      when earnings?.similarMax != null) ...[
                     const SizedBox(height: KzSpace.s6),
                     Text(
                       l.similarRange(
-                        KzFormat.currency(earnings.similarMin),
-                        KzFormat.currency(earnings.similarMax),
+                        KzFormat.currency(lo),
+                        KzFormat.currency(earnings!.similarMax!),
                       ),
                       textAlign: TextAlign.center,
                       style: KzText.caption.copyWith(color: kz.ink2),
@@ -444,19 +477,23 @@ class PricingStep extends ConsumerWidget {
               ValueBox(
                 label: l.weeklyDiscount,
                 value: l.percentValue(d.weeklyDiscountPercent),
-                onPressed: () => pickInt(
+                onPressed: () => pickWheel(
                   l.weeklyDiscount,
+                  ListingRules.weeklyDiscount,
                   d.weeklyDiscountPercent,
-                  (d, v) => d.copyWith(weeklyDiscountPercent: v.clamp(0, 90)),
+                  l.wheelUnitPercent,
+                  (d, v) => d.copyWith(weeklyDiscountPercent: v),
                 ),
               ),
               ValueBox(
                 label: l.minNights,
                 value: l.nightsCount(d.minNights),
-                onPressed: () => pickInt(
+                onPressed: () => pickWheel(
                   l.minNights,
+                  ListingRules.minNights,
                   d.minNights,
-                  (d, v) => d.copyWith(minNights: v.clamp(1, 30)),
+                  l.wheelUnitNights,
+                  (d, v) => d.copyWith(minNights: v),
                 ),
               ),
             ],

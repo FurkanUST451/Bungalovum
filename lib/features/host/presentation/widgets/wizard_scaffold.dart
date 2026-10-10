@@ -15,6 +15,7 @@ import '../../../../l10n/l10n.dart';
 import '../../../booking/presentation/widgets/booking_parts.dart';
 import '../../domain/listing_draft.dart';
 import '../controllers/host_controllers.dart';
+import '../host_errors.dart';
 
 /// Sihirbaz adımı iskeleti (83–92): "Adım n / 10", ilerleme, "Kaydet ve
 /// çık", altta Geri + Devam. [editing] ise İlan Yönetimi'nden (95) açılmıştır:
@@ -65,8 +66,8 @@ class _WizardScaffoldState extends ConsumerState<WizardScaffold> {
     setState(() => _saving = true);
     try {
       await action();
-    } on Object {
-      if (mounted) showKzToast(context, context.l10n.errorNetwork);
+    } on Object catch (e) {
+      if (mounted) showKzToast(context, hostErrorMessage(context.l10n, e));
     } finally {
       if (mounted) setState(() => _saving = false);
     }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../../core/data/tr_districts.dart';
 import '../../../../core/icons/kz_icons.dart';
 import '../../../../core/theme/tokens.dart';
 import '../../../../core/utils/formatters.dart';
@@ -101,20 +102,18 @@ class TypeLocationStep extends ConsumerWidget {
         Row(
           children: [
             Expanded(
-              child: DraftInput(
+              child: ValueBox(
                 label: l.wizCity,
-                value: d.city,
-                capitalization: TextCapitalization.words,
-                onChanged: (v) => edit((d) => d.copyWith(city: v)),
+                value: d.city.isEmpty ? null : d.city,
+                onPressed: () => _pickCity(context, ref),
               ),
             ),
             const SizedBox(width: KzSpace.s10),
             Expanded(
-              child: DraftInput(
+              child: ValueBox(
                 label: l.wizDistrict,
-                value: d.district,
-                capitalization: TextCapitalization.words,
-                onChanged: (v) => edit((d) => d.copyWith(district: v)),
+                value: d.district.isEmpty ? null : d.district,
+                onPressed: () => _pickDistrict(context, ref),
               ),
             ),
           ],
@@ -168,6 +167,48 @@ class TypeLocationStep extends ConsumerWidget {
   }
 
   static const double _mapAspect = 350 / 150;
+
+  Future<void> _pickCity(BuildContext context, WidgetRef ref) async {
+    final l = context.l10n;
+    final d = ref.read(hostDraftProvider).value!;
+    final city = await showSearchPickerSheet(
+      context,
+      title: l.wizCity,
+      searchLabel: l.wizCitySearch,
+      items: trDistricts.keys.toList(),
+      selected: d.city,
+    );
+    if (city == null || city == d.city) return;
+    // İl değişince eski ilçe yeni ile ait değilse temizlenir.
+    _editor(ref)(
+      (d) => d.copyWith(
+        city: city,
+        district: (trDistricts[city] ?? const []).contains(d.district)
+            ? d.district
+            : '',
+      ),
+    );
+  }
+
+  Future<void> _pickDistrict(BuildContext context, WidgetRef ref) async {
+    final l = context.l10n;
+    final d = ref.read(hostDraftProvider).value!;
+    final districts = trDistricts[d.city];
+    if (districts == null) {
+      showKzToast(context, l.wizCityFirst);
+      return;
+    }
+    final district = await showSearchPickerSheet(
+      context,
+      title: l.wizDistrict,
+      searchLabel: l.wizDistrictSearch,
+      items: districts,
+      selected: d.district,
+    );
+    if (district != null) {
+      _editor(ref)((d) => d.copyWith(district: district));
+    }
+  }
 }
 
 /// 84 · İlan 2 — Temel Bilgiler.
@@ -355,17 +396,22 @@ class BasicsStep extends ConsumerWidget {
     final l = context.l10n;
     final d = ref.read(hostDraftProvider).value!;
     final label = indoor ? l.wizIndoorM2 : l.wizGardenM2;
-    final r = await showNumberSheet(
+    final r = await showWheelSheet(
       context,
       title: label,
-      labels: [label],
-      initial: [indoor ? d.indoorM2 : d.gardenM2],
+      fields: [
+        WheelField(
+          label: label,
+          range: indoor ? ListingRules.indoorM2 : ListingRules.gardenM2,
+          value: indoor ? d.indoorM2 : d.gardenM2,
+        ),
+      ],
     );
     if (r == null) return;
     _editor(ref)(
       (d) => indoor
-          ? d.copyWith(indoorM2: r.first.toInt())
-          : d.copyWith(gardenM2: r.first.toInt()),
+          ? d.copyWith(indoorM2: r.first.round())
+          : d.copyWith(gardenM2: r.first.round()),
     );
   }
 }
@@ -385,17 +431,15 @@ class PoolAmenitiesStep extends ConsumerWidget {
 
     Future<void> pick({
       required String title,
-      required List<String> labels,
-      required List<num?> initial,
-      required bool decimal,
-      required ListingDraft Function(ListingDraft, List<num>) set,
+      required List<WheelField> fields,
+      required ListingDraft Function(ListingDraft, List<double>) set,
+      bool ordered = false,
     }) async {
-      final r = await showNumberSheet(
+      final r = await showWheelSheet(
         context,
         title: title,
-        labels: labels,
-        initial: initial,
-        decimal: decimal,
+        fields: fields,
+        ordered: ordered,
       );
       if (r != null) edit((d) => set(d, r));
     }
@@ -451,11 +495,16 @@ class PoolAmenitiesStep extends ConsumerWidget {
                               : l.celsius(d.poolTempC!),
                           onPressed: () => pick(
                             title: l.wizPoolTemp,
-                            labels: [l.wizPoolTemp],
-                            initial: [d.poolTempC],
-                            decimal: false,
+                            fields: [
+                              WheelField(
+                                label: l.wizPoolTemp,
+                                range: ListingRules.poolTempC,
+                                value: d.poolTempC,
+                                unit: l.wheelUnitCelsius,
+                              ),
+                            ],
                             set: (d, r) =>
-                                d.copyWith(poolTempC: r.first.toInt()),
+                                d.copyWith(poolTempC: r.first.round()),
                           ),
                         ),
                       ValueBox(
@@ -469,12 +518,22 @@ class PoolAmenitiesStep extends ConsumerWidget {
                               ),
                         onPressed: () => pick(
                           title: l.wizPoolDepth,
-                          labels: [l.wizMin, l.wizMax],
-                          initial: [d.poolDepthMinM, d.poolDepthMaxM],
-                          decimal: true,
+                          ordered: true,
+                          fields: [
+                            WheelField(
+                              label: l.wizMin,
+                              range: ListingRules.poolDepthMinM,
+                              value: d.poolDepthMinM,
+                            ),
+                            WheelField(
+                              label: l.wizMax,
+                              range: ListingRules.poolDepthMaxM,
+                              value: d.poolDepthMaxM,
+                            ),
+                          ],
                           set: (d, r) => d.copyWith(
-                            poolDepthMinM: r[0].toDouble(),
-                            poolDepthMaxM: r[1].toDouble(),
+                            poolDepthMinM: r[0],
+                            poolDepthMaxM: r[1],
                           ),
                         ),
                       ),
@@ -488,13 +547,20 @@ class PoolAmenitiesStep extends ConsumerWidget {
                               ),
                         onPressed: () => pick(
                           title: l.wizPoolSize,
-                          labels: [l.wizWidth, l.wizLength],
-                          initial: [d.poolWidthM, d.poolLengthM],
-                          decimal: true,
-                          set: (d, r) => d.copyWith(
-                            poolWidthM: r[0].toDouble(),
-                            poolLengthM: r[1].toDouble(),
-                          ),
+                          fields: [
+                            WheelField(
+                              label: l.wizWidth,
+                              range: ListingRules.poolWidthM,
+                              value: d.poolWidthM,
+                            ),
+                            WheelField(
+                              label: l.wizLength,
+                              range: ListingRules.poolLengthM,
+                              value: d.poolLengthM,
+                            ),
+                          ],
+                          set: (d, r) =>
+                              d.copyWith(poolWidthM: r[0], poolLengthM: r[1]),
                         ),
                       ),
                       ValueBox(

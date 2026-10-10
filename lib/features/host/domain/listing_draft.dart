@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../core/data/tr_districts.dart';
 import '../../booking/domain/booking.dart';
 import '../../listing/domain/listing.dart';
 import '../../listing/domain/listing_detail.dart';
@@ -97,6 +98,23 @@ enum TaxType { individual, company }
 
 enum IdentityStep { idFront, idBack, selfie }
 
+/// Kimlik ve ödeme hesabı incelemesi.
+enum VerificationStatus { notStarted, pending, approved, rejected }
+
+/// Backend'in sabit hata kodları (§14); ekranda ARB metnine çevrilir.
+class HostFailure implements Exception {
+  const HostFailure(this.code, [this.detail]);
+
+  /// `listing_incomplete`, `invalid_iban`, `iban_name_mismatch`…
+  final String code;
+
+  /// Ör. `listing_incomplete` için eksik adımlar ("photos,legal").
+  final String? detail;
+
+  @override
+  String toString() => 'HostFailure($code${detail == null ? '' : ': $detail'})';
+}
+
 /// İlan fotoğrafı: yüklenene kadar yerel yol, sonra sunucu adresi.
 @freezed
 abstract class DraftPhoto with _$DraftPhoto {
@@ -124,6 +142,9 @@ abstract class ListingDraft with _$ListingDraft {
 
     /// Yayındaki ilanda yeniden incelemeye giren bölümler.
     @Default(<WizardStep>{}) Set<WizardStep> sectionsInReview,
+
+    /// Reddedilen ilanda incelemenin notu.
+    String? reviewNote,
 
     // 1 · Tür ve konum
     PropertyType? propertyType,
@@ -215,17 +236,28 @@ abstract class ListingDraft with _$ListingDraft {
     @Default(false) bool updateDeclaration,
     @Default(TaxType.individual) TaxType taxType,
 
-    /// TCKN (şahıs) ya da vergi no (şirket). Ekranda maskeli gösterilir.
+    /// TCKN (şahıs) ya da vergi no (şirket). Yalnızca yazılırken bellekte
+    /// durur; kaydedilince silinir ve [taxIdMasked] kalır (KVKK).
     @Default('') String taxId,
+
+    /// Sunucuda kayıtlı vergi numarasının maskeli hali ("•••• 01 46").
+    String? taxIdMasked,
     @Default('') String taxOffice,
 
     // 10 · Kimlik ve ödeme
     @Default(<IdentityStep>{}) Set<IdentityStep> identityDone,
+    @Default(VerificationStatus.notStarted) VerificationStatus identityStatus,
 
     /// Kimlik doğrulamasından gelen ad soyad; IBAN sahibi bununla eşleşmeli.
     String? verifiedName,
     @Default('') String accountHolder,
+
+    /// Yalnızca yazılırken bellekte durur; kaydedilince silinir ve
+    /// [ibanMasked] kalır (KVKK).
     @Default('') String iban,
+
+    /// Sunucuda kayıtlı IBAN'ın maskeli hali.
+    String? ibanMasked,
     @Default('') String billingAddress,
     @Default('') String emergencyPhone,
     @Default(true) bool reachableDuringStay,
@@ -262,6 +294,68 @@ abstract final class ListingRules {
   static const int maxDescription = 1000;
   static const int maxGuests = 16;
   static const int maxRooms = 10;
+
+  // Kaydırmalı seçici aralıkları. [NumberRange.start], alan boşken seçicinin
+  // açıldığı tipik değerdir (TR havuzlu bungalov ilanlarından derlendi);
+  // taslağa kullanıcı "Kaydet" demeden yazılmaz.
+  static const indoorM2 = NumberRange(min: 10, max: 500, start: 45);
+  static const gardenM2 = NumberRange(min: 0, max: 5000, start: 150);
+  static const poolTempC = NumberRange(min: 20, max: 40, start: 28);
+  static const poolWidthM = NumberRange(min: 1, max: 20, step: 0.1, start: 4);
+  static const poolLengthM = NumberRange(min: 1, max: 40, step: 0.1, start: 8);
+  // DB: numeric(3, 1) → 0,1 m adım.
+  static const poolDepthMinM = NumberRange(
+    min: 0.3,
+    max: 3,
+    step: 0.1,
+    start: 1.2,
+  );
+  static const poolDepthMaxM = NumberRange(
+    min: 0.3,
+    max: 3,
+    step: 0.1,
+    start: 1.6,
+  );
+  // DB: weekly_discount_percent between 0 and 50, min_nights between 1 and 30.
+  static const weeklyDiscount = NumberRange(min: 0, max: 50, start: 0);
+  static const minNights = NumberRange(min: 1, max: 30, start: 1);
+}
+
+/// Sayısal alanın izinli aralığı ve adımı.
+class NumberRange {
+  const NumberRange({
+    required this.min,
+    required this.max,
+    required this.start,
+    this.step = 1,
+  });
+
+  final double min;
+  final double max;
+  final double step;
+
+  /// Değer yokken seçicinin açıldığı değer.
+  final double start;
+
+  /// Adımdaki ondalık basamak sayısı (0,1 → 1).
+  int get decimals {
+    var d = 0;
+    var s = step;
+    while (s != s.roundToDouble() && d < 4) {
+      s *= 10;
+      d++;
+    }
+    return d;
+  }
+
+  int get count => ((max - min) / step).round() + 1;
+
+  double valueAt(int index) =>
+      double.parse((min + index * step).toStringAsFixed(decimals));
+
+  /// En yakın adıma yuvarlanmış, aralığa sıkıştırılmış sıra.
+  int indexOf(num value) =>
+      ((value.toDouble() - min) / step).round().clamp(0, count - 1);
 }
 
 abstract final class IbanValidator {
@@ -315,8 +409,8 @@ abstract final class DraftValidator {
       d.propertyType != null &&
           d.settings.isNotEmpty &&
           d.address.trim().isNotEmpty &&
-          d.city.trim().isNotEmpty &&
-          d.district.trim().isNotEmpty,
+          // İl ve ilçe hazır listeden seçilir.
+          (trDistricts[d.city]?.contains(d.district) ?? false),
     WizardStep.basics =>
       d.maxGuests >= 1 &&
           d.beds >= 1 &&
@@ -349,29 +443,55 @@ abstract final class DraftValidator {
       d.checkInMethod != SelfCheckIn.keybox ||
           (d.lockboxCode.trim().isNotEmpty && d.lockboxHint.trim().isNotEmpty),
     WizardStep.legal => _legalComplete(d),
+    // Kimlik incelemede olsa da devam edilir; ad eşleşmesi doğrulanmış ad
+    // gelince denetlenir (backend ile aynı kural).
     WizardStep.identityAndPayout =>
-      d.identityDone.length == IdentityStep.values.length &&
-          IbanValidator.isValidTr(d.iban) &&
-          d.verifiedName != null &&
-          NameMatcher.same(d.accountHolder, d.verifiedName!) &&
-          d.billingAddress.trim().isNotEmpty &&
-          d.emergencyPhone.replaceAll(RegExp(r'\D'), '').length >= 10,
+      !requireIdentityPayout ||
+          d.identityDone.length == IdentityStep.values.length &&
+              d.identityStatus != VerificationStatus.rejected &&
+              (IbanValidator.isValidTr(d.iban) ||
+                  (d.iban.isEmpty && d.ibanMasked != null)) &&
+              d.accountHolder.trim().isNotEmpty &&
+              (d.verifiedName == null ||
+                  NameMatcher.same(d.accountHolder, d.verifiedName!)) &&
+              d.billingAddress.trim().isNotEmpty &&
+              d.emergencyPhone.replaceAll(RegExp(r'\D'), '').length >= 10,
   };
 
+  /// Belge dosyaları şimdilik zorunlu değil; geri açınca backend'deki
+  /// `private.listing_missing_steps` ile birlikte açılmalı.
+  static const requireDocuments = false;
+
+  /// Geliştirmede yasal adım (izin no, beyanlar, vergi) şimdilik zorunlu
+  /// değil. Canlıdan önce mutlaka true yapılmalı (§10: izin belge numarası
+  /// olmayan ilan yayına alınmaz). Backend'de karşılığı:
+  /// `platform_settings.auto_approve_reviews` açıkken yasal şart aranmaz.
+  static const requireLegal = false;
+
+  /// Geliştirmede kimlik ve ödeme adımı (10) şimdilik zorunlu değil.
+  /// Canlıdan önce mutlaka true yapılmalı. Backend'de karşılığı:
+  /// `platform_settings.auto_approve_reviews` açıkken bu şart aranmaz.
+  static const requireIdentityPayout = false;
+
   static bool _legalComplete(ListingDraft d) {
+    if (!requireLegal) return true;
     bool has(HostDocKind k) => d.documents.containsKey(k);
     final taxOk = switch (d.taxType) {
+      _ when d.taxId.isEmpty => d.taxIdMasked != null,
       TaxType.individual => IdValidators.isTckn(d.taxId),
       TaxType.company => RegExp(r'^\d{10}$').hasMatch(d.taxId),
     };
+    final docsOk =
+        !requireDocuments ||
+        (has(HostDocKind.permit) &&
+            has(HostDocKind.deed) &&
+            has(HostDocKind.entrancePlate) &&
+            (!d.multiUnitParcel || has(HostDocKind.condoDecision)) &&
+            (!d.onBehalfOfOwner || has(HostDocKind.powerOfAttorney)));
     // İzin belge numarası olmayan ilan yayına alınmaz (§10).
     return d.permitType != null &&
         d.permitNo.trim().isNotEmpty &&
-        has(HostDocKind.permit) &&
-        has(HostDocKind.deed) &&
-        has(HostDocKind.entrancePlate) &&
-        (!d.multiUnitParcel || has(HostDocKind.condoDecision)) &&
-        (!d.onBehalfOfOwner || has(HostDocKind.powerOfAttorney)) &&
+        docsOk &&
         d.kbsDeclaration &&
         d.permitHolderDeclaration &&
         d.updateDeclaration &&
@@ -403,8 +523,9 @@ abstract class EarningsEstimate with _$EarningsEstimate {
     required int serviceFee,
     required int hostEarns,
 
-    /// Bölgedeki benzer ilanların gecelik aralığı.
-    required int similarMin,
-    required int similarMax,
+    /// Bölgedeki benzer ilanların gecelik aralığı; bölgede yayında ilan
+    /// yoksa null.
+    int? similarMin,
+    int? similarMax,
   }) = _EarningsEstimate;
 }

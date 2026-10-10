@@ -1,8 +1,8 @@
-import 'package:bungapp/app/router.dart';
-import 'package:bungapp/core/utils/formatters.dart';
-import 'package:bungapp/features/auth/domain/auth_validators.dart';
-import 'package:bungapp/features/auth/presentation/screens/register_screen.dart';
-import 'package:bungapp/features/auth/presentation/screens/sign_in_screen.dart';
+import 'package:bungalovum/app/router.dart';
+import 'package:bungalovum/core/utils/formatters.dart';
+import 'package:bungalovum/features/auth/domain/auth_validators.dart';
+import 'package:bungalovum/features/auth/presentation/screens/register_screen.dart';
+import 'package:bungalovum/features/auth/presentation/screens/sign_in_screen.dart';
 import 'dart:ui' show Tristate;
 
 import 'package:flutter/material.dart';

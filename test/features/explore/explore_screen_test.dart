@@ -1,9 +1,9 @@
-import 'package:bungapp/core/utils/formatters.dart';
-import 'package:bungapp/core/widgets/kz_sheet.dart';
-import 'package:bungapp/core/widgets/kz_skeleton.dart';
-import 'package:bungapp/features/auth/domain/auth_models.dart';
-import 'package:bungapp/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:bungapp/features/saved/presentation/controllers/saved_listings_controller.dart';
+import 'package:bungalovum/core/utils/formatters.dart';
+import 'package:bungalovum/core/widgets/kz_sheet.dart';
+import 'package:bungalovum/core/widgets/kz_skeleton.dart';
+import 'package:bungalovum/features/auth/domain/auth_models.dart';
+import 'package:bungalovum/features/auth/presentation/controllers/auth_controller.dart';
+import 'package:bungalovum/features/saved/presentation/controllers/saved_listings_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';

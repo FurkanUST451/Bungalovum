@@ -343,6 +343,18 @@ skip_nonce_check = false
 # If enabled, it will allow the user to successfully authenticate when the provider does not return an email address.
 email_optional = false
 
+# Uygulama içi Google girişi (signInWithIdToken). client_id = Google Cloud ›
+# Web istemcisi; secret yalnızca supabase/.env'de.
+[auth.external.google]
+enabled = true
+client_id = "149686384993-39h1b2n2ektkmtdvjsjunqmuuitga333.apps.googleusercontent.com"
+secret = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET)"
+redirect_uri = ""
+url = ""
+# Android jetonunda nonce yok; iOS eklenince gerekirse açılır.
+skip_nonce_check = false
+email_optional = false
+
 # Allow Solana wallet holders to sign in to your project via the Sign in with Solana (SIWS, EIP-4361) standard.
 # You can configure "web3" rate limit in the [auth.rate_limit] section and set up [auth.captcha] if self-hosting.
 [auth.web3.solana]

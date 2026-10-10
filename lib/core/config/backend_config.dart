@@ -19,7 +19,11 @@ abstract final class BackendConfig {
 
   /// Google Cloud Console › Web uygulaması OAuth istemci kimliği. Supabase'te
   /// Google sağlayıcısına girilen kimlikle aynıdır.
-  static const googleWebClientId = String.fromEnvironment('GOOGLE_WEB_CLIENT_ID');
+  static const googleWebClientId = String.fromEnvironment(
+    'GOOGLE_WEB_CLIENT_ID',
+    defaultValue:
+        '149686384993-39h1b2n2ektkmtdvjsjunqmuuitga333.apps.googleusercontent.com',
+  );
 
   /// Google Cloud Console › iOS OAuth istemci kimliği (yalnızca iOS).
   static const googleIosClientId = String.fromEnvironment('GOOGLE_IOS_CLIENT_ID');

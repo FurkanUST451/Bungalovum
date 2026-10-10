@@ -418,7 +418,8 @@ class LegalStep extends ConsumerWidget {
             (TaxType.company, l.taxCompany),
           ],
           selected: d.taxType,
-          onChanged: (t) => edit((d) => d.copyWith(taxType: t, taxId: '')),
+          onChanged: (t) =>
+              edit((d) => d.copyWith(taxType: t, taxId: '', taxIdMasked: null)),
         ),
         const SizedBox(height: KzSpace.s10),
         DraftInput(
@@ -426,6 +427,7 @@ class LegalStep extends ConsumerWidget {
           label: d.taxType == TaxType.individual ? l.tcknLabel : l.taxNoLabel,
           icon: KzIcons.user,
           value: d.taxId,
+          hint: d.taxIdMasked,
           obscure: d.taxType == TaxType.individual,
           toggleLabels: (l.show, l.hide),
           keyboardType: TextInputType.number,
@@ -513,6 +515,14 @@ class IdentityPayoutStep extends ConsumerWidget {
             ),
             top: false,
           ),
+          if (d.identityStatus == VerificationStatus.rejected) ...[
+            KzTip(
+              icon: KzIcons.alert,
+              tone: KzTipTone.warning,
+              message: l.identityRejected,
+            ),
+            const SizedBox(height: KzSpace.s10),
+          ],
           KzGroup(
             rows: [
               for (final s in IdentityStep.values)
@@ -556,7 +566,7 @@ class IdentityPayoutStep extends ConsumerWidget {
             icon: KzIcons.card,
             value: d.iban,
             errorText: ibanError,
-            hint: l.ibanHint,
+            hint: d.ibanMasked ?? l.ibanHint,
             capitalization: TextCapitalization.characters,
             inputFormatters: [IbanInputFormatter()],
             onChanged: (v) => edit((d) => d.copyWith(iban: v)),

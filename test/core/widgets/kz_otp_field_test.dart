@@ -1,4 +1,4 @@
-import 'package:bungapp/core/widgets/kz_otp_field.dart';
+import 'package:bungalovum/core/widgets/kz_otp_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -54,7 +54,6 @@ void main() {
 
   EditableText editable(WidgetTester tester) =>
       tester.widget<EditableText>(find.byType(EditableText));
-
 
   group('codeFromText', () {
     String? code(String? t) => KzOtpField.codeFromText(t, 6);

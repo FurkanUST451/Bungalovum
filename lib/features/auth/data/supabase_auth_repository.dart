@@ -8,6 +8,7 @@ import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 import '../../../core/config/backend_config.dart';
 import '../domain/auth_models.dart';
 import 'auth_repository.dart';
+import 'remembering_session_storage.dart';
 
 /// Supabase Auth ile gerçek kimlik doğrulama.
 ///
@@ -15,9 +16,13 @@ import 'auth_repository.dart';
 /// signup" ve "Reset password" e-posta şablonları `{{ .Token }}` ile 6 haneli
 /// kodu göstermeli; Google sağlayıcısı etkin.
 class SupabaseAuthRepository implements AuthRepository {
-  SupabaseAuthRepository(this._client);
+  SupabaseAuthRepository(this._client, this._sessionStorage);
 
   final sb.SupabaseClient _client;
+
+  /// "Beni hatırla" yalnızca e-posta girişinde sorulur; diğer girişler hep
+  /// hatırlanır.
+  final RememberingSessionStorage _sessionStorage;
 
   sb.GoTrueClient get _auth => _client.auth;
 
@@ -46,7 +51,6 @@ class SupabaseAuthRepository implements AuthRepository {
   Future<AuthUser> signInWithEmail({
     required String email,
     required String password,
-    // Supabase oturumu cihazda her zaman saklar ve yeniler.
     required bool rememberMe,
   }) async {
     final lockedUntil = _lockedUntil;
@@ -57,6 +61,7 @@ class SupabaseAuthRepository implements AuthRepository {
       _lockedUntil = null;
       _attemptsLeft = _maxAttempts;
     }
+    _sessionStorage.remember = rememberMe;
     try {
       final res = await _auth.signInWithPassword(
         email: email.trim(),
@@ -85,6 +90,7 @@ class SupabaseAuthRepository implements AuthRepository {
     required String phone,
     required String code,
   }) => _guard(() async {
+    _sessionStorage.remember = true;
     final res = await _auth.verifyOTP(
       phone: _e164(phone),
       token: code,
@@ -125,6 +131,7 @@ class SupabaseAuthRepository implements AuthRepository {
     }
     final idToken = account.authentication.idToken;
     if (idToken == null) throw StateError('Google kimlik jetonu alınamadı.');
+    _sessionStorage.remember = true;
     final res = await _auth.signInWithIdToken(
       provider: sb.OAuthProvider.google,
       idToken: idToken,
@@ -156,6 +163,7 @@ class SupabaseAuthRepository implements AuthRepository {
     required String email,
     required String code,
   }) => _guard(() async {
+    _sessionStorage.remember = true;
     final res = await _auth.verifyOTP(
       email: email.trim(),
       token: code,

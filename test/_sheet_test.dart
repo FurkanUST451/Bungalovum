@@ -1,5 +1,5 @@
 import 'package:alchemist/alchemist.dart';
-import 'package:bungapp/core/utils/formatters.dart';
+import 'package:bungalovum/core/utils/formatters.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';

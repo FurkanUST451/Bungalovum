@@ -39,7 +39,7 @@ final class HostDraftProvider
   HostDraft create() => HostDraft();
 }
 
-String _$hostDraftHash() => r'c90808ffeed72facc7ffab6e2b63401f1c814b19';
+String _$hostDraftHash() => r'22246ce6d307547bf9e2f0063403c5790d1a8886';
 
 /// Ev sahibinin taslağı / ilanı. Sihirbaz ekranları değişiklikleri önce
 /// yerelde tutar ([edit]); adım değişince ya da "Kaydet ve çık"ta [save].

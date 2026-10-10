@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:bungapp/features/auth/data/supabase_auth_repository.dart';
-import 'package:bungapp/features/auth/domain/auth_models.dart';
+import 'package:bungalovum/features/auth/data/supabase_auth_repository.dart';
+import 'package:bungalovum/features/auth/domain/auth_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
@@ -18,7 +18,10 @@ void main() {
     });
 
     test('doğrulanmamış e-posta, hesap sızdırmamak için aynı hata', () {
-      expect(mapAuthError(api('email_not_confirmed')), isA<InvalidCredentials>());
+      expect(
+        mapAuthError(api('email_not_confirmed')),
+        isA<InvalidCredentials>(),
+      );
     });
 
     test('hız sınırı kilitli giriş sayılır', () {

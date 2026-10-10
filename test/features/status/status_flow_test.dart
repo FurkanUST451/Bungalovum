@@ -1,9 +1,9 @@
-import 'package:bungapp/app/router.dart';
-import 'package:bungapp/core/services/permissions.dart';
-import 'package:bungapp/core/utils/formatters.dart';
-import 'package:bungapp/core/widgets/kz_switch.dart';
-import 'package:bungapp/features/booking/data/mock_booking_repository.dart';
-import 'package:bungapp/features/status/presentation/screens/status_screens.dart';
+import 'package:bungalovum/app/router.dart';
+import 'package:bungalovum/core/services/permissions.dart';
+import 'package:bungalovum/core/utils/formatters.dart';
+import 'package:bungalovum/core/widgets/kz_switch.dart';
+import 'package:bungalovum/features/booking/data/mock_booking_repository.dart';
+import 'package:bungalovum/features/status/presentation/screens/status_screens.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';

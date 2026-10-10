@@ -92,6 +92,10 @@ abstract final class KzSize {
   static const double grabberWidth = 44;
   static const double grabberHeight = 5;
 
+  // Kaydırmalı sayı seçici: satır yüksekliği ve görünen satır sayısı.
+  static const double wheelItem = 44;
+  static const int wheelVisibleItems = 5;
+
   /// Kenarlık kalınlıkları (Figma INSIDE hizalı).
   static const double border = 1;
   static const double borderFocus = 2;
